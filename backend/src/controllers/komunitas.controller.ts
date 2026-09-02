@@ -6,7 +6,7 @@ export const getPosts = async (req: Request, res: Response) => {
   try {
     const currentUserId = (req as any).user.id;
 
-    let posts = await prisma.post.findMany({
+    const posts = await prisma.post.findMany({
       orderBy: { createdAt: 'desc' },
       include: {
         author: {
@@ -27,60 +27,6 @@ export const getPosts = async (req: Request, res: Response) => {
         },
       },
     });
-
-    // Auto-seed data jika database masih kosong
-    if (posts.length === 0) {
-      try {
-        await prisma.post.create({
-          data: {
-            authorId: currentUserId,
-            isiPost: 'Halo Bunda-bunda semuanya! Mau tanya dong, sekarang usia kehamilan saya masuk 22 minggu. Ada yang ngerasain mulai gampang pegal-pegal di punggung bawah nggak ya? Biasanya bunda-bunda ngatasinnya pakai apa? Apakah aman kalau pakai koyo hangat?',
-            tag: 'Keluhan & Tips',
-            comments: {
-              create: [
-                {
-                  authorId: currentUserId,
-                  isiKomentar: 'Halo Bunda. Pegal-pegal pada punggung bawah sangat umum terjadi di trimester kedua karena pergeseran pusat gravitasi tubuh. Penggunaan koyo hangat umumnya aman karena bekerja secara lokal, namun pastikan tidak terlalu panas dan hindari pemakaian di perut ya Bun. Cobalah lakukan peregangan ringan secara rutin.',
-                }
-              ]
-            }
-          }
-        });
-
-        await prisma.post.create({
-          data: {
-            authorId: currentUserId,
-            isiPost: 'Pagi semuanya! Tadi barusan periksa ke dokter kandungan, alhamdulillah berat janin normal. Dokter nyaranin buat nambah konsumsi makanan kaya zat besi seperti bayam dan hati ayam karena hb saya mepet batas bawah. Bunda-bunda ada resep olahan bayam atau bit yang enak dan segar?',
-            tag: 'Nutrisi & Makanan',
-          }
-        });
-
-        // Query ulang setelah seeding
-        posts = await prisma.post.findMany({
-          orderBy: { createdAt: 'desc' },
-          include: {
-            author: {
-              include: {
-                profilIbu: true,
-              },
-            },
-            likes: true,
-            comments: {
-              orderBy: { createdAt: 'asc' },
-              include: {
-                author: {
-                  include: {
-                    profilIbu: true,
-                  },
-                },
-              },
-            },
-          },
-        });
-      } catch (seedErr) {
-        console.error('Gagal melakukan auto-seed postingan:', seedErr);
-      }
-    }
 
     // Format postingan agar sesuai dengan struktur frontend
     const formattedPosts = posts.map((post) => {
@@ -404,13 +350,16 @@ export const deleteComment = async (req: Request, res: Response) => {
 
     const comment = await prisma.comment.findUnique({
       where: { id },
+      include: {
+        post: true,
+      },
     });
 
     if (!comment) {
       return res.status(404).json({ message: 'Komentar tidak ditemukan' });
     }
 
-    if (comment.authorId !== userId) {
+    if (comment.authorId !== userId && comment.post.authorId !== userId) {
       return res.status(403).json({ message: 'Anda tidak berhak menghapus komentar ini' });
     }
 

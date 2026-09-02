@@ -369,9 +369,10 @@ export const KomunitasPage = () => {
 
     try {
       await apiClient.delete(`/komunitas/comments/${commentId}`);
-    } catch (error) {
+      showToast('Komentar berhasil dihapus', 'success');
+    } catch (error: any) {
       console.error('Gagal menghapus komentar dari database:', error);
-      alert('Gagal menghapus komentar. Silakan coba lagi.');
+      showToast(error.response?.data?.message || 'Gagal menghapus komentar.', 'error');
       // Re-fetch untuk me-revert state komentar secara aman
       fetchPosts();
     }
@@ -611,8 +612,8 @@ export const KomunitasPage = () => {
                                     </div>
                                     
                                     <div className="flex items-center gap-1.5">
-                                      {/* Tombol Hapus Komentar (Hanya milik author komentar) */}
-                                      {comment.authorId === currentUser?.id && (
+                                      {/* Tombol Hapus Komentar (Milik author komentar atau pemilik postingan) */}
+                                      {(comment.authorId === currentUser?.id || post.authorId === currentUser?.id) && (
                                         <button 
                                           onClick={() => handleDeleteComment(post.id, comment.id)}
                                           className="text-rose-500 hover:text-rose-700 hover:bg-rose-100/50 p-1 rounded-md transition-colors cursor-pointer"
