@@ -275,9 +275,9 @@ Aturan Penulisan Respon (PENTING):
     let advice = `${taskApresiasi} ${keluhanAdvice}`;
 
     try {
-      // Menggunakan model gemini-2.5-flash-lite dengan temperature 0.7 untuk variasi yang natural
+      // Menggunakan model gemini-3.5-flash dengan temperature 0.7 untuk variasi yang natural
       const model = genAI.getGenerativeModel({ 
-        model: 'gemini-2.5-flash-lite',
+        model: 'gemini-3.5-flash',
         generationConfig: { temperature: 0.7 }
       });
       const result = await model.generateContent(prompt);
@@ -286,7 +286,17 @@ Aturan Penulisan Respon (PENTING):
         advice = text;
       }
     } catch (aiError: any) {
-      console.error('Gemini API call failed, falling back to dynamic local advice:', aiError.message || aiError);
+      console.warn('Percobaan pertama Gemini gagal, mencoba fallback model gemini-3.6-flash...', aiError.message || aiError);
+      try {
+        const fallbackModel = genAI.getGenerativeModel({ model: 'gemini-3.6-flash' });
+        const result = await fallbackModel.generateContent(prompt);
+        const text = result.response.text().trim();
+        if (text) {
+          advice = text;
+        }
+      } catch (fallbackErr: any) {
+        console.error('Gemini API call failed, falling back to dynamic local advice:', fallbackErr.message || fallbackErr);
+      }
     }
 
     const log = await prisma.keluhanLog.create({
