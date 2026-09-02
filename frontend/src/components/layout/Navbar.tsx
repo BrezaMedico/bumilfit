@@ -1,10 +1,11 @@
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { Crown, User, Settings, Key, LogOut, ChevronDown } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import { apiClient } from '../../lib/apiClient';
 
 export const Navbar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const [profile, setProfile] = useState<{ namaIbu: string; email: string; fotoProfil: string | null } | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -108,8 +109,21 @@ export const Navbar = () => {
 
           {/* Bagian Kanan: Premium CTA & Avatar Profil */}
           <div className="flex items-center gap-4 relative">
-            <button className="flex items-center gap-2 bg-[#389D9C] hover:bg-[#389D9C]/90 text-white px-5 py-2 rounded-xl font-medium transition-all shadow-sm">
-              <Crown size={18} className="text-white" fill="currentColor" />
+            <button
+              onClick={() => navigate('/pricing')}
+              className={`flex items-center gap-2 px-5 py-2 rounded-xl font-semibold transition-all shadow-sm cursor-pointer group ${
+                location.pathname === '/pricing'
+                  ? 'bg-gradient-to-r from-[#194668] to-[#389D9C] text-white ring-2 ring-[#389D9C]/50 shadow-md scale-105'
+                  : 'bg-[#389D9C] hover:bg-[#328b8a] text-white hover:shadow-md hover:scale-102'
+              }`}
+            >
+              <Crown
+                size={18}
+                className={`transition-transform duration-200 group-hover:scale-110 ${
+                  location.pathname === '/pricing' ? 'text-amber-300' : 'text-white'
+                }`}
+                fill="currentColor"
+              />
               <span className="hidden sm:inline">Premium</span>
             </button>
             

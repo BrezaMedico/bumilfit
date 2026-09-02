@@ -15,6 +15,7 @@ import { KomunitasPage } from '../pages/ibu-hamil/KomunitasPage';
 import { CheckoutPage } from '../pages/ibu-hamil/CheckoutPage';
 import { WaitingPaymentPage } from '../pages/ibu-hamil/WaitingPaymentPage';
 import { CekGiziPage } from '../pages/ibu-hamil/CekGiziPage';
+import { PricingPage } from '../pages/ibu-hamil/PricingPage';
 
 const ProtectedLayout = () => {
   return (
@@ -83,6 +84,14 @@ const router = createBrowserRouter([
       {
         path: 'cek-gizi',
         element: <CekGiziPage />,
+      },
+      {
+        path: 'pricing',
+        element: <PricingPage />,
+      },
+      {
+        path: 'premium',
+        element: <PricingPage />,
       },
       // Rute dokter akan ditambahkan di sini nanti
     ],
