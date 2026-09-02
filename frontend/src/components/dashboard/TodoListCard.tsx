@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Sparkles, CheckCircle2, Circle, Trophy, ArrowRight, ArrowLeft, Activity, ShieldAlert, CheckCircle } from 'lucide-react';
+import { Sparkles, CheckCircle2, Circle, ArrowRight, ArrowLeft, Activity, ShieldAlert, CheckCircle } from 'lucide-react';
 import { apiClient } from '../../lib/apiClient';
 
 const CATEGORY_COLORS: Record<string, string> = {
@@ -23,7 +23,7 @@ interface TodoListCardProps {
   profilIbu?: any;
 }
 
-export const TodoListCard = ({ userId }: TodoListCardProps) => {
+export const TodoListCard = (_props: TodoListCardProps) => {
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   

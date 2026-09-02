@@ -145,6 +145,31 @@ export const verifyOtp = async (req: Request, res: Response) => {
   }
 };
 
+export const resendOtp = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.body;
+    if (!userId) {
+      return res.status(400).json({ message: 'User ID wajib disertakan' });
+    }
+
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+    if (!user) {
+      return res.status(404).json({ message: 'User tidak ditemukan' });
+    }
+
+    if (user.isVerified) {
+      return res.status(400).json({ message: 'Akun sudah terverifikasi. Silakan langsung login.' });
+    }
+
+    await generateAndSendOtp(user.id, user.email);
+
+    res.status(200).json({ message: 'Kode OTP baru berhasil dikirimkan.' });
+  } catch (error) {
+    console.error('DEBUG RESEND OTP ERROR:', error);
+    res.status(500).json({ message: 'Terjadi kesalahan saat mengirim ulang OTP' });
+  }
+};
+
 export const getProfile = async (req: Request, res: Response) => {
   try {
     const userId = (req as any).user.id;

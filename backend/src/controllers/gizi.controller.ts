@@ -41,13 +41,8 @@ Kembalikan respon hanya dalam bentuk JSON mentah (tanpa markdown format \`\`\`js
     const result = await model.generateContent([prompt, imagePart]);
     const rawText = result.response.text().trim();
 
-    // Pembersihan kemungkinan formatting markdown ```json dari respon AI
-    let cleanedText = rawText;
-    if (cleanedText.startsWith('```json')) {
-      cleanedText = cleanedText.substring(7, cleanedText.length - 3).trim();
-    } else if (cleanedText.startsWith('```')) {
-      cleanedText = cleanedText.substring(3, cleanedText.length - 3).trim();
-    }
+    // Pembersihan formatting markdown ```json dari respon AI
+    const cleanedText = rawText.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '').trim();
 
     const parsedJson = JSON.parse(cleanedText);
     res.status(200).json(parsedJson);
@@ -117,13 +112,7 @@ export const kalkulatorGizi = async (req: Request, res: Response) => {
       const result = await model.generateContent(aiPrompt);
       const rawText = result.response.text().trim();
       
-      let cleanedText = rawText;
-      if (cleanedText.startsWith('```json')) {
-        cleanedText = cleanedText.substring(7, cleanedText.length - 3).trim();
-      } else if (cleanedText.startsWith('```')) {
-        cleanedText = cleanedText.substring(3, cleanedText.length - 3).trim();
-      }
-      
+      const cleanedText = rawText.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '').trim();
       recommendations = JSON.parse(cleanedText);
     } catch (aiErr) {
       console.warn('Gagal memproses rekomendasi AI Gemini, menggunakan fallback statis:', aiErr);

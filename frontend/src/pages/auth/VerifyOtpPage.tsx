@@ -55,9 +55,13 @@ export const VerifyOtpPage = () => {
   };
 
   const handleResendOtp = async () => {
-    // Logika kirim ulang (membutuhkan endpoint khusus di backend nantinya)
-    resetCountdown();
-    // await apiClient.post('/auth/resend-otp', { userId }); 
+    setErrorMsg('');
+    try {
+      await apiClient.post('/auth/resend-otp', { userId });
+      resetCountdown();
+    } catch (err: any) {
+      setErrorMsg(err.response?.data?.message || 'Gagal mengirim ulang kode OTP');
+    }
   };
 
   return (
