@@ -1,0 +1,946 @@
+Bulan,Trimester,Kategori_Risiko,Hari_Ke,No_Tugas,Tugas_Harian,Kategori_Aktivitas
+1,Trimester 1,Risiko Rendah,1,1,Minum 250 ml air putih hangat saat bangun pagi dan siapkan sarapan kaya folat (omelet telur matang & bayam).,Nutrisi & Hidrasi
+1,Trimester 1,Risiko Rendah,1,2,Minum suplemen asam folat 400 mcg tepat setelah sarapan pagi dengan segelas air putih.,Vitamin & Obat
+1,Trimester 1,Risiko Rendah,1,3,Lakukan jalan santai pagi selama 15 menit di area terbuka berudara segar.,Aktivitas & Istirahat
+1,Trimester 1,Risiko Rendah,1,4,Sikat gigi secara perlahan menggunakan sikat berbulu ekstra lembut untuk cegah gusi berdarah.,Higienitas & Self-Care
+1,Trimester 1,Risiko Rendah,1,5,Simpan nomor kontak darurat dokter spesialis kandungan dan faskes terdekat di panggilan cepat ponsel.,Persiapan Praktis
+1,Trimester 1,Risiko Rendah,2,1,Konsumsi camilan buah alpukat potong dan segelas jus jeruk segar tanpa gula tambahan.,Nutrisi & Hidrasi
+1,Trimester 1,Risiko Rendah,2,2,Konsumsi tablet vitamin B6 25 mg sesuai anjuran untuk mencegah timbulnya rasa mual.,Vitamin & Obat
+1,Trimester 1,Risiko Rendah,2,3,Latihan pernapasan diafragma perlahan selama 10 menit sambil duduk tegak di kursi empuk.,Aktivitas & Istirahat
+1,Trimester 1,Risiko Rendah,2,4,Gunakan pakaian dalam berbahan katun 100% yang menyerap keringat dan tidak ketat.,Higienitas & Self-Care
+1,Trimester 1,Risiko Rendah,2,5,"Buat satu map dokumen khusus untuk menyimpan hasil USG, buku KIA, dan kuitansi medis kehamilan.",Persiapan Praktis
+1,Trimester 1,Risiko Rendah,3,1,"Penuhi target hidrasi 2,5 liter air putih terbagi rata dalam botol minum bertanda waktu.",Nutrisi & Hidrasi
+1,Trimester 1,Risiko Rendah,3,2,Minum suplemen prenatal harian bersama makan siang.,Vitamin & Obat
+1,Trimester 1,Risiko Rendah,3,3,"Peregangan ringan leher, bahu, dan pergelangan tangan untuk melemaskan otot kaku.",Aktivitas & Istirahat
+1,Trimester 1,Risiko Rendah,3,4,Bersihkan area intim dari arah depan ke belakang menggunakan air bersih mengalir.,Higienitas & Self-Care
+1,Trimester 1,Risiko Rendah,3,5,Susun daftar menu makan sehat mingguan ramah lambung bersama pasangan.,Persiapan Praktis
+1,Trimester 1,Risiko Rendah,4,1,Santap makan siang porsi kecil dengan sumber protein hewani (daging sapi tanpa lemak/dada ayam matang).,Nutrisi & Hidrasi
+1,Trimester 1,Risiko Rendah,4,2,Cek label kedaluwarsa dan pastikan persediaan suplemen asam folat mencukupi untuk 1 pekan.,Vitamin & Obat
+1,Trimester 1,Risiko Rendah,4,3,Istirahat rebahan santai selama 20 menit di siang hari untuk memulihkan energi.,Aktivitas & Istirahat
+1,Trimester 1,Risiko Rendah,4,4,Aplikasikan pelembap bibir alami (lip balm) dan pelembap wajah tanpa kandungan retinol.,Higienitas & Self-Care
+1,Trimester 1,Risiko Rendah,4,5,Sortir produk pembersih rumah tangga dan hindari kontak langsung dengan bahan kimia keras.,Persiapan Praktis
+1,Trimester 1,Risiko Rendah,5,1,Minum air perasan lemon hangat madu di sore hari untuk menyegarkan pencernaan.,Nutrisi & Hidrasi
+1,Trimester 1,Risiko Rendah,5,2,Konsumsi vitamin folat rutin pada jam yang sama seperti hari kemarin.,Vitamin & Obat
+1,Trimester 1,Risiko Rendah,5,3,Jalan kaki santai sore hari selama 15 menit bersama pasangan di permukaan rata.,Aktivitas & Istirahat
+1,Trimester 1,Risiko Rendah,5,4,Ganti pakaian dalam minimal 2 kali sehari atau segera setelah terasa lembap.,Higienitas & Self-Care
+1,Trimester 1,Risiko Rendah,5,5,Cari informasi mengenai faskes rujukan BPJS / asuransi kesehatan yang bekerja sama.,Persiapan Praktis
+1,Trimester 1,Risiko Rendah,6,1,Konsumsi seporsi brokoli kukus dan ikan salmon panggang matang sempurna untuk makan malam.,Nutrisi & Hidrasi
+1,Trimester 1,Risiko Rendah,6,2,Minum tablet kalsium atau vitamin D3 sesuai petunjuk dokter pada pagi hari.,Vitamin & Obat
+1,Trimester 1,Risiko Rendah,6,3,Lakukan peregangan panggul ringan di atas matras senam dengan gerakan lembut.,Aktivitas & Istirahat
+1,Trimester 1,Risiko Rendah,6,4,Mandi air suam-suam kuku dengan sabun mandi ber-pH seimbang tanpa pewangi tajam.,Higienitas & Self-Care
+1,Trimester 1,Risiko Rendah,6,5,Diskusikan pembagian tugas membersihkan rumah tangga sehari-hari bersama pasangan.,Persiapan Praktis
+1,Trimester 1,Risiko Rendah,7,1,Siapkan segelas susu UHT hangat sebelum tidur untuk mencukupi hidrasi malam.,Nutrisi & Hidrasi
+1,Trimester 1,Risiko Rendah,7,2,Susun jadwal minum vitamin ke dalam kotak obat harian (pill box) untuk minggu depan.,Vitamin & Obat
+1,Trimester 1,Risiko Rendah,7,3,Tidur malam lebih awal dengan target durasi tidur berkualitas minimal 8 jam.,Aktivitas & Istirahat
+1,Trimester 1,Risiko Rendah,7,4,Oleskan losion pelembap hipoalergenik pada kulit tubuh sebelum tidur malam.,Higienitas & Self-Care
+1,Trimester 1,Risiko Rendah,7,5,Catat agenda pemeriksaan kehamilan pertama di kalender digital ponsel.,Persiapan Praktis
+1,Trimester 1,Risiko Sedang,1,1,Makan 2 keping biskuit gandum atau crackers di atas ranjang sebelum bangkit untuk meredakan morning sickness.,Nutrisi & Hidrasi
+1,Trimester 1,Risiko Sedang,1,2,Minum obat anti-mual (piridoksin/doksilamin) 30 menit sebelum sarapan sesuai resep dokter.,Vitamin & Obat
+1,Trimester 1,Risiko Sedang,1,3,Jalan perlahan di dalam rumah selama 10 menit dengan jeda duduk setiap 3 menit.,Aktivitas & Istirahat
+1,Trimester 1,Risiko Sedang,1,4,Bilas mulut dengan larutan air garam hangat atau obat kumur non-alkohol setelah sarapan.,Higienitas & Self-Care
+1,Trimester 1,Risiko Sedang,1,5,Letakkan nomor kontak darurat dokter kandungan di pintu kulkas dan ponsel keluarga.,Persiapan Praktis
+1,Trimester 1,Risiko Sedang,2,1,Konsumsi sup kaldu ayam bening hangat dengan wortel dan tahu sutra porsi kecil tapi sering.,Nutrisi & Hidrasi
+1,Trimester 1,Risiko Sedang,2,2,Konsumsi suplemen asam folat dosis anjuran dokter (800 mcg/1 mg) sesudah makan pagi.,Vitamin & Obat
+1,Trimester 1,Risiko Sedang,2,3,Istirahat rebahan terjadwal selama 45 menit di siang hari dengan kaki sedikit ditinggikan.,Aktivitas & Istirahat
+1,Trimester 1,Risiko Sedang,2,4,Gunakan pakaian longgar berbahan katun yang tidak menekan area pinggang dan perut.,Higienitas & Self-Care
+1,Trimester 1,Risiko Sedang,2,5,Siapkan map berkas medis kehamilan yang mudah dijangkau di meja ruang tamu.,Persiapan Praktis
+1,Trimester 1,Risiko Sedang,3,1,Minum air putih sedikit demi sedikit menggunakan sedotan dengan target 2 liter per hari.,Nutrisi & Hidrasi
+1,Trimester 1,Risiko Sedang,3,2,Minum vitamin prenatal bersama makan siang dan hindari minum bersamaan dengan teh/kopi.,Vitamin & Obat
+1,Trimester 1,Risiko Sedang,3,3,Latihan pernapasan relaksasi 10 menit sambil bersandar nyaman di sofa empuk.,Aktivitas & Istirahat
+1,Trimester 1,Risiko Sedang,3,4,Mandi menggunakan kursi mandi khusus (shower chair) atau duduk santai agar tidak licin.,Higienitas & Self-Care
+1,Trimester 1,Risiko Sedang,3,5,"Delegasikan pekerjaan rumah tangga yang berat (menyapu, mengepel, mencuci) kepada pasangan.",Persiapan Praktis
+1,Trimester 1,Risiko Sedang,4,1,Santap bubur beras merah halus dengan suwiran ayam matang untuk makan siang yang mudah dicerna.,Nutrisi & Hidrasi
+1,Trimester 1,Risiko Sedang,4,2,Catat waktu konsumsi suplemen harian pada kartu kontrol obat keluarga.,Vitamin & Obat
+1,Trimester 1,Risiko Sedang,4,3,Hindari mengangkat beban lebih dari 2 kg dan minimalkan aktivitas naik-turun tangga.,Aktivitas & Istirahat
+1,Trimester 1,Risiko Sedang,4,4,"Pastikan area lipatan tubuh (ketiak, selangkangan) kering sempurna setelah mandi.",Higienitas & Self-Care
+1,Trimester 1,Risiko Sedang,4,5,Pasang keset anti-slip di kamar mandi dan singkirkan kabel yang melintang di lantai.,Persiapan Praktis
+1,Trimester 1,Risiko Sedang,5,1,Minum sari jahe hangat encer non-asam untuk menenangkan lambung di sore hari.,Nutrisi & Hidrasi
+1,Trimester 1,Risiko Sedang,5,2,Minum suplemen penguat folat tepat waktu sesuai jadwal alarm pengingat harian.,Vitamin & Obat
+1,Trimester 1,Risiko Sedang,5,3,Duduk santai sambil memutar pergelangan kaki untuk melancarkan sirkulasi darah.,Aktivitas & Istirahat
+1,Trimester 1,Risiko Sedang,5,4,Ganti pantyliner/pakaian dalam katun secara berkala setiap 3-4 jam untuk cegah infeksi jamur.,Higienitas & Self-Care
+1,Trimester 1,Risiko Sedang,5,5,Susun daftar belanja bahan makanan bergizi dan pesan secara online tanpa perlu ke pasar.,Persiapan Praktis
+1,Trimester 1,Risiko Sedang,6,1,Makan malam dengan kentang tumbuk (mashed potato) and sup labu siam hangat.,Nutrisi & Hidrasi
+1,Trimester 1,Risiko Sedang,6,2,Konsumsi suplemen penunjang saluran cerna (probiotik prenatal) jika diresepkan dokter.,Vitamin & Obat
+1,Trimester 1,Risiko Sedang,6,3,Istirahat sore terjadwal 30 menit sambil mendengarkan musik relaksasi.,Aktivitas & Istirahat
+1,Trimester 1,Risiko Sedang,6,4,Kompres hangat dahi atau tengkuk dengan handuk basah lembut untuk meredakan pusing mual.,Higienitas & Self-Care
+1,Trimester 1,Risiko Sedang,6,5,Atur pengingat alarm di ponsel untuk jadwal istirahat siang dan konsumsi obat harian.,Persiapan Praktis
+1,Trimester 1,Risiko Sedang,7,1,Konsumsi camilan biskuit marie dan air hangat 1 jam sebelum tidur agar perut tidak kosong.,Nutrisi & Hidrasi
+1,Trimester 1,Risiko Sedang,7,2,Siapkan dan rapikan stok obat harian ke dalam wadah tertutup yang sejuk dan higienis.,Vitamin & Obat
+1,Trimester 1,Risiko Sedang,7,3,Tidur malam dengan posisi miring didukung bantal guling yang nyaman.,Aktivitas & Istirahat
+1,Trimester 1,Risiko Sedang,7,4,Oleskan minyak kelapa murni (VCO) pada kulit tubuh yang mulai terasa kering di malam hari.,Higienitas & Self-Care
+1,Trimester 1,Risiko Sedang,7,5,Simpan rute tercepat menuju instalasi gawat darurat (IGD) RS bersalin terdekat.,Persiapan Praktis
+1,Trimester 1,Risiko Tinggi,1,1,Konsumsi roti panggang tawar kering dan air jahe hangat perlahan di tempat tidur.,Nutrisi & Hidrasi
+1,Trimester 1,Risiko Tinggi,1,2,Minum obat penguat kandungan (progesteron oral/vaginal) tepat waktu sesuai jadwal ketat dokter.,Vitamin & Obat
+1,Trimester 1,Risiko Tinggi,1,3,Tirah baring (bedrest) di ranjang dengan sandaran punggung sudut 30-45 derajat.,Aktivitas & Istirahat
+1,Trimester 1,Risiko Tinggi,1,4,Seka wajah dan leher menggunakan handuk hangat beraroma kamomil lembut di tempat tidur.,Higienitas & Self-Care
+1,Trimester 1,Risiko Tinggi,1,5,"Letakkan ponsel darurat, bel panggil, dan botol minum dalam jangkauan 30 cm dari kasur.",Persiapan Praktis
+1,Trimester 1,Risiko Tinggi,2,1,Santap bubur sumsum atau bubur halus kaya kalori porsi mini (4-5 sendok makan) di ranjang.,Nutrisi & Hidrasi
+1,Trimester 1,Risiko Tinggi,2,2,Konsumsi tablet asam folat dosis medis tinggi sesuai resep dokter spesialis kandungan.,Vitamin & Obat
+1,Trimester 1,Risiko Tinggi,2,3,Lakukan gerakan pompa pergelangan kaki (ankle pumping) lembut di kasur 10 kali.,Aktivitas & Istirahat
+1,Trimester 1,Risiko Tinggi,2,4,Lakukan kebersihan mulut dan sikat gigi perlahan di ranjang menggunakan wadah kumur khusus.,Higienitas & Self-Care
+1,Trimester 1,Risiko Tinggi,2,5,Simpan nomor ambulans rumah sakit rujukan dan nomor dokter penanggung jawab di ponsel pendamping.,Persiapan Praktis
+1,Trimester 1,Risiko Tinggi,3,1,Penuhi asupan cairan oralit/air mineral bersuhu ruang sedikit demi sedikit (100 ml per jam) via sedotan.,Nutrisi & Hidrasi
+1,Trimester 1,Risiko Tinggi,3,2,Minum obat anti-mual/asam lambung resep dokter 30 menit sebelum jadwal makan di ranjang.,Vitamin & Obat
+1,Trimester 1,Risiko Tinggi,3,3,Istirahat total di tempat tidur dan hindari berdiri lebih dari 5 menit berturut-turut.,Aktivitas & Istirahat
+1,Trimester 1,Risiko Tinggi,3,4,Ganti pakaian tidur longgar berkancing depan berbahan katun lembut dengan bantuan pendamping.,Higienitas & Self-Care
+1,Trimester 1,Risiko Tinggi,3,5,"Siapkan meja samping ranjang khusus untuk meletakkan obat, termometer, dan catatan medis.",Persiapan Praktis
+1,Trimester 1,Risiko Tinggi,4,1,Konsumsi sup sari daging/kaldu murni hangat tanpa minyak berlebih untuk makan siang di tempat tidur.,Nutrisi & Hidrasi
+1,Trimester 1,Risiko Tinggi,4,2,Minum obat penguat kandungan dosis siang tepat jam dengan bantuan pendamping di ranjang.,Vitamin & Obat
+1,Trimester 1,Risiko Tinggi,4,3,Latihan relaksasi otot progresif non-fisik (deep breathing) di ranjang selama 15 menit.,Aktivitas & Istirahat
+1,Trimester 1,Risiko Tinggi,4,4,Bersihkan area genital dengan tisu basah non-alkohol/air bersih dari ranjang secara higienis.,Higienitas & Self-Care
+1,Trimester 1,Risiko Tinggi,4,5,Alihkan seluruh tanggung jawab tugas rumah tangga ke keluarga atau asisten rumah tangga.,Persiapan Praktis
+1,Trimester 1,Risiko Tinggi,5,1,Minum jus pir/apel rebus encer kaya serat halus yang disajikan oleh pendamping di kasur.,Nutrisi & Hidrasi
+1,Trimester 1,Risiko Tinggi,5,2,Konsumsi suplemen mikronutrien lengkap kehamilan setelah jadwal makan siang di ranjang.,Vitamin & Obat
+1,Trimester 1,Risiko Tinggi,5,3,Ubah posisi baring miring ke kiri secara perlahan dengan bantuan bantal penyangga.,Aktivitas & Istirahat
+1,Trimester 1,Risiko Tinggi,5,4,"Ganti alas perlak atau sprei ranjang agar selalu kering, bersih, dan harum menenangkan.",Higienitas & Self-Care
+1,Trimester 1,Risiko Tinggi,5,5,"Susun berkas identitas (KTP, KK, kartu asuransi/BPJS) dalam map darurat di samping ranjang.",Persiapan Praktis
+1,Trimester 1,Risiko Tinggi,6,1,Makan malam menu lunak (puree kentang dan telur rebus matang dihaluskan) dalam posisi sandaran 45 derajat.,Nutrisi & Hidrasi
+1,Trimester 1,Risiko Tinggi,6,2,Minum obat penguat kandungan dosis malam tepat waktu sebelum tidur.,Vitamin & Obat
+1,Trimester 1,Risiko Tinggi,6,3,Tirah baring sore dengan mendengarkan audio afirmasi positif kehamilan di kasur.,Aktivitas & Istirahat
+1,Trimester 1,Risiko Tinggi,6,4,Minta pendamping memijat lembut kedua lengan dan telapak tangan dengan minyak zaitun di kasur.,Higienitas & Self-Care
+1,Trimester 1,Risiko Tinggi,6,5,Koordinasikan pembagian jadwal pendampingan harian bersama anggota keluarga di rumah.,Persiapan Praktis
+1,Trimester 1,Risiko Tinggi,7,1,Minum air hangat dengan sendok perlahan sebelum waktu tidur malam di ranjang.,Nutrisi & Hidrasi
+1,Trimester 1,Risiko Tinggi,7,2,Pastikan pendamping mengisi ulang kotak obat harian di samping meja ranjang.,Vitamin & Obat
+1,Trimester 1,Risiko Tinggi,7,3,Tidur malam optimal 9 jam di tempat tidur dengan posisi baring santai berbantal empuk.,Aktivitas & Istirahat
+1,Trimester 1,Risiko Tinggi,7,4,Oleskan pelembap wajah lembut dan pelembap bibir sebelum beristirahat di ranjang.,Higienitas & Self-Care
+1,Trimester 1,Risiko Tinggi,7,5,Catat jadwal kontrol dokter kehamilan risiko tinggi berikutnya di kalender bersama.,Persiapan Praktis
+2,Trimester 1,Risiko Rendah,1,1,Minum segelas air kelapa murni segar di pagi hari untuk menjaga keseimbangan elektrolit tubuh.,Nutrisi & Hidrasi
+2,Trimester 1,Risiko Rendah,1,2,Minum tablet asam folat dan vitamin B kompleks setelah sarapan pagi.,Vitamin & Obat
+2,Trimester 1,Risiko Rendah,1,3,Jalan pagi santai 20 menit di bawah sinar matahari pagi sebelum jam 8.,Aktivitas & Istirahat
+2,Trimester 1,Risiko Rendah,1,4,Bilas mulut dengan air rebusan daun sirih encer atau obat kumur non-alkohol setelah muntah/mual.,Higienitas & Self-Care
+2,Trimester 1,Risiko Rendah,1,5,Beli bra nirkawat dan pakaian longgar berbahan sejuk untuk persiapan perubahan ukuran tubuh.,Persiapan Praktis
+2,Trimester 1,Risiko Rendah,2,1,"Konsumsi salad buah potong (pisang, apel, pir) disiram yogurt plain rendah gula.",Nutrisi & Hidrasi
+2,Trimester 1,Risiko Rendah,2,2,Konsumsi suplemen vitamin C non-asam untuk menjaga daya tahan tubuh.,Vitamin & Obat
+2,Trimester 1,Risiko Rendah,2,3,Lakukan peregangan samping tubuh (side stretch) lembut sambil duduk di matras.,Aktivitas & Istirahat
+2,Trimester 1,Risiko Rendah,2,4,Gunakan pakaian longgar berbahan katun bambu yang sejuk dan menyerap keringat.,Higienitas & Self-Care
+2,Trimester 1,Risiko Rendah,2,5,Mulai sisihkan pos dana khusus kehamilan dan persalinan ke rekening tabungan terpisah.,Persiapan Praktis
+2,Trimester 1,Risiko Rendah,3,1,Makan siang dengan pepes ikan kembung matang kaya omega-3 dan sepiring nasi merah.,Nutrisi & Hidrasi
+2,Trimester 1,Risiko Rendah,3,2,Minum suplemen prenatal harian dengan segelas air putih setelah makan siang.,Vitamin & Obat
+2,Trimester 1,Risiko Rendah,3,3,Istirahat tidur siang sejenak (power nap) 20-30 menit untuk mengatasi kelelahan hormonal.,Aktivitas & Istirahat
+2,Trimester 1,Risiko Rendah,3,4,Mandi air suam-suam kuku dan hindari berendam air panas (hot tub/sauna).,Higienitas & Self-Care
+2,Trimester 1,Risiko Rendah,3,5,Cari tahu kebijakan cuti melahirkan dan tunjangan kehamilan di tempat kerja.,Persiapan Praktis
+2,Trimester 1,Risiko Rendah,4,1,Minum infused water timun dan daun mint untuk mencegah rasa pahit di mulut.,Nutrisi & Hidrasi
+2,Trimester 1,Risiko Rendah,4,2,Jauhkan konsumsi suplemen vitamin dari minuman berkandungan kafein minimal 2 jam.,Vitamin & Obat
+2,Trimester 1,Risiko Rendah,4,3,"Lakukan gerakan senam kegel dasar 3 set (tahan 5 detik, rileks 5 detik, ulangi 10 kali).",Aktivitas & Istirahat
+2,Trimester 1,Risiko Rendah,4,4,Oleskan krim pelembap bebas paraben pada area leher dan dada yang mulai sensitif.,Higienitas & Self-Care
+2,Trimester 1,Risiko Rendah,4,5,Buat daftar belanja makanan sehat berkalsium dan berserat tinggi untuk stok mingguan.,Persiapan Praktis
+2,Trimester 1,Risiko Rendah,5,1,Ngemil kacang almond panggang tawar segenggam tangan sebagai sumber lemak sehat.,Nutrisi & Hidrasi
+2,Trimester 1,Risiko Rendah,5,2,Minum vitamin folat harian secara konsisten pada jam yang telah ditentukan.,Vitamin & Obat
+2,Trimester 1,Risiko Rendah,5,3,Jalan santai sore santai 15 menit di taman dekat rumah.,Aktivitas & Istirahat
+2,Trimester 1,Risiko Rendah,5,4,Ganti pakaian dalam secara teratur dan pastikan selalu kering untuk mencegah keputihan.,Higienitas & Self-Care
+2,Trimester 1,Risiko Rendah,5,5,Simpan kontak klinik laktasi dan bidan pendamping terpercaya di buku telepon ponsel.,Persiapan Praktis
+2,Trimester 1,Risiko Rendah,6,1,Santap tumis taoge tahu dan daging ayam fillet matang sempurna untuk makan malam.,Nutrisi & Hidrasi
+2,Trimester 1,Risiko Rendah,6,2,Konsumsi suplemen kalsium/D3 pada waktu berbeda dengan suplemen zat besi.,Vitamin & Obat
+2,Trimester 1,Risiko Rendah,6,3,Peregangan betis dan hamstring lembut untuk mencegah ketegangan kaki.,Aktivitas & Istirahat
+2,Trimester 1,Risiko Rendah,6,4,Gunakan tabir surya (sunscreen) berfilter fisik (mineral sunscreen / zinc oxide) saat keluar rumah.,Higienitas & Self-Care
+2,Trimester 1,Risiko Rendah,6,5,Rapikan area kamar tidur agar memiliki sirkulasi udara yang bersih dan bebas debu.,Persiapan Praktis
+2,Trimester 1,Risiko Rendah,7,1,Minum segelas susu hamil atau susu kedelai hangat 30 menit sebelum tidur.,Nutrisi & Hidrasi
+2,Trimester 1,Risiko Rendah,7,2,Cek kembali sisa persediaan tablet asam folat dan multivitamin prenatal.,Vitamin & Obat
+2,Trimester 1,Risiko Rendah,7,3,Tidur malam minimal 8 jam dengan ventilasi kamar yang sejuk dan nyaman.,Aktivitas & Istirahat
+2,Trimester 1,Risiko Rendah,7,4,Lakukan perendaman kaki dengan air hangat campur garam epsom selama 10 menit sebelum tidur.,Higienitas & Self-Care
+2,Trimester 1,Risiko Rendah,7,5,Pasang aplikasi pemantau perkembangan janin untuk melihat milestone mingguan janin.,Persiapan Praktis
+2,Trimester 1,Risiko Sedang,1,1,Kunyah permen jahe alami atau minum air jahe hangat sesaat setelah bangun pagi.,Nutrisi & Hidrasi
+2,Trimester 1,Risiko Sedang,1,2,Minum tablet pereda mual resep dokter saat bangun pagi dengan segelas air hangat.,Vitamin & Obat
+2,Trimester 1,Risiko Sedang,1,3,Jalan santai santai pagi di teras rumah selama 10 menit pada pagi hari yang sejuk.,Aktivitas & Istirahat
+2,Trimester 1,Risiko Sedang,1,4,Sikat gigi dengan pasta gigi tanpa busa berlebih (detergent-free) agar tidak memicu rasa mual.,Higienitas & Self-Care
+2,Trimester 1,Risiko Sedang,1,5,Beli pakaian dalam dan baju longgar katun secara online dari kenyamanan rumah.,Persiapan Praktis
+2,Trimester 1,Risiko Sedang,2,1,Makan bubur havermut (oatmeal) hangat dengan irisan pisang kepok kukus.,Nutrisi & Hidrasi
+2,Trimester 1,Risiko Sedang,2,2,Konsumsi tablet asam folat dan mikronutrien prenatal sesudah sarapan pagi.,Vitamin & Obat
+2,Trimester 1,Risiko Sedang,2,3,Istirahat baring siang terjadwal selama 1 jam dengan bantal penopang punggung.,Aktivitas & Istirahat
+2,Trimester 1,Risiko Sedang,2,4,Kenakan pakaian santai berkancing longgar yang tidak membatasi pernapasan dada.,Higienitas & Self-Care
+2,Trimester 1,Risiko Sedang,2,5,Siapkan dana darurat medis kehamilan dalam rekening yang mudah dicairkan sewaktu-waktu.,Persiapan Praktis
+2,Trimester 1,Risiko Sedang,3,1,Minum air elektrolit atau air kelapa muda 1-2 gelas secara bertahap sepanjang siang.,Nutrisi & Hidrasi
+2,Trimester 1,Risiko Sedang,3,2,Minum suplemen asam lambung (jika diresepkan) dengan jeda 1 jam sebelum makan siang.,Vitamin & Obat
+2,Trimester 1,Risiko Sedang,3,3,Latihan pernapasan relaksasi 10 menit sambil bersandar nyaman di sofa empuk.,Aktivitas & Istirahat
+2,Trimester 1,Risiko Sedang,3,4,Mandi menggunakan kursi mandi khusus (shower chair) atau duduk santai agar tidak licin.,Higienitas & Self-Care
+2,Trimester 1,Risiko Sedang,3,5,Diskusikan penyesuaian beban kerja (work from home / tugas ringan) dengan atasan kantor.,Persiapan Praktis
+2,Trimester 1,Risiko Sedang,4,1,Santap nasi tim daging ayam cincang dan sayur bening bayam untuk makan siang.,Nutrisi & Hidrasi
+2,Trimester 1,Risiko Sedang,4,2,Konsumsi vitamin prenatal rutin dan pastikan tidak terlewat menggunakan alarm ponsel.,Vitamin & Obat
+2,Trimester 1,Risiko Sedang,4,3,Gunakan kursi ergonomis saat bekerja dan lakukan jeda berdiri ringan setiap 30 menit.,Aktivitas & Istirahat
+2,Trimester 1,Risiko Sedang,4,4,Keringkan area kewanitaan dengan handuk katun bersih khusus dengan cara ditepuk lembut.,Higienitas & Self-Care
+2,Trimester 1,Risiko Sedang,4,5,"Pesan stok biskuit gandum, madu murni, dan sari jahe untuk persediaan anti-mual harian.",Persiapan Praktis
+2,Trimester 1,Risiko Sedang,5,1,Ngemil biskuit kelapa kering atau kerupuk panggang bebas pengawet saat jeda sore.,Nutrisi & Hidrasi
+2,Trimester 1,Risiko Sedang,5,2,Minum tablet vitamin B6 tambahan di sore hari jika gejala morning sickness meningkat.,Vitamin & Obat
+2,Trimester 1,Risiko Sedang,5,3,Lakukan peregangan tangan dan bahu lembut tanpa mengedan di sofa santai.,Aktivitas & Istirahat
+2,Trimester 1,Risiko Sedang,5,4,Ganti pakaian dalam katun longgar segera setelah selesai beraktivitas di dalam rumah.,Higienitas & Self-Care
+2,Trimester 1,Risiko Sedang,5,5,Pastikan jalur dari tempat tidur menuju kamar mandi memiliki penerangan lampu malam yang cukup.,Persiapan Praktis
+2,Trimester 1,Risiko Sedang,6,1,Makan malam sup wortel kentang hangat porsi kecil yang tidak berbumbu menyengat.,Nutrisi & Hidrasi
+2,Trimester 1,Risiko Sedang,6,2,Konsumsi suplemen kalsium prenatal sesudah makan malam sesuai panduan medis.,Vitamin & Obat
+2,Trimester 1,Risiko Sedang,6,3,Rebahkan tubuh santai di sore hari sambil mengangkat kaki ke atas bantal guling.,Aktivitas & Istirahat
+2,Trimester 1,Risiko Sedang,6,4,Kompres mata dengan kantung teh kamomil dingin untuk meredakan mata lelah di sore hari.,Higienitas & Self-Care
+2,Trimester 1,Risiko Sedang,6,5,Simpan salinan resep obat dokter dan nomor apotek 24 jam terdekat di ponsel.,Persiapan Praktis
+2,Trimester 1,Risiko Sedang,7,1,Konsumsi susu formula hamil khusus anti-mual hangat sebelum beristirahat malam.,Nutrisi & Hidrasi
+2,Trimester 1,Risiko Sedang,7,2,"Susun dan pisahkan obat resep dan vitamin ke dalam kompartemen pagi, siang, dan malam.",Vitamin & Obat
+2,Trimester 1,Risiko Sedang,7,3,Tidur malam terjadwal jam 21.30 dengan lampu redup untuk relaksasi mendalam.,Aktivitas & Istirahat
+2,Trimester 1,Risiko Sedang,7,4,Oleskan pelembap tubuh alami pada kulit paha dan perut sebelum tidur malam.,Higienitas & Self-Care
+2,Trimester 1,Risiko Sedang,7,5,Review hak pertanggungan asuransi kesehatan terkait rawat inap komplikasi kehamilan.,Persiapan Praktis
+2,Trimester 1,Risiko Tinggi,1,1,Santap pisang ambon lumat atau biskuit kering di ranjang sebelum menggerakkan tubuh.,Nutrisi & Hidrasi
+2,Trimester 1,Risiko Tinggi,1,2,Minum obat penguat progesteron dosis pagi tepat waktu di atas tempat tidur.,Vitamin & Obat
+2,Trimester 1,Risiko Tinggi,1,3,Tirah baring di kasur posisi miring kiri didukung bantal di antara kedua lutut.,Aktivitas & Istirahat
+2,Trimester 1,Risiko Tinggi,1,4,Seka seluruh tubuh di tempat tidur menggunakan waslap hangat dan sabun cair bayi lembut.,Higienitas & Self-Care
+2,Trimester 1,Risiko Tinggi,1,5,Pesan kebutuhan pakaian ibu hamil longgar dan bantal penopang medis via smartphone di kasur.,Persiapan Praktis
+2,Trimester 1,Risiko Tinggi,2,1,Konsumsi air tajin/air beras merah hangat yang kaya vitamin B di tempat tidur.,Nutrisi & Hidrasi
+2,Trimester 1,Risiko Tinggi,2,2,Konsumsi asam folat medis dan multivitamin prenatal setelah sarapan di kasur.,Vitamin & Obat
+2,Trimester 1,Risiko Tinggi,2,3,Latihan pernapasan perut lambat 10 menit untuk meredakan ketegangan rahim di ranjang.,Aktivitas & Istirahat
+2,Trimester 1,Risiko Tinggi,2,4,Lakukan perawatan gigi dan kebersihan mulut di kasur dibantu pendamping.,Higienitas & Self-Care
+2,Trimester 1,Risiko Tinggi,2,5,Pastikan dana darurat medis dan limit asuransi kesehatan sudah dicek dan siap digunakan.,Persiapan Praktis
+2,Trimester 1,Risiko Tinggi,3,1,Minum larutan elektrolit hidrasi rehidrasi oral 200 ml secara perlahan dengan sedotan di kasur.,Nutrisi & Hidrasi
+2,Trimester 1,Risiko Tinggi,3,2,Minum obat anti-mual resep dokter spesialis sebelum jadwal makan siang di ranjang.,Vitamin & Obat
+2,Trimester 1,Risiko Tinggi,3,3,Gerakkan jari-jari kaki dan tekuk pergelangan kaki perlahan di atas kasur.,Aktivitas & Istirahat
+2,Trimester 1,Risiko Tinggi,3,4,Ganti pakaian dalam dan piyama katun longgar yang mudah dilepas-pasang di ranjang.,Higienitas & Self-Care
+2,Trimester 1,Risiko Tinggi,3,5,Urus izin istirahat sakit / cuti medis kehamilan dari tempat kerja dengan surat keterangan dokter.,Persiapan Praktis
+2,Trimester 1,Risiko Tinggi,4,1,Makan siang bubur tim beras halus campur kaldu ayam kampung tanpa lemak di kasur.,Nutrisi & Hidrasi
+2,Trimester 1,Risiko Tinggi,4,2,Konsumsi obat penguat kandungan dosis siang tepat waktu sesuai instruksi dokter.,Vitamin & Obat
+2,Trimester 1,Risiko Tinggi,4,3,Pertahankan tirah baring penuh dan delegasikan seluruh aktivitas fisik ke pasangan.,Aktivitas & Istirahat
+2,Trimester 1,Risiko Tinggi,4,4,Oleskan lotion anti-ruam/pelembap kulit pada area punggung dan bokong untuk cegah lecet ranjang.,Higienitas & Self-Care
+2,Trimester 1,Risiko Tinggi,4,5,"Letakkan stok tisu basah, kantong muntah higienis, dan air mineral di laci samping ranjang.",Persiapan Praktis
+2,Trimester 1,Risiko Tinggi,5,1,Konsumsi puree apel rebus hangat untuk meredakan lambung bergas pada sore hari.,Nutrisi & Hidrasi
+2,Trimester 1,Risiko Tinggi,5,2,Minum suplemen neuroprotektif atau asam folat lanjutan di tempat tidur.,Vitamin & Obat
+2,Trimester 1,Risiko Tinggi,5,3,Ubah posisi baring secara perlahan setiap 2 jam untuk mencegah pegal di kasur.,Aktivitas & Istirahat
+2,Trimester 1,Risiko Tinggi,5,4,Bersihkan area kewanitaan secara teratur di kasur dengan air hangat bersih mengalir dari botol cebok.,Higienitas & Self-Care
+2,Trimester 1,Risiko Tinggi,5,5,Pastikan colokan charger ponsel dan lampu tidur mudah dijangkau dari atas kasur.,Persiapan Praktis
+2,Trimester 1,Risiko Tinggi,6,1,Makan malam sup krim kentang lunak hangat dalam posisi semi-Fowler (setengah duduk).,Nutrisi & Hidrasi
+2,Trimester 1,Risiko Tinggi,6,2,Konsumsi obat penguat kandungan dosis malam tepat waktu sebelum tidur di ranjang.,Vitamin & Obat
+2,Trimester 1,Risiko Tinggi,6,3,Dengarkan audio meditasi kehamilan di tempat tidur untuk ketenangan sistem saraf.,Aktivitas & Istirahat
+2,Trimester 1,Risiko Tinggi,6,4,Minta pendamping menyisir rambut dan memijat lembut kulit kepala di tempat tidur.,Higienitas & Self-Care
+2,Trimester 1,Risiko Tinggi,6,5,Koordinasikan kesiapan kendaraan keluarga agar selalu dalam kondisi tangki bensin penuh.,Persiapan Praktis
+2,Trimester 1,Risiko Tinggi,7,1,Minum air putih bersuhu ruang via sedotan fleksibel sebelum tidur malam.,Nutrisi & Hidrasi
+2,Trimester 1,Risiko Tinggi,7,2,Minta pendamping memeriksa kelengkapan dan jadwal konsumsi obat untuk esok hari.,Vitamin & Obat
+2,Trimester 1,Risiko Tinggi,7,3,Tidur malam penuh di kasur dengan suhu ruangan sejuk dan penyangga bantal tubuh.,Aktivitas & Istirahat
+2,Trimester 1,Risiko Tinggi,7,4,Oleskan minyak esensial lavender encer pada bantal ranjang untuk membantu ketenangan tidur.,Higienitas & Self-Care
+2,Trimester 1,Risiko Tinggi,7,5,Simpan nomor telepon sopir/kerabat siaga yang dapat mengantar ke RS kapan pun.,Persiapan Praktis
+3,Trimester 1,Risiko Rendah,1,1,Awali hari dengan segelas jus wortel dan apel segar buatan sendiri tanpa pemanis.,Nutrisi & Hidrasi
+3,Trimester 1,Risiko Rendah,1,2,Minum suplemen asam folat harian sesudah makan pagi.,Vitamin & Obat
+3,Trimester 1,Risiko Rendah,1,3,Jalan kaki pagi dengan tempo stabil selama 20-25 menit di lintasan datar.,Aktivitas & Istirahat
+3,Trimester 1,Risiko Rendah,1,4,Lakukan perawatan gigi rutin dengan benang gigi (dental floss) secara perlahan.,Higienitas & Self-Care
+3,Trimester 1,Risiko Rendah,1,5,Susun rencana anggaran biaya pemeriksaan trimester kedua dan persalinan bersama pasangan.,Persiapan Praktis
+3,Trimester 1,Risiko Rendah,2,1,"Santap sarapan roti gandum isi telur rebus matang, tomat, dan keju pasteurisasi.",Nutrisi & Hidrasi
+3,Trimester 1,Risiko Rendah,2,2,Konsumsi suplemen prenatal multivitamin lengkap setelah sarapan.,Vitamin & Obat
+3,Trimester 1,Risiko Rendah,2,3,Latihan peregangan panggul (cat-cow pose) di atas matras senam secara perlahan.,Aktivitas & Istirahat
+3,Trimester 1,Risiko Rendah,2,4,Ganti bra dengan bra nirkawat (wire-free maternity bra) berbahan katun elastis.,Higienitas & Self-Care
+3,Trimester 1,Risiko Rendah,2,5,Mulai survei rumah sakit bersalin atau klinik bersalin yang sesuai dengan preferensi keluarga.,Persiapan Praktis
+3,Trimester 1,Risiko Rendah,3,1,Penuhi target 8 gelas air mineral besar sepanjang hari dengan botol pengingat waktu.,Nutrisi & Hidrasi
+3,Trimester 1,Risiko Rendah,3,2,Minum suplemen omega-3 prenatal (asam folat + DHA) setelah makan siang.,Vitamin & Obat
+3,Trimester 1,Risiko Rendah,3,3,Istirahat siang 30 menit dalam posisi berbaring miring ke kiri.,Aktivitas & Istirahat
+3,Trimester 1,Risiko Rendah,3,4,Mandi air segar dan gunakan sabun pembersih badan berpelembap tinggi.,Higienitas & Self-Care
+3,Trimester 1,Risiko Rendah,3,5,Buat daftar pertanyaan yang akan dikonsultasikan pada jadwal kontrol USG berikutnya.,Persiapan Praktis
+3,Trimester 1,Risiko Rendah,4,1,Makan siang gado-gado sayur matang dengan telur rebus dan lontong higienis.,Nutrisi & Hidrasi
+3,Trimester 1,Risiko Rendah,4,2,Jaga keteraturan minum vitamin dengan mencocokkan waktu sarapan harian.,Vitamin & Obat
+3,Trimester 1,Risiko Rendah,4,3,Latihan senam kegel 3 set untuk memperkuat otot dasar panggul sejak dini.,Aktivitas & Istirahat
+3,Trimester 1,Risiko Rendah,4,4,"Mulai oleskan stretch mark cream atau bio-oil pada area perut, payudara, dan pinggul.",Higienitas & Self-Care
+3,Trimester 1,Risiko Rendah,4,5,Bersihkan dan sortir lemari pakaian untuk memisahkan baju yang sudah mulai sempit.,Persiapan Praktis
+3,Trimester 1,Risiko Rendah,5,1,Ngemil buah pepaya matang potong dingin untuk membantu melancarkan pencernaan.,Nutrisi & Hidrasi
+3,Trimester 1,Risiko Rendah,5,2,Konsumsi suplemen vitamin D3 1000 IU harian untuk penyerapan kalsium.,Vitamin & Obat
+3,Trimester 1,Risiko Rendah,5,3,Peregangan punggung atas dan bahu untuk memperbaiki postur tubuh.,Aktivitas & Istirahat
+3,Trimester 1,Risiko Rendah,5,4,Gunakan alas kaki datar dengan sol karet empuk yang tidak licin.,Higienitas & Self-Care
+3,Trimester 1,Risiko Rendah,5,5,Diskusikan rencana pengumuman kehamilan kepada keluarga besar dan rekan kerja.,Persiapan Praktis
+3,Trimester 1,Risiko Rendah,6,1,Santap sup iga sapi tanpa lemak dengan wortel dan buncis matang untuk makan malam.,Nutrisi & Hidrasi
+3,Trimester 1,Risiko Rendah,6,2,Minum tablet kalsium malam sesudah makan malam dengan air putih.,Vitamin & Obat
+3,Trimester 1,Risiko Rendah,6,3,Jalan santai sore 15 menit sambil menikmati udara luar ruangan.,Aktivitas & Istirahat
+3,Trimester 1,Risiko Rendah,6,4,Cek seluruh produk perawatan kulit (skincare) dan pastikan bebas dari retinol dan asam salisilat dosis tinggi.,Higienitas & Self-Care
+3,Trimester 1,Risiko Rendah,6,5,Cari informasi mengenai kelas senam hamil dan edukasi menyusui di faskes sekitar.,Persiapan Praktis
+3,Trimester 1,Risiko Rendah,7,1,Minum segelas susu pasteurisasi hangat sebelum tidur malam.,Nutrisi & Hidrasi
+3,Trimester 1,Risiko Rendah,7,2,Periksa masa berlaku dokumen kependudukan (KTP, KK, buku nikah) untuk administrasi lahir.,Vitamin & Obat
+3,Trimester 1,Risiko Rendah,7,3,Tidur malam berkualitas 8-9 jam dengan bantal penyangga perut mini.,Aktivitas & Istirahat
+3,Trimester 1,Risiko Rendah,7,4,Lakukan pijat lembut mandiri pada area betis dan telapak kaki sebelum tidur.,Higienitas & Self-Care
+3,Trimester 1,Risiko Rendah,7,5,Periksa masa berlaku dokumen kependudukan (KTP, KK, buku nikah) untuk administrasi lahir.,Persiapan Praktis
+3,Trimester 1,Risiko Sedang,1,1,Minum air perasan jeruk manis hangat dicampur madu alami setelah bangun tidur.,Nutrisi & Hidrasi
+3,Trimester 1,Risiko Sedang,1,2,Konsumsi obat anti-mual resep dokter di pagi hari jika masih terasa mual.,Vitamin & Obat
+3,Trimester 1,Risiko Sedang,1,3,Jalan santai ringan di dalam rumah selama 15 menit terbagi dalam 2 sesi.,Aktivitas & Istirahat
+3,Trimester 1,Risiko Sedang,1,4,Kumur dengan larutan penyegar non-alkohol sesudah sarapan untuk menjaga kesegaran napas.,Higienitas & Self-Care
+3,Trimester 1,Risiko Sedang,1,5,Riset biaya persalinan dan fasilitas ruang rawat inap RS rujukan dari website resmi/telepon.,Persiapan Praktis
+3,Trimester 1,Risiko Sedang,2,1,Konsumsi roti panggang dengan olesan selai kacang murni dan irisan buah pisang.,Nutrisi & Hidrasi
+3,Trimester 1,Risiko Sedang,2,2,Minum asam folat dan vitamin prenatal harian sesudah makan sarapan.,Vitamin & Obat
+3,Trimester 1,Risiko Sedang,2,3,Istirahat baring siang terjadwal 1 jam di kasur dengan kaki diangkat sedikit.,Aktivitas & Istirahat
+3,Trimester 1,Risiko Sedang,2,4,Gunakan maternity bra berbahan lembut yang menopang payudara tanpa menekan kencang.,Higienitas & Self-Care
+3,Trimester 1,Risiko Sedang,2,5,Catat poin-poin pertanyaan mengenai batasan aktivitas fisik untuk ditanyakan ke dokter.,Persiapan Praktis
+3,Trimester 1,Risiko Sedang,3,1,Pastikan minum 6-7 gelas air putih bersuhu ruang terdistribusi merata per jam.,Nutrisi & Hidrasi
+3,Trimester 1,Risiko Sedang,3,2,Konsumsi suplemen zat besi mikro atau multivitamin sesudah makan siang.,Vitamin & Obat
+3,Trimester 1,Risiko Sedang,3,3,Peregangan lembut otot panggul sambil duduk di kursi berespon tebal.,Aktivitas & Istirahat
+3,Trimester 1,Risiko Sedang,3,4,Mandi menggunakan sandal anti-slip di kamar mandi dan gunakan sabun mandi tanpa SLS.,Higienitas & Self-Care
+3,Trimester 1,Risiko Sedang,3,5,Minta pasangan merapikan lemari dan memindahkan pakaian yang sering dipakai ke rak setinggi pinggang.,Persiapan Praktis
+3,Trimester 1,Risiko Sedang,4,1,Makan siang nasi pulen dengan sayur sop oyong soun dan perkedel tahu panggang.,Nutrisi & Hidrasi
+3,Trimester 1,Risiko Sedang,4,2,Beri jeda minimal 2 jam antara konsumsi suplemen dan produk susu kalsium.,Vitamin & Obat
+3,Trimester 1,Risiko Sedang,4,3,Hindari berdiri lama di dapur atau antrean lebih dari 10 menit.,Aktivitas & Istirahat
+3,Trimester 1,Risiko Sedang,4,4,Oleskan minyak zaitun murni atau minyak almond pada area perut yang mulai membesar.,Higienitas & Self-Care
+3,Trimester 1,Risiko Sedang,4,5,Atur pengingat jadwal kontrol USG trimester pertama akhir di kalender ponsel.,Persiapan Praktis
+3,Trimester 1,Risiko Sedang,5,1,Santap pudding buah buatan sendiri rendah gula sebagai camilan sore kaya serat.,Nutrisi & Hidrasi
+3,Trimester 1,Risiko Sedang,5,2,Minum vitamin penunjang kehamilan trimester 1 akhir tepat waktu.,Vitamin & Obat
+3,Trimester 1,Risiko Sedang,5,3,Lakukan relaksasi pernapasan 15 menit di kursi santai dengan musik tenang.,Aktivitas & Istirahat
+3,Trimester 1,Risiko Sedang,5,4,Ganti pakaian dalam berbahan katun berdaya serap tinggi minimal 3 kali sehari.,Higienitas & Self-Care
+3,Trimester 1,Risiko Sedang,5,5,Simpan nomor kontak ambulans RS rujukan utama dan RS alternatif di buku telepon keluarga.,Persiapan Praktis
+3,Trimester 1,Risiko Sedang,6,1,Makan malam ikan gurame kukus jahe dan sayur labu siam rebus yang lembut.,Nutrisi & Hidrasi
+3,Trimester 1,Risiko Sedang,6,2,Konsumsi tablet kalsium harian sesudah makan malam dengan segelas air mineral.,Vitamin & Obat
+3,Trimester 1,Risiko Sedang,6,3,Rebahkan tubuh di sofa dengan kaki diangkat setinggi dada selama 25 menit.,Aktivitas & Istirahat
+3,Trimester 1,Risiko Sedang,6,4,Kompres dingin area dahi saat mengalami pusing akibat perubahan sirkulasi darah.,Higienitas & Self-Care
+3,Trimester 1,Risiko Sedang,6,5,Pastikan persediaan obat resep dan vitamin mencukupi hingga jadwal konsultasi dokter berikutnya.,Persiapan Praktis
+3,Trimester 1,Risiko Sedang,7,1,Minum susu kedelai hangat non-gula sebelum masuk jam tidur malam.,Nutrisi & Hidrasi
+3,Trimester 1,Risiko Sedang,7,2,Tata ulang kotak obat harian dan catat suplemen yang perlu ditebus ulang ke dokter.,Vitamin & Obat
+3,Trimester 1,Risiko Sedang,7,3,Tidur malam teratur dengan posisi miring kiri berbantal empuk di antara paha.,Aktivitas & Istirahat
+3,Trimester 1,Risiko Sedang,7,4,Pijat lembut telapak kaki dengan minyak aroma terapi ringan sebelum beristirahat.,Higienitas & Self-Care
+3,Trimester 1,Risiko Sedang,7,5,"Siapkan fotokopi KTP, KK, dan kartu BPJS ke dalam map medis kehamilan.",Persiapan Praktis
+3,Trimester 1,Risiko Tinggi,1,1,Santap roti sobek gandum lunak dengan teh kamomil hangat encer di tempat tidur.,Nutrisi & Hidrasi
+3,Trimester 1,Risiko Tinggi,1,2,Minum obat penguat kandungan progesteron dosis pagi tepat waktu di ranjang.,Vitamin & Obat
+3,Trimester 1,Risiko Tinggi,1,3,Tirah baring total di tempat tidur dengan sudut kemiringan kasur yang nyaman.,Aktivitas & Istirahat
+3,Trimester 1,Risiko Tinggi,1,4,Seka badan di atas kasur dengan air hangat campuran antiseptik alami yang ramah ibu hamil.,Higienitas & Self-Care
+3,Trimester 1,Risiko Tinggi,1,5,Riset RS rujukan tingkat lanjut yang memiliki fasilitas NICU dan ICU maternal dari tempat tidur.,Persiapan Praktis
+3,Trimester 1,Risiko Tinggi,2,1,Konsumsi bubur sereal gandum halus dengan potongan kurma lunak di kasur.,Nutrisi & Hidrasi
+3,Trimester 1,Risiko Tinggi,2,2,Konsumsi suplemen asam folat dosis tinggi dan multivitamin di tempat tidur.,Vitamin & Obat
+3,Trimester 1,Risiko Tinggi,2,3,Lakukan latihan pernapasan diafragma 15 menit tanpa memicu kontraksi di kasur.,Aktivitas & Istirahat
+3,Trimester 1,Risiko Tinggi,2,4,Kenakan bra menyusui nirkawat longgar yang nyaman dipakai saat berbaring terus-menerus.,Higienitas & Self-Care
+3,Trimester 1,Risiko Tinggi,2,5,Tulis daftar keluhan dan pertanyaan medis di aplikasi catatan ponsel untuk konsultasi dokter.,Persiapan Praktis
+3,Trimester 1,Risiko Tinggi,3,1,"Minum air putih berkala 150 ml per 1,5 jam dengan botol bertakar di samping ranjang.",Nutrisi & Hidrasi
+3,Trimester 1,Risiko Tinggi,3,2,Minum suplemen anti-mual/lambung resep spesialis sebelum makan siang di kasur.,Vitamin & Obat
+3,Trimester 1,Risiko Tinggi,3,3,Pijat lembut telapak tangan sendiri untuk meredakan kekakuan tanpa banyak gerak.,Aktivitas & Istirahat
+3,Trimester 1,Risiko Tinggi,3,4,Bersihkan gigi dan gusi di ranjang secara perlahan menggunakan sikat berbulu mikro.,Higienitas & Self-Care
+3,Trimester 1,Risiko Tinggi,3,5,Pastikan seluruh dokumen medis penting tertata rapi dalam ordner map di samping ranjang.,Persiapan Praktis
+3,Trimester 1,Risiko Tinggi,4,1,Santap makan siang nasi tim saring daging sapi cincang halus dan sari wortel di ranjang.,Nutrisi & Hidrasi
+3,Trimester 1,Risiko Tinggi,4,2,Konsumsi obat penguat kandungan dosis tengah hari tepat waktu di ranjang.,Vitamin & Obat
+3,Trimester 1,Risiko Tinggi,4,3,Pertahankan istirahat di ranjang dan hindari mengejan saat buang air besar.,Aktivitas & Istirahat
+3,Trimester 1,Risiko Tinggi,4,4,Oleskan lotion pelembap intensif pada kulit punggung dan tumit untuk cegah dekubitus di ranjang.,Higienitas & Self-Care
+3,Trimester 1,Risiko Tinggi,4,5,Konfirmasi jadwal kunjungan dokter spesialis kandungan subspesialis fetomaternal.,Persiapan Praktis
+3,Trimester 1,Risiko Tinggi,5,1,Ngemil agar-agar rumput laut bening lembut tanpa pemanis buatan di sore hari.,Nutrisi & Hidrasi
+3,Trimester 1,Risiko Tinggi,5,2,Minum vitamin prenatal pendukung perkembangan janin setelah makan siang di ranjang.,Vitamin & Obat
+3,Trimester 1,Risiko Tinggi,5,3,Ganjal kedua tungkai dengan 2 bantal empuk untuk memperlancar aliran darah balik.,Aktivitas & Istirahat
+3,Trimester 1,Risiko Tinggi,5,4,Lakukan kebersihan area intim di kasur menggunakan pispot/wadah higienis dan air hangat.,Higienitas & Self-Care
+3,Trimester 1,Risiko Tinggi,5,5,Siapkan daftar kontak keluarga inti yang siap siaga 24 jam jika terjadi kegawatdaruratan.,Persiapan Praktis
+3,Trimester 1,Risiko Tinggi,6,1,Makan malam bubur ayam lunak tanpa kuah santan dalam posisi sandaran bantal nyaman.,Nutrisi & Hidrasi
+3,Trimester 1,Risiko Tinggi,6,2,Konsumsi obat penguat kandungan dosis malam tepat waktu di tempat tidur.,Vitamin & Obat
+3,Trimester 1,Risiko Tinggi,6,3,Dengarkan rekaman musik klasik/relaksasi di tempat tidur untuk menurunkan denyut nadi.,Aktivitas & Istirahat
+3,Trimester 1,Risiko Tinggi,6,4,Minta pendamping memijat lembut telapak tangan dan jari-jari yang pegal di tempat tidur.,Higienitas & Self-Care
+3,Trimester 1,Risiko Tinggi,6,5,Pastikan kursi roda lipat sudah tersedia di rumah untuk mobilisasi kontrol ke RS.,Persiapan Praktis
+3,Trimester 1,Risiko Tinggi,7,1,Minum susu formula khusus kehamilan risiko tinggi hangat yang disiapkan di ranjang.,Nutrisi & Hidrasi
+3,Trimester 1,Risiko Tinggi,7,2,Verifikasi bersama pendamping bahwa seluruh jadwal obat hari ini telah tuntas diminum.,Vitamin & Obat
+3,Trimester 1,Risiko Tinggi,7,3,Tidur malam optimal di kasur dengan bantuan guling penopang seluruh tubuh.,Aktivitas & Istirahat
+3,Trimester 1,Risiko Tinggi,7,4,Semprotkan mist hidrosol mawar pada wajah di ranjang untuk menyegarkan suasana istirahat.,Higienitas & Self-Care
+3,Trimester 1,Risiko Tinggi,7,5,Periksa kembali kelengkapan surat rujukan faskes tingkat pertama untuk klaim asuransi/BPJS.,Persiapan Praktis
+4,Trimester 2,Risiko Rendah,1,1,Awali pagi dengan sarapan bubur kacang hijau tanpa santan kental dan rebusan telur.,Nutrisi & Hidrasi
+4,Trimester 2,Risiko Rendah,1,2,Minum tablet tambah darah (Fe) bersama air jeruk manis setelah sarapan.,Vitamin & Obat
+4,Trimester 2,Risiko Rendah,1,3,Jalan pagi energik selama 25-30 menit di lingkungan yang hijau dan datar.,Aktivitas & Istirahat
+4,Trimester 2,Risiko Rendah,1,4,"Oleskan stretch mark lotion/butter secara merata pada perut, paha, dan payudara sehabis mandi pagi.",Higienitas & Self-Care
+4,Trimester 2,Risiko Rendah,1,5,Mulai buat daftar kebutuhan perlengkapan bayi baru lahir (newborn checklist) bersama pasangan.,Persiapan Praktis
+4,Trimester 2,Risiko Rendah,2,1,Minum 300 ml air putih ditambah perasan jeruk nipis segar kaya vitamin C.,Nutrisi & Hidrasi
+4,Trimester 2,Risiko Rendah,2,2,"Hindari minum tablet zat besi bersamaan dengan teh, kopi, atau susu.",Vitamin & Obat
+4,Trimester 2,Risiko Rendah,2,3,"Ikuti sesi yoga hamil prenatal 20 menit (fokus peregangan dada, bahu, dan pinggang).",Aktivitas & Istirahat
+4,Trimester 2,Risiko Rendah,2,4,Gunakan pakaian hamil (maternity wear) yang longgar dan nyaman untuk mobilitas harian.,Higienitas & Self-Care
+4,Trimester 2,Risiko Rendah,2,5,Beli celana hamil dengan pita karet elastis yang bisa disesuaikan untuk trimester kedua.,Persiapan Praktis
+4,Trimester 2,Risiko Rendah,3,1,"Makan siang seporsi dada ayam bakar bumbu kuning, tumis kangkung matang, dan nasi merah.",Nutrisi & Hidrasi
+4,Trimester 2,Risiko Rendah,3,2,Minum suplemen kalsium 500 mg pada siang hari dengan jeda 4 jam dari tablet Fe.,Vitamin & Obat
+4,Trimester 2,Risiko Rendah,3,3,Istirahat rebahan sejenak 30 menit di siang hari untuk meredakan beban punggung.,Aktivitas & Istirahat
+4,Trimester 2,Risiko Rendah,3,4,Mandi dengan air hangat suam-suam kuku dan sabun mandi cair yang kaya pelembap alami.,Higienitas & Self-Care
+4,Trimester 2,Risiko Rendah,3,5,Daftar kelas edukasi persiapan persalinan (prenatal class) atau workshop perawatan bayi.,Persiapan Praktis
+4,Trimester 2,Risiko Rendah,4,1,Ngemil buah naga merah potong dan segenggam biji labu panggang (pumpkin seeds).,Nutrisi & Hidrasi
+4,Trimester 2,Risiko Rendah,4,2,Konsumsi suplemen minyak ikan DHA prenatal setelah makan siang.,Vitamin & Obat
+4,Trimester 2,Risiko Rendah,4,3,Latihan senam kegel 3 set untuk mengencangkan otot panggul bawah.,Aktivitas & Istirahat
+4,Trimester 2,Risiko Rendah,4,4,Potong kuku tangan dan kaki secara rapi dan jaga kebersihan sela-sela kuku.,Higienitas & Self-Care
+4,Trimester 2,Risiko Rendah,4,5,Rencanakan renovasi ringan atau penataan ruang untuk calon kamar/area bayi.,Persiapan Praktis
+4,Trimester 2,Risiko Rendah,5,1,"Minum 2,5 liter air mineral untuk mendukung penambahan volume cairan amnion.",Nutrisi & Hidrasi
+4,Trimester 2,Risiko Rendah,5,2,Minum multivitamin trimester 2 rutin setiap pagi hari.,Vitamin & Obat
+4,Trimester 2,Risiko Rendah,5,3,Lakukan gerakan pelvic tilt (goyangan panggul) berdiri bersandar di dinding 10 kali.,Aktivitas & Istirahat
+4,Trimester 2,Risiko Rendah,5,4,Ganti pakaian dalam dan gunakan celana dalam khusus hamil dengan lingkar pinggang rendah di bawah perut.,Higienitas & Self-Care
+4,Trimester 2,Risiko Rendah,5,5,"Buat daftar perlengkapan menyusui esensial (pompa ASI, botol kaca, cooler bag).",Persiapan Praktis
+4,Trimester 2,Risiko Rendah,6,1,Santap sup bola-bola daging cincang isi telur puyuh matang dan brokoli untuk makan malam.,Nutrisi & Hidrasi
+4,Trimester 2,Risiko Rendah,6,2,Konsumsi suplemen vitamin D3 harian untuk mendukung pertumbuhan tulang janin.,Vitamin & Obat
+4,Trimester 2,Risiko Rendah,6,3,Jalan santai sore 20 menit bersama keluarga di area terbuka.,Aktivitas & Istirahat
+4,Trimester 2,Risiko Rendah,6,4,Gunakan deodoran alami tanpa aluminium dan bebas parfum sintetis menyengat.,Higienitas & Self-Care
+4,Trimester 2,Risiko Rendah,6,5,Diskusikan preferensi penolong persalinan (dokter kandungan atau bidan) bersama pasangan.,Persiapan Praktis
+4,Trimester 2,Risiko Rendah,7,1,Minum segelas susu hamil rasa cokelat/vanila hangat sebelum waktu istirahat.,Nutrisi & Hidrasi
+4,Trimester 2,Risiko Rendah,7,2,Cek sisa tablet tambah darah dan kalsium untuk kebutuhan 2 pekan ke depan.,Vitamin & Obat
+4,Trimester 2,Risiko Rendah,7,3,Tidur malam posisi miring kiri menggunakan bantal hamil khusus (maternity pillow).,Aktivitas & Istirahat
+4,Trimester 2,Risiko Rendah,7,4,Pijat lembut payudara dengan minyak kelapa murni tanpa menekan area puting.,Higienitas & Self-Care
+4,Trimester 2,Risiko Rendah,7,5,Cek kembali kecukupan tabungan persalinan dan pos perlengkapan bayi.,Persiapan Praktis
+4,Trimester 2,Risiko Sedang,1,1,Makan sarapan telur orak-arik (scrambled eggs) matang sempurna dan roti gandum utuh.,Nutrisi & Hidrasi
+4,Trimester 2,Risiko Sedang,1,2,Minum tablet zat besi (Fe) khusus lambung sensitif sesudah sarapan pagi.,Vitamin & Obat
+4,Trimester 2,Risiko Sedang,1,3,Jalan santai pagi di permukaan datar selama 15 menit dengan alas kaki empuk.,Aktivitas & Istirahat
+4,Trimester 2,Risiko Sedang,1,4,Aplikasikan minyak almond pada kulit perut dan pinggang sehabis mandi untuk jaga elastisitas kulit.,Higienitas & Self-Care
+4,Trimester 2,Risiko Sedang,1,5,Susun wishlist perlengkapan bayi esensial secara daring melalui marketplace bersama pasangan.,Persiapan Praktis
+4,Trimester 2,Risiko Sedang,2,1,Minum jus jambu biji merah disaring untuk mendukung penyerapan zat besi alami.,Nutrisi & Hidrasi
+4,Trimester 2,Risiko Sedang,2,2,Konsumsi suplemen vitamin C bersama tablet Fe untuk memaksimalkan penyerapan zat besi.,Vitamin & Obat
+4,Trimester 2,Risiko Sedang,2,3,Lakukan peregangan panggul lembut sambil duduk di kursi bersandaran tegak.,Aktivitas & Istirahat
+4,Trimester 2,Risiko Sedang,2,4,Gunakan celana hamil berpenyangga perut lembut yang tidak menekan lingkar rahim.,Higienitas & Self-Care
+4,Trimester 2,Risiko Sedang,2,5,Pesan pakaian hamil yang nyaman dan korset penyangga perut melalui toko online.,Persiapan Praktis
+4,Trimester 2,Risiko Sedang,3,1,Makan siang nasi putih pulen dengan semur tahu daging cincang dan sayur bayam rebus segar.,Nutrisi & Hidrasi
+4,Trimester 2,Risiko Sedang,3,2,Minum suplemen kalsium 500 mg pada sore hari sesudah makan makanan ringan.,Vitamin & Obat
+4,Trimester 2,Risiko Sedang,3,3,Istirahat tidur siang terjadwal 1 jam di tempat tidur yang sejuk.,Aktivitas & Istirahat
+4,Trimester 2,Risiko Sedang,3,4,Mandi dengan sabun berbusa lembut dan gunakan alas kaki anti-slip saat melangkah di kamar mandi.,Higienitas & Self-Care
+4,Trimester 2,Risiko Sedang,3,5,Ikuti webinar persiapan persalinan dan perawatan bayi secara daring dari rumah.,Persiapan Praktis
+4,Trimester 2,Risiko Sedang,4,1,Konsumsi buah pir potong kukus lembut sebagai camilan lambung ramah serat.,Nutrisi & Hidrasi
+4,Trimester 2,Risiko Sedang,4,2,Konsumsi suplemen DHA dan vitamin prenatal setelah makan siang.,Vitamin & Obat
+4,Trimester 2,Risiko Sedang,4,3,Hindari mengangkat anak balita atau barang belanjaan berat lebih dari 3 kg.,Aktivitas & Istirahat
+4,Trimester 2,Risiko Sedang,4,4,Keringkan tubuh dengan handuk lembut dan pastikan area bawah payudara tidak lembap.,Higienitas & Self-Care
+4,Trimester 2,Risiko Sedang,4,5,Minta pasangan menata tata letak perabotan rumah agar tidak ada sudut tajam yang membahayakan.,Persiapan Praktis
+4,Trimester 2,Risiko Sedang,5,1,"Pantau target minum air putih 2,2 liter bertahap dalam tumbler khusus harian.",Nutrisi & Hidrasi
+4,Trimester 2,Risiko Sedang,5,2,Minum suplemen tambahan penunjang hemoglobin sesuai resep dokter spesialis.,Vitamin & Obat
+4,Trimester 2,Risiko Sedang,5,3,Duduk santai di atas birth ball (bola yoga) dan lakukan rotasi panggul lembut didampingi pasangan.,Aktivitas & Istirahat
+4,Trimester 2,Risiko Sedang,5,4,Ganti pakaian dalam katun secara teratur dan hindari penggunaan celana ketat.,Higienitas & Self-Care
+4,Trimester 2,Risiko Sedang,5,5,Diskusikan rencana bantuan pasca persalinan (keluarga/postpartum doula/asisten rumah tangga).,Persiapan Praktis
+4,Trimester 2,Risiko Sedang,6,1,Makan malam sup ikan kakap kuah bening bumbu sereh dan perkedel tempe kukus.,Nutrisi & Hidrasi
+4,Trimester 2,Risiko Sedang,6,2,Beri jeda 3 jam antara konsumsi tablet kalsium dan obat lambung/zat besi.,Vitamin & Obat
+4,Trimester 2,Risiko Sedang,6,3,Rebahkan tubuh di sore hari dengan posisi kaki lebih tinggi dari pinggul selama 20 menit.,Aktivitas & Istirahat
+4,Trimester 2,Risiko Sedang,6,4,Rendam kaki dengan air hangat suam-suam kuku campur garam mandi selama 15 menit di sore hari.,Higienitas & Self-Care
+4,Trimester 2,Risiko Sedang,6,5,Simpan jadwal konsultasi dokter spesialis kandungan trimester 2 di kalender ponsel.,Persiapan Praktis
+4,Trimester 2,Risiko Sedang,7,1,Minum segelas susu kalsium tinggi hangat non-lemak sebelum tidur.,Nutrisi & Hidrasi
+4,Trimester 2,Risiko Sedang,7,2,Atur kotak obat mingguan untuk memastikan tidak ada tablet tambah darah yang terlewat.,Vitamin & Obat
+4,Trimester 2,Risiko Sedang,7,3,Tidur malam dengan bantal penopang punggung dan bantal di antara kedua lutut.,Aktivitas & Istirahat
+4,Trimester 2,Risiko Sedang,7,4,Oleskan krim kaki (foot cream) untuk meredakan rasa pegal pada tumit sebelum tidur.,Higienitas & Self-Care
+4,Trimester 2,Risiko Sedang,7,5,Pastikan berkas asuransi persalinan sudah terkonfirmasi aktif tanpa kendala administrasi.,Persiapan Praktis
+4,Trimester 2,Risiko Tinggi,1,1,Santap telur rebus matang lumat campur kentang tumbuk halus di tempat tidur.,Nutrisi & Hidrasi
+4,Trimester 2,Risiko Tinggi,1,2,Minum obat pencegah kontraksi/penguat kandungan dosis pagi tepat waktu di ranjang.,Vitamin & Obat
+4,Trimester 2,Risiko Tinggi,1,3,Tirah baring di kasur posisi miring kiri untuk optimasi aliran darah ke plasenta.,Aktivitas & Istirahat
+4,Trimester 2,Risiko Tinggi,1,4,Seka tubuh di tempat tidur menggunakan handuk basah hangat berbusa sabun hipoalergenik.,Higienitas & Self-Care
+4,Trimester 2,Risiko Tinggi,1,5,Riset review perlengkapan bayi newborn secara daring dari atas tempat tidur.,Persiapan Praktis
+4,Trimester 2,Risiko Tinggi,2,1,Minum sari kurma hangat atau jus buah bit apel encer yang disajikan di kasur.,Nutrisi & Hidrasi
+4,Trimester 2,Risiko Tinggi,2,2,Konsumsi tablet tambah darah (Fe) dosis medis bersama air perasan jeruk di kasur.,Vitamin & Obat
+4,Trimester 2,Risiko Tinggi,2,3,Lakukan gerakan ankle circles (memutar pergelangan kaki) lembut 10 putaran di ranjang.,Aktivitas & Istirahat
+4,Trimester 2,Risiko Tinggi,2,4,Oleskan minyak stretch mark pada perut dan pinggul secara perlahan di ranjang oleh pendamping.,Higienitas & Self-Care
+4,Trimester 2,Risiko Tinggi,2,5,Pesan kebutuhan pakaian ibu hamil longgar dan bantal penopang medis via smartphone di kasur.,Persiapan Praktis
+4,Trimester 2,Risiko Tinggi,3,1,Makan siang nasi tim halus isi daging ayam kampung giling dan sayur labu di ranjang.,Nutrisi & Hidrasi
+4,Trimester 2,Risiko Tinggi,3,2,Minum suplemen DHA dan multivitamin trimester 2 setelah makan siang di ranjang.,Vitamin & Obat
+4,Trimester 2,Risiko Tinggi,3,3,Latihan relaksasi visualisasi positif 15 menit di tempat tidur tanpa gerak fisik.,Aktivitas & Istirahat
+4,Trimester 2,Risiko Tinggi,3,4,Ganti pakaian tidur daster katun longgar berkancing yang memudahkan pemeriksaan dokter di kasur.,Higienitas & Self-Care
+4,Trimester 2,Risiko Tinggi,3,5,Ikuti kelas edukasi kehamilan daring sambil berbaring santai di tempat tidur.,Persiapan Praktis
+4,Trimester 2,Risiko Tinggi,4,1,Konsumsi camilan pudding chia seed susu kedelai lembut di tempat tidur.,Nutrisi & Hidrasi
+4,Trimester 2,Risiko Tinggi,4,2,Konsumsi obat penguat/tokolitik dosis siang sesuai jadwal ketat di tempat tidur.,Vitamin & Obat
+4,Trimester 2,Risiko Tinggi,4,3,Pertahankan tirah baring penuh dan delegasikan seluruh aktivitas fisik ke pasangan.,Aktivitas & Istirahat
+4,Trimester 2,Risiko Tinggi,4,4,Lakukan kebersihan area genital di ranjang dengan air steril mengalir dan keringkan seksama.,Higienitas & Self-Care
+4,Trimester 2,Risiko Tinggi,4,5,"Letakkan stok tisu basah, kantong muntah higienis, dan air mineral di laci samping ranjang.",Persiapan Praktis
+4,Trimester 2,Risiko Tinggi,5,1,Penuhi target minum 2 liter air mineral bertahap via sedotan tanpa perlu bangkit.,Nutrisi & Hidrasi
+4,Trimester 2,Risiko Tinggi,5,2,Minum tablet kalsium dosis anjuran dokter pada jeda sore hari di ranjang.,Vitamin & Obat
+4,Trimester 2,Risiko Tinggi,5,3,Ubah posisi baring perlahan dari miring kiri ke semi-Fowler dengan bantal.,Aktivitas & Istirahat
+4,Trimester 2,Risiko Tinggi,5,4,"Oleskan krim pelembap pada area siku, tumit, dan bokong untuk mencegah iritasi kasur.",Higienitas & Self-Care
+4,Trimester 2,Risiko Tinggi,5,5,Diskusikan rencana pengasuhan anak sulung (jika ada) saat ibu menjalani perawatan medis.,Persiapan Praktis
+4,Trimester 2,Risiko Tinggi,6,1,Makan malam sup bening tahu sutra dan daging cincang lembut dalam posisi semi-Fowler.,Nutrisi & Hidrasi
+4,Trimester 2,Risiko Tinggi,6,2,Konsumsi obat penguat/pencegah kontraksi dosis malam tepat waktu di kasur.,Vitamin & Obat
+4,Trimester 2,Risiko Tinggi,6,3,Dengarkan audio hypnobirthing relaksasi di kasur untuk kenyamanan rahim.,Aktivitas & Istirahat
+4,Trimester 2,Risiko Tinggi,6,4,Minta pendamping mencuci rambut dengan dry shampoo atau hair basin portabel di ranjang.,Higienitas & Self-Care
+4,Trimester 2,Risiko Tinggi,6,5,Konfirmasi ulang ketersediaan kamar rawat inap risiko tinggi di RS rujukan utama.,Persiapan Praktis
+4,Trimester 2,Risiko Tinggi,7,1,Minum susu kehamilan bernutrisi lengkap hangat sebelum waktu tidur di kasur.,Nutrisi & Hidrasi
+4,Trimester 2,Risiko Tinggi,7,2,Minta pendamping mencatat buku kepatuhan obat harian dan stok obat persalinan.,Vitamin & Obat
+4,Trimester 2,Risiko Tinggi,7,3,Tidur malam berkualitas di tempat tidur dengan guling penopang pinggul yang stabil.,Aktivitas & Istirahat
+4,Trimester 2,Risiko Tinggi,7,4,Lakukan pijat relaksasi kepala dan leher ringan di tempat tidur untuk kenyamanan tidur.,Higienitas & Self-Care
+4,Trimester 2,Risiko Tinggi,7,5,Susun rincian berkas klaim asuransi kehamilan risiko tinggi bersama pendamping di ranjang.,Persiapan Praktis
+5,Trimester 2,Risiko Rendah,1,1,"Konsumsi smoothie bayam, pisang, dan susu kedelai tinggi kalsium di pagi hari.",Nutrisi & Hidrasi
+5,Trimester 2,Risiko Rendah,1,2,Minum tablet kalsium 500 mg setelah sarapan pagi dengan segelas air putih.,Vitamin & Obat
+5,Trimester 2,Risiko Rendah,1,3,Jalan pagi santai 30 menit di taman dengan sepatu olahraga berdaya serap benturan baik.,Aktivitas & Istirahat
+5,Trimester 2,Risiko Rendah,1,4,"Aplikasikan body butter pada perut, pinggul, dan paha dua kali sehari untuk mencegah gatal kulit meregang.",Higienitas & Self-Care
+5,Trimester 2,Risiko Rendah,1,5,"Mulai membeli perlengkapan dasar bayi (pakaian newborn, popok kain, kain bedong) secara bertahap.",Persiapan Praktis
+5,Trimester 2,Risiko Rendah,2,1,Sarapan nasi goreng beras merah dengan campuran teri basah segar matang dan telur.,Nutrisi & Hidrasi
+5,Trimester 2,Risiko Rendah,2,2,Konsumsi suplemen vitamin D3 1000 IU untuk optimasi mineralisasi tulang janin.,Vitamin & Obat
+5,Trimester 2,Risiko Rendah,2,3,Lakukan sesi prenatal yoga 25 menit (fokus peregangan hamstring dan pembuka panggul).,Aktivitas & Istirahat
+5,Trimester 2,Risiko Rendah,2,4,Gunakan maternity bra dengan tali lebar yang menopang beban payudara secara optimal.,Higienitas & Self-Care
+5,Trimester 2,Risiko Rendah,2,5,Survei lokasi dan fasilitas ruang bersalin (maternity ward tour) di rumah sakit pilihan.,Persiapan Praktis
+5,Trimester 2,Risiko Rendah,3,1,"Makan siang fillet ikan dori panggang, kentang rebus, dan salad sayur rebus saus wijen.",Nutrisi & Hidrasi
+5,Trimester 2,Risiko Rendah,3,2,Minum tablet tambah darah (Fe) pada sore/malam hari sebelum tidur untuk mencegah mual.,Vitamin & Obat
+5,Trimester 2,Risiko Rendah,3,3,Istirahat siang teratur 30-45 menit posisi miring kiri untuk meringankan pembuluh vena cava.,Aktivitas & Istirahat
+5,Trimester 2,Risiko Rendah,3,4,Mandi air hangat suam-suam kuku dan gunakan scrub tubuh lembut berbahan alami 1x seminggu.,Higienitas & Self-Care
+5,Trimester 2,Risiko Rendah,3,5,Pilih bantal menyusui (nursing pillow) dan pompa ASI yang ergonomis.,Persiapan Praktis
+5,Trimester 2,Risiko Rendah,4,1,Ngemil yogurt Greek dengan taburan chia seeds dan potongan stroberi segar.,Nutrisi & Hidrasi
+5,Trimester 2,Risiko Rendah,4,2,Konsumsi suplemen DHA prenatal berkonsentrasi tinggi sesudah makan siang.,Vitamin & Obat
+5,Trimester 2,Risiko Rendah,4,3,"Latihan senam kegel 4 set (tahan 6 detik, rileks 6 detik) secara konsisten.",Aktivitas & Istirahat
+5,Trimester 2,Risiko Rendah,4,4,Jaga kebersihan area puting dengan membersihkannya lembut menggunakan air hangat tanpa sabun keras.,Higienitas & Self-Care
+5,Trimester 2,Risiko Rendah,4,5,Diskusikan rencana nama calon bayi dan makna filosofisnya bersama pasangan.,Persiapan Praktis
+5,Trimester 2,Risiko Rendah,5,1,"Jaga hidrasi optimal 2,7 liter air mineral sepanjang aktivitas harian.",Nutrisi & Hidrasi
+5,Trimester 2,Risiko Rendah,5,2,Minum multivitamin kehamilan harian secara tertib setiap pagi.,Vitamin & Obat
+5,Trimester 2,Risiko Rendah,5,3,Lakukan gerakan squat hamil bersandar dinding (wall squat) 10 repetisi perlahan.,Aktivitas & Istirahat
+5,Trimester 2,Risiko Rendah,5,4,Ganti pakaian dalam dan gunakan maternity underwear berdesain over-the-bump yang nyaman.,Higienitas & Self-Care
+5,Trimester 2,Risiko Rendah,5,5,Siapkan ruang khusus untuk mencuci dan mengeringkan pakaian bayi secara higienis.,Persiapan Praktis
+5,Trimester 2,Risiko Rendah,6,1,Makan malam tumis daging sapi lada manis dengan brokoli dan wortel matang.,Nutrisi & Hidrasi
+5,Trimester 2,Risiko Rendah,6,2,Pastikan meminimalkan tablet kalsium kedua (jika dosis 1000 mg/hari) pada siang hari.,Vitamin & Obat
+5,Trimester 2,Risiko Rendah,6,3,Jalan santai sore 20 menit di sekitar perumahan.,Aktivitas & Istirahat
+5,Trimester 2,Risiko Rendah,6,4,Gunakan pelembap wajah SPF 30+ non-komedogenik untuk mencegah flek hitam kehamilan (chloasma).,Higienitas & Self-Care
+5,Trimester 2,Risiko Rendah,6,5,Ikuti kelas laktasi untuk mempelajari teknik pelekatan menyusui yang benar sejak dini.,Persiapan Praktis
+5,Trimester 2,Risiko Rendah,7,1,Minum segelas susu sapi pasteurisasi hangat sebelum tidur malam.,Nutrisi & Hidrasi
+5,Trimester 2,Risiko Rendah,7,2,Periksa kotak obat dan siapkan stok vitamin prenatal untuk jadwal periksa berikutnya.,Vitamin & Obat
+5,Trimester 2,Risiko Rendah,7,3,Tidur malam minimal 8 jam menggunakan maternity pillow untuk menopang perut yang membesar.,Aktivitas & Istirahat
+5,Trimester 2,Risiko Rendah,7,4,Lakukan pijat relaksasi mandiri pada telapak kaki dengan minyak aroma kamomil sebelum tidur.,Higienitas & Self-Care
+5,Trimester 2,Risiko Rendah,7,5,Pastikan dokumen administrasi kehamilan (buku KIA) selalu tersimpan di tas harian.,Persiapan Praktis
+5,Trimester 2,Risiko Sedang,1,1,Sarapan pancake oatmeal buatan sendiri dengan olesan madu dan irisan buah pisang.,Nutrisi & Hidrasi
+5,Trimester 2,Risiko Sedang,1,2,Minum suplemen kalsium dosis pagi sesudah makan sarapan.,Vitamin & Obat
+5,Trimester 2,Risiko Sedang,1,3,Jalan santai pagi di area rumah selama 15-20 menit dengan kecepatan santai.,Aktivitas & Istirahat
+5,Trimester 2,Risiko Sedang,1,4,Oleskan minyak kelapa murni (VCO) pada kulit perut yang mulai meregang dan terasa gatal.,Higienitas & Self-Care
+5,Trimester 2,Risiko Sedang,1,5,Beli perlengkapan dasar bayi secara bertahap via toko daring terpercaya dari rumah.,Persiapan Praktis
+5,Trimester 2,Risiko Sedang,2,1,Minum jus melon manis dingin tanpa sirup tambahan untuk menyegarkan tubuh.,Nutrisi & Hidrasi
+5,Trimester 2,Risiko Sedang,2,2,Konsumsi vitamin D3 dan multivitamin prenatal setelah makan pagi.,Vitamin & Obat
+5,Trimester 2,Risiko Sedang,2,3,Duduk di birth ball dan lakukan ayunan panggul maju-mundur lembut selama 10 menit didampingi.,Aktivitas & Istirahat
+5,Trimester 2,Risiko Sedang,2,4,Kenakan pakaian hamil yang longgar berbahan linen atau katun dingin menyerap keringat.,Higienitas & Self-Care
+5,Trimester 2,Risiko Sedang,2,5,Lakukan virtual tour ruang bersalin RS rujukan melalui video atau kontak humas RS.,Persiapan Praktis
+5,Trimester 2,Risiko Sedang,3,1,"Makan siang nasi putih, tempe bacem panggang, sup labu kuning, dan rolade daging matang.",Nutrisi & Hidrasi
+5,Trimester 2,Risiko Sedang,3,2,Minum suplemen DHA prenatal setelah makan siang bersama segelas air putih.,Vitamin & Obat
+5,Trimester 2,Risiko Sedang,3,3,Tidur siang terjadwal 1 jam di kasur dengan posisi miring kiri berbantal empuk.,Aktivitas & Istirahat
+5,Trimester 2,Risiko Sedang,3,4,Mandi menggunakan air suam-suam kuku dengan bantuan kursi mandi jika terasa mudah lelah.,Higienitas & Self-Care
+5,Trimester 2,Risiko Sedang,3,5,Pilih pompa ASI elektrik dengan mode stimulasi lembut dari review terpercaya secara online.,Persiapan Praktis
+5,Trimester 2,Risiko Sedang,4,1,Ngemil kacang edamame rebus hangat 1 mangkuk kecil sebagai sumber kalsium & protein.,Nutrisi & Hidrasi
+5,Trimester 2,Risiko Sedang,4,2,Minum tablet tambah darah (Fe) malam hari sebelum tidur bersama air lemon/jeruk.,Vitamin & Obat
+5,Trimester 2,Risiko Sedang,4,3,Hindari berdiri lebih dari 15 menit saat memasak atau beraktivitas harian.,Aktivitas & Istirahat
+5,Trimester 2,Risiko Sedang,4,4,Pastikan sela paha dan lipatan kulit kering sempurna sebelum mengenakan pakaian dalam.,Higienitas & Self-Care
+5,Trimester 2,Risiko Sedang,4,5,Tulis beberapa opsi nama calon bayi dalam buku catatan keluarga bersama pasangan.,Persiapan Praktis
+5,Trimester 2,Risiko Sedang,5,1,"Minum air putih terjadwal 2,3 liter per hari menggunakan gelas bertakar.",Nutrisi & Hidrasi
+5,Trimester 2,Risiko Sedang,5,2,Konsumsi suplemen magnesium (jika diresepkan dokter untuk meredakan kram otot betis).,Vitamin & Obat
+5,Trimester 2,Risiko Sedang,5,3,Peregangan otot betis lembut bersandar kursi untuk mencegah kram malam hari.,Aktivitas & Istirahat
+5,Trimester 2,Risiko Sedang,5,4,Ganti pakaian dalam katun longgar secara berkala untuk menjaga kebersihan organ intim.,Higienitas & Self-Care
+5,Trimester 2,Risiko Sedang,5,5,Minta pasangan menyiapkan lemari khusus bersih untuk menyimpan baju bayi yang dibeli.,Persiapan Praktis
+5,Trimester 2,Risiko Sedang,6,1,Makan malam sup ayam jagung manis bening dan perkedel kentang panggang.,Nutrisi & Hidrasi
+5,Trimester 2,Risiko Sedang,6,2,Pastikan jeda konsumsi kalsium dan zat besi minimal 4 jam agar tidak saling menghambat.,Vitamin & Obat
+5,Trimester 2,Risiko Sedang,6,3,Elevasi kedua kaki ke atas bantal guling selama 30 menit di sofa pada sore hari.,Aktivitas & Istirahat
+5,Trimester 2,Risiko Sedang,6,4,Kompres hangat area punggung bawah dengan bantal pemanas (heating pad) bersuhu rendah selama 15 menit.,Higienitas & Self-Care
+5,Trimester 2,Risiko Sedang,6,5,Simak video edukasi laktasi dan inisiasi menyusu dini (IMD) bersama pasangan di sofa santai.,Persiapan Praktis
+5,Trimester 2,Risiko Sedang,7,1,Minum susu prenatal kaya kalsium dan vitamin D hangat 1 jam sebelum tidur.,Nutrisi & Hidrasi
+5,Trimester 2,Risiko Sedang,7,2,Isi ulang kotak obat 7 hari ke depan dengan tablet kalsium dan zat besi yang teratur.,Vitamin & Obat
+5,Trimester 2,Risiko Sedang,7,3,Tidur malam dengan posisi miring kiri didukung bantal penyangga di bawah perut.,Aktivitas & Istirahat
+5,Trimester 2,Risiko Sedang,7,4,Oleskan losion pencegah kram pada betis sebelum tidur malam.,Higienitas & Self-Care
+5,Trimester 2,Risiko Sedang,7,5,Pastikan buku kontrol kehamilan selalu dibawa setiap kali keluar rumah.,Persiapan Praktis
+5,Trimester 2,Risiko Tinggi,1,1,Santap bubur havermut susu tinggi kalsium dengan taburan bubuk almond halus di kasur.,Nutrisi & Hidrasi
+5,Trimester 2,Risiko Tinggi,1,2,Minum obat pencegah kontraksi dini dosis pagi tepat waktu di tempat tidur.,Vitamin & Obat
+5,Trimester 2,Risiko Tinggi,1,3,Tirah baring posisi miring kiri stabil di tempat tidur dengan bantal penyangga.,Aktivitas & Istirahat
+5,Trimester 2,Risiko Tinggi,1,4,Seka badan di atas tempat tidur dengan air hangat suam-suam kuku dan sabun pH netral.,Higienitas & Self-Care
+5,Trimester 2,Risiko Tinggi,1,5,Pilih perlengkapan bayi esensial melalui katalog daring di smartphone di atas kasur.,Persiapan Praktis
+5,Trimester 2,Risiko Tinggi,2,1,Minum sari kacang hijau hangat buatan rumah tanpa santan di tempat tidur.,Nutrisi & Hidrasi
+5,Trimester 2,Risiko Tinggi,2,2,Konsumsi tablet kalsium dosis tinggi dan vitamin D3 setelah sarapan di kasur.,Vitamin & Obat
+5,Trimester 2,Risiko Tinggi,2,3,Lakukan pernapasan dalam 15 menit untuk meningkatkan saturasi oksigen janin di ranjang.,Aktivitas & Istirahat
+5,Trimester 2,Risiko Tinggi,2,4,Minta pendamping mengoleskan body butter pada kulit perut dan pinggul secara lembut di kasur.,Higienitas & Self-Care
+5,Trimester 2,Risiko Tinggi,2,5,Minta pendamping mengurus seluruh pendaftaran dan administrasi persalinan ke RS rujukan.,Persiapan Praktis
+5,Trimester 2,Risiko Tinggi,3,1,Makan siang nasi tim lembut cincangan ikan dori dan wortel parut di ranjang.,Nutrisi & Hidrasi
+5,Trimester 2,Risiko Tinggi,3,2,Minum suplemen DHA prenatal dan multivitamin lengkap setelah makan siang di ranjang.,Vitamin & Obat
+5,Trimester 2,Risiko Tinggi,3,3,Gerakkan jari tangan dan kaki secara berkala di kasur untuk mencegah kekakuan.,Aktivitas & Istirahat
+5,Trimester 2,Risiko Tinggi,3,4,Ganti piyama katun berkancing depan yang bersih dan longgar di ranjang.,Higienitas & Self-Care
+5,Trimester 2,Risiko Tinggi,3,5,Pilih pompa ASI dan wadah steril melalui belanja daring dari tempat tidur.,Persiapan Praktis
+5,Trimester 2,Risiko Tinggi,4,1,Konsumsi buah alpukat kerok lembut campur sedikit madu di tempat tidur.,Nutrisi & Hidrasi
+5,Trimester 2,Risiko Tinggi,4,2,Konsumsi obat pencegah kontraksi dosis siang sesuai jadwal resep di tempat tidur.,Vitamin & Obat
+5,Trimester 2,Risiko Tinggi,4,3,Tetap berada di tempat tidur dan minta bantuan penuh untuk kebutuhan makan dan minum.,Aktivitas & Istirahat
+5,Trimester 2,Risiko Tinggi,4,4,Lakukan perawatan higienitas mulut dan pembersihan sela gigi di atas kasur.,Higienitas & Self-Care
+5,Trimester 2,Risiko Tinggi,4,5,Diskusikan pilihan nama calon buah hati bersama pasangan di tempat tidur santai.,Persiapan Praktis
+5,Trimester 2,Risiko Tinggi,5,1,Pertahankan hidrasi 2 liter air mineral sedikit demi sedikit melalui botol vakum sedotan.,Nutrisi & Hidrasi
+5,Trimester 2,Risiko Tinggi,5,2,Minum tablet tambah darah (Fe) khusus di sore hari bersama jus jeruk di kasur.,Vitamin & Obat
+5,Trimester 2,Risiko Tinggi,5,3,Gunakan bantal wedge khusus untuk menopang punggung bawah saat berbaring di kasur.,Aktivitas & Istirahat
+5,Trimester 2,Risiko Tinggi,5,4,Bersihkan area genital dengan air bersih hangat dan keringkan dengan kain kasa steril di ranjang.,Higienitas & Self-Care
+5,Trimester 2,Risiko Tinggi,5,5,Minta keluarga mencuci dan menata pakaian newborn yang telah tiba di rumah.,Persiapan Praktis
+5,Trimester 2,Risiko Tinggi,6,1,Makan malam sup krim jagung ayam cincang lunak hangat dalam posisi setengah duduk.,Nutrisi & Hidrasi
+5,Trimester 2,Risiko Tinggi,6,2,Konsumsi obat pencegah kontraksi dosis malam tepat waktu sebelum tidur di ranjang.,Vitamin & Obat
+5,Trimester 2,Risiko Tinggi,6,3,Dengaran audio afirmasi kenyamanan janin di kasur dalam suasana tenang.,Aktivitas & Istirahat
+5,Trimester 2,Risiko Tinggi,6,4,Minta pendamping memijat lembut kedua tungkai dari bawah ke atas untuk peredaran darah.,Higienitas & Self-Care
+5,Trimester 2,Risiko Tinggi,6,5,Konsultasikan rencana IMD pada persalinan dengan indikasi medis kepada dokter via chat/kontrol.,Persiapan Praktis
+5,Trimester 2,Risiko Tinggi,7,1,Minum susu khusus kehamilan formula lengkap hangat sebelum tidur di ranjang.,Nutrisi & Hidrasi
+5,Trimester 2,Risiko Tinggi,7,2,Pastikan pendamping memverifikasi kepatuhan seluruh regimen obat harian di kartu resep.,Vitamin & Obat
+5,Trimester 2,Risiko Tinggi,7,3,Tidur malam optimal di tempat tidur dengan posisi baring miring yang nyaman dan aman.,Aktivitas & Istirahat
+5,Trimester 2,Risiko Tinggi,7,4,Oleskan pelembap bibir dan krim pelembap tangan di tempat tidur sebelum tidur.,Higienitas & Self-Care
+5,Trimester 2,Risiko Tinggi,7,5,Pastikan map rekam medis lengkap selalu siap di samping ranjang untuk dibawa ke RS.,Persiapan Praktis
+6,Trimester 2,Risiko Rendah,1,1,Awali hari dengan roti gandum panggang telur mata sapi matang dan alpukat iris.,Nutrisi & Hidrasi
+6,Trimester 2,Risiko Rendah,1,2,Minum suplemen DHA 200-300 mg sesudah sarapan pagi untuk perkembangan otak janin.,Vitamin & Obat
+6,Trimester 2,Risiko Rendah,1,3,Berenang gaya dada santai selama 30 menit di kolam renang bersih atau jalan pagi 30 menit.,Aktivitas & Istirahat
+6,Trimester 2,Risiko Rendah,1,4,Oleskan stretch mark oil/cream secara intensif pada perut yang semakin membesar sehabis mandi.,Higienitas & Self-Care
+6,Trimester 2,Risiko Rendah,1,5,"Mulai mencuci pakaian, selimut, dan popok kain bayi menggunakan deterjen khusus bayi bebas alergen.",Persiapan Praktis
+6,Trimester 2,Risiko Rendah,2,1,Minum 300 ml air putih hangat dan siapkan bekal buah segar berglikemik rendah (apel/pir).,Nutrisi & Hidrasi
+6,Trimester 2,Risiko Rendah,2,2,Konsumsi tablet tambah darah (Fe) harian bersama sumber vitamin C alami.,Vitamin & Obat
+6,Trimester 2,Risiko Rendah,2,3,Lakukan senam prenatal peregangan tulang belakang dan bahu selama 20 menit.,Aktivitas & Istirahat
+6,Trimester 2,Risiko Rendah,2,4,Gunakan pakaian dalam hamil berbahan katun organik yang elastis dan berpori udara baik.,Higienitas & Self-Care
+6,Trimester 2,Risiko Rendah,2,5,"Buat draf rencana persalinan (birth plan) mencakup metode persalinan, pendamping, dan pereda nyeri.",Persiapan Praktis
+6,Trimester 2,Risiko Rendah,3,1,Makan siang nasi merah dengan ikan salmon bakar saus lemon dan tumis buncis bawang putih.,Nutrisi & Hidrasi
+6,Trimester 2,Risiko Rendah,3,2,Minum tablet kalsium 500 mg setelah makan siang dengan segelas air mineral.,Vitamin & Obat
+6,Trimester 2,Risiko Rendah,3,3,Istirahat baring miring kiri selama 45 menit di siang hari.,Aktivitas & Istirahat
+6,Trimester 2,Risiko Rendah,3,4,Mandi air segar dan gunakan sabun pembersih bebas pewangi sintetis untuk cegah iritasi.,Higienitas & Self-Care
+6,Trimester 2,Risiko Rendah,3,5,Siapkan koper/tas persalinan (hospital bag) dan mulai cicil perlengkapan ibu dan bayi.,Persiapan Praktis
+6,Trimester 2,Risiko Rendah,4,1,Ngemil kacang walnut panggang dan dark chocolate 70% seukuran dua jari.,Nutrisi & Hidrasi
+6,Trimester 2,Risiko Rendah,4,2,Konsumsi suplemen multivitamin prenatal harian secara konsisten.,Vitamin & Obat
+6,Trimester 2,Risiko Rendah,4,3,Latihan senam kegel 4 set dikombinasikan dengan latihan pernapasan persalinan.,Aktivitas & Istirahat
+6,Trimester 2,Risiko Rendah,4,4,Gunakan sepatu bertumit rendah (maksimal 2 cm) dengan bantalan insole empuk saat bepergian.,Higienitas & Self-Care
+6,Trimester 2,Risiko Rendah,4,5,Pasang kursi keselamatan bayi di mobil (infant car seat) dan pelajari cara instalasinya.,Persiapan Praktis
+6,Trimester 2,Risiko Rendah,5,1,"Pertahankan target 2,8 liter air mineral untuk mencegah dehidrasi dan kram tungkai.",Nutrisi & Hidrasi
+6,Trimester 2,Risiko Rendah,5,2,Minum vitamin D3 harian bersama makanan yang mengandung lemak sehat.,Vitamin & Obat
+6,Trimester 2,Risiko Rendah,5,3,Goyangkan panggul di atas birth ball selama 15 menit untuk meredakan pegal pinggang.,Aktivitas & Istirahat
+6,Trimester 2,Risiko Rendah,5,4,Ganti celana dalam segera jika terasa basah akibat peningkatan cairan vagina normal kehamilan.,Higienitas & Self-Care
+6,Trimester 2,Risiko Rendah,5,5,Diskusikan pembagian cuti melahirkan dan cuti ayah (paternity leave) dengan pasangan.,Persiapan Praktis
+6,Trimester 2,Risiko Rendah,6,1,Makan malam sup kacang merah dengan iga daging sapi empuk dan sayur sawi hijau matang.,Nutrisi & Hidrasi
+6,Trimester 2,Risiko Rendah,6,2,Konsumsi suplemen serat/probiotik prenatal jika direkomendasikan dokter kandungan.,Vitamin & Obat
+6,Trimester 2,Risiko Rendah,6,3,Jalan santai sore 20 menit menikmati pemandangan alam.,Aktivitas & Istirahat
+6,Trimester 2,Risiko Rendah,6,4,Gunakan lotion tabir surya fisik sebelum keluar rumah untuk melindungi kulit dari hiperpigmentasi.,Higienitas & Self-Care
+6,Trimester 2,Risiko Rendah,6,5,Cari kontak dokter spesialis anak (Sp.A) terdekat untuk pemeriksaan bayi setelah lahir.,Persiapan Praktis
+6,Trimester 2,Risiko Rendah,7,1,Minum segelas susu hamil berkandungan DHA tinggi sebelum tidur.,Nutrisi & Hidrasi
+6,Trimester 2,Risiko Rendah,7,2,Evaluasi keteraturan konsumsi suplemen trimester 2 dan rapikan kotak obat mingguan.,Vitamin & Obat
+6,Trimester 2,Risiko Rendah,7,3,"Tidur malam 8 jam dengan bantal hamil lengkap penopang punggung, perut, dan lutut.",Aktivitas & Istirahat
+6,Trimester 2,Risiko Rendah,7,4,Rendam kaki di baskom air hangat bertabur garam epsom dan minyak lavender selama 15 menit.,Higienitas & Self-Care
+6,Trimester 2,Risiko Rendah,7,5,Lakukan sesi foto kehamilan (maternity photoshoot) santai di rumah atau studio terdekat.,Persiapan Praktis
+6,Trimester 2,Risiko Sedang,1,1,Sarapan bubur havermut gurih dengan topping suwiran ayam rebus dan telur omega matang.,Nutrisi & Hidrasi
+6,Trimester 2,Risiko Sedang,1,2,Minum suplemen DHA prenatal dan vitamin D3 setelah makan pagi.,Vitamin & Obat
+6,Trimester 2,Risiko Sedang,1,3,Jalan santai santai pagi selama 15 menit di permukaan jalan yang rata dan aman.,Aktivitas & Istirahat
+6,Trimester 2,Risiko Sedang,1,4,Aplikasikan krim pelembap intensif pada perut dan pinggul untuk meredakan sensasi kulit tertarik.,Higienitas & Self-Care
+6,Trimester 2,Risiko Sedang,1,5,Minta bantuan pasangan mencuci dan menyetrika pakaian newborn dengan deterjen ramah bayi.,Persiapan Praktis
+6,Trimester 2,Risiko Sedang,2,1,Minum infused water lemon dan potongan apel hijau segar sepanjang hari.,Nutrisi & Hidrasi
+6,Trimester 2,Risiko Sedang,2,2,Konsumsi obat pengontrol tekanan darah/gula darah (jika diresepkan dokter) tepat jadwal.,Vitamin & Obat
+6,Trimester 2,Risiko Sedang,2,3,Latihan rotasi panggul ringan di kursi duduk dengan bantal busa selama 10 menit.,Aktivitas & Istirahat
+6,Trimester 2,Risiko Sedang,2,4,Kenakan korset hamil khusus (maternity belt) lembut saat harus berjalan di area rumah.,Higienitas & Self-Care
+6,Trimester 2,Risiko Sedang,2,5,Tulis draf preferensi persalinan yang disesuaikan dengan rekomendasi medis dokter kandungan.,Persiapan Praktis
+6,Trimester 2,Risiko Sedang,3,1,"Makan siang nasi pulen dengan pepes tahu jamur, ikan bandeng tanpa duri presto, dan sayur asem.",Nutrisi & Hidrasi
+6,Trimester 2,Risiko Sedang,3,2,Minum suplemen kalsium setelah makan siang dengan air putih.,Vitamin & Obat
+6,Trimester 2,Risiko Sedang,3,3,"Istirahat tidur siang terjadwal 1-1,5 jam di kasur dengan posisi miring kiri.",Aktivitas & Istirahat
+6,Trimester 2,Risiko Sedang,3,4,Mandi dengan air suam-suam kuku dan pastikan kamar mandi memiliki pegangan dinding (grab bar).,Higienitas & Self-Care
+6,Trimester 2,Risiko Sedang,3,5,Mulai masukkan perlengkapan darurat ibu ke dalam tas siaga persalinan di kamar tidur.,Persiapan Praktis
+6,Trimester 2,Risiko Sedang,4,1,Ngemil buah kiwi potong kaya vitamin C dan serat larut untuk mencegah konstipasi.,Nutrisi & Hidrasi
+6,Trimester 2,Risiko Sedang,4,2,Beri jeda waktu 4 jam sebelum mengonsumsi tablet tambah darah di malam hari.,Vitamin & Obat
+6,Trimester 2,Risiko Sedang,4,3,Gunakan maternity support belt (korset penyangga perut hamil) jika harus berjalan singkat.,Aktivitas & Istirahat
+6,Trimester 2,Risiko Sedang,4,4,Keringkan area lipatan tubuh dengan handuk kering lembut untuk cegah biang keringat.,Higienitas & Self-Care
+6,Trimester 2,Risiko Sedang,4,5,Minta pasangan memasang car seat bayi di mobil keluarga dan mengecek kelayakannya.,Persiapan Praktis
+6,Trimester 2,Risiko Sedang,5,1,"Penuhi target hidrasi 2,5 liter air putih bersuhu sejuk/ruang secara teratur.",Nutrisi & Hidrasi
+6,Trimester 2,Risiko Sedang,5,2,Minum tablet tambah darah (Fe) sebelum tidur bersama air putih/jeruk.,Vitamin & Obat
+6,Trimester 2,Risiko Sedang,5,3,Peregangan punggung atas di kursi dengan menarik bahu ke belakang secara perlahan.,Aktivitas & Istirahat
+6,Trimester 2,Risiko Sedang,5,4,Ganti pakaian dalam katun minimal 3-4 kali sehari untuk mencegah risiko keputihan patologis.,Higienitas & Self-Care
+6,Trimester 2,Risiko Sedang,5,5,Konfirmasi tanggal mulai cuti kerja sebelum persalinan agar memiliki waktu istirahat cukup.,Persiapan Praktis
+6,Trimester 2,Risiko Sedang,6,1,Makan malam sup sayur komplit bakso sapi buatan sendiri rendah garam.,Nutrisi & Hidrasi
+6,Trimester 2,Risiko Sedang,6,2,Konsumsi suplemen magnesium untuk mencegah ketegangan otot di malam hari.,Vitamin & Obat
+6,Trimester 2,Risiko Sedang,6,3,Rebahkan tubuh di sofa dengan kaki diangkat setinggi dada selama 25 menit.,Aktivitas & Istirahat
+6,Trimester 2,Risiko Sedang,6,4,Kompres dingin area pergelangan kaki yang mulai sedikit bengkak di sore hari.,Higienitas & Self-Care
+6,Trimester 2,Risiko Sedang,6,5,Simpan nomor kontak dokter spesialis anak di RS rujukan persalinan pada ponsel.,Persiapan Praktis
+6,Trimester 2,Risiko Sedang,7,1,Konsumsi susu formula hamil hangat rendah gula (low sugar) sebelum tidur.,Nutrisi & Hidrasi
+6,Trimester 2,Risiko Sedang,7,2,Susun stok obat resep medis dan multivitamin ke dalam wadah pengingat bertanggal.,Vitamin & Obat
+6,Trimester 2,Risiko Sedang,7,3,Tidur malam dengan bantal di antara paha dan bantal kecil penahan tulang ekor.,Aktivitas & Istirahat
+6,Trimester 2,Risiko Sedang,7,4,Minta pasangan memijat lembut bahu dan punggung atas selama 10 menit sebelum tidur.,Higienitas & Self-Care
+6,Trimester 2,Risiko Sedang,7,5,Dokumentasikan foto perkembangan perut hamil secara mandiri dan santai di kamar tidur.,Persiapan Praktis
+6,Trimester 2,Risiko Tinggi,1,1,Santap bubur beras merah halus dengan telur omega orak-arik matang di tempat tidur.,Nutrisi & Hidrasi
+6,Trimester 2,Risiko Tinggi,1,2,Minum obat tokolitik/anti-kontraksi dosis pagi tepat waktu di tempat tidur.,Vitamin & Obat
+6,Trimester 2,Risiko Tinggi,1,3,Tirah baring ketat di tempat tidur posisi lateral kiri untuk melancarkan sirkulasi janin.,Aktivitas & Istirahat
+6,Trimester 2,Risiko Tinggi,1,4,Lakukan pembersihan tubuh di kasur dengan waslap hangat dan sabun cair antiseptik ringan.,Higienitas & Self-Care
+6,Trimester 2,Risiko Tinggi,1,5,Instruksikan keluarga untuk mencuci dan mensterilkan pakaian bayi newborn di rumah.,Persiapan Praktis
+6,Trimester 2,Risiko Tinggi,2,1,Minum jus buah naga campur pir manis encer yang disiapkan keluarga di ranjang.,Nutrisi & Hidrasi
+6,Trimester 2,Risiko Tinggi,2,2,Konsumsi suplemen DHA dosis tinggi dan vitamin D3 di kasur setelah sarapan.,Vitamin & Obat
+6,Trimester 2,Risiko Tinggi,2,3,Latihan peregangan telapak kaki lembut di kasur untuk mengurangi risiko pembengkakan.,Aktivitas & Istirahat
+6,Trimester 2,Risiko Tinggi,2,4,Oleskan minyak almond pada area perut dan paha di ranjang dengan gerakan memutar sangat lembut.,Higienitas & Self-Care
+6,Trimester 2,Risiko Tinggi,2,5,Susun rencana persalinan medis (medical birth plan) bersama dokter spesialis kandungan.,Persiapan Praktis
+6,Trimester 2,Risiko Tinggi,3,1,Makan siang nasi tim ikan salmon lembut bumbu jahe sereh tanpa penyedap di ranjang.,Nutrisi & Hidrasi
+6,Trimester 2,Risiko Tinggi,3,2,Minum obat resep khusus dokter spesialis (antihipertensi/pengencer darah jika ada) di kasur.,Vitamin & Obat
+6,Trimester 2,Risiko Tinggi,3,3,Lakukan teknik relaksasi napas 4-7-8 di tempat tidur untuk meredakan ketegangan fisik.,Aktivitas & Istirahat
+6,Trimester 2,Risiko Tinggi,3,4,Ganti pakaian tidur berbahan katun lembut yang menyerap keringat di tempat tidur.,Higienitas & Self-Care
+6,Trimester 2,Risiko Tinggi,3,5,Siapkan tas siaga persalinan lengkap (hospital bag) di samping tempat tidur sejak dini.,Persiapan Praktis
+6,Trimester 2,Risiko Tinggi,4,1,Konsumsi puding agar-agar santan kedelai rendah gula di kasur sebagai selingan sore.,Nutrisi & Hidrasi
+6,Trimester 2,Risiko Tinggi,4,2,Konsumsi obat tokolitik dosis siang tepat jam dengan bantuan pendamping di ranjang.,Vitamin & Obat
+6,Trimester 2,Risiko Tinggi,4,3,Pertahankan tirah baring dan hindari segala bentuk aktivitas fisik yang menekan perut.,Aktivitas & Istirahat
+6,Trimester 2,Risiko Tinggi,4,4,Lakukan kebersihan area intim di tempat tidur dengan botol cebok khusus bersudut.,Higienitas & Self-Care
+6,Trimester 2,Risiko Tinggi,4,5,Pastikan kendaraan operasional keluarga dalam kondisi prima untuk mobilisasi darurat.,Persiapan Praktis
+6,Trimester 2,Risiko Tinggi,5,1,Minum air putih teratur 2 liter per hari dengan pencatatan cermat di meja samping ranjang.,Nutrisi & Hidrasi
+6,Trimester 2,Risiko Tinggi,5,2,Minum suplemen kalsium dan multivitamin kehamilan di tempat tidur sesudah makan siang.,Vitamin & Obat
+6,Trimester 2,Risiko Tinggi,5,3,Atur sudut bantal kasur semi-Fowler untuk mencegah naiknya asam lambung saat rebahan.,Aktivitas & Istirahat
+6,Trimester 2,Risiko Tinggi,5,4,Minta pendamping menyisir dan mengepang rapi rambut agar tidak kusut saat berbaring lama.,Higienitas & Self-Care
+6,Trimester 2,Risiko Tinggi,5,5,Selesaikan proses administrasi cuti melahirkan lebih awal dengan surat rujukan dokter.,Persiapan Praktis
+6,Trimester 2,Risiko Tinggi,6,1,Makan malam puree kentang daging sapi cincang bergizi tinggi dalam posisi semi-Fowler.,Nutrisi & Hidrasi
+6,Trimester 2,Risiko Tinggi,6,2,Konsumsi obat tokolitik dosis malam tepat waktu di tempat tidur.,Vitamin & Obat
+6,Trimester 2,Risiko Tinggi,6,3,Dengarkan musik meditasi yang menenangkan pikiran di tempat tidur.,Aktivitas & Istirahat
+6,Trimester 2,Risiko Tinggi,6,4,Oleskan krim anti-pegal pada area betis dan telapak kaki di atas tempat tidur.,Higienitas & Self-Care
+6,Trimester 2,Risiko Tinggi,6,5,Konsultasikan rencana IMD pada persalinan dengan indikasi medis kepada dokter via chat/kontrol.,Persiapan Praktis
+6,Trimester 2,Risiko Tinggi,7,1,Minum segelas susu prenatal DHA tinggi hangat sebelum tidur malam di ranjang.,Nutrisi & Hidrasi
+6,Trimester 2,Risiko Tinggi,7,2,Pastikan seluruh catatan konsumsi obat harian ditandatangani pendamping di buku pantau.,Vitamin & Obat
+6,Trimester 2,Risiko Tinggi,7,3,Tidur malam penuh di tempat tidur dengan pemantauan kenyamanan istirahat oleh pasangan.,Aktivitas & Istirahat
+6,Trimester 2,Risiko Tinggi,7,4,Pastikan sprei dan sarung bantal diganti secara teratur untuk menjaga kenyamanan di ranjang.,Higienitas & Self-Care
+6,Trimester 2,Risiko Tinggi,7,5,Ambil foto kenangan kehamilan sederhana di tempat tidur bersama pasangan.,Persiapan Praktis
+7,Trimester 3,Risiko Rendah,1,1,Terapkan pola makan porsi kecil tapi sering (5-6 kali/hari) diawali oatmeal pisang susu.,Nutrisi & Hidrasi
+7,Trimester 3,Risiko Rendah,1,2,Minum suplemen kalsium 500 mg setelah sarapan pagi untuk kekuatan tulang trimester 3.,Vitamin & Obat
+7,Trimester 3,Risiko Rendah,1,3,Jalan pagi santai 30 menit dengan langkah mantap dan alas kaki berpenyangga lengkung kaki.,Aktivitas & Istirahat
+7,Trimester 3,Risiko Rendah,1,4,"Aplikasikan stretch mark butter pekat pada area perut bawah, pinggul, dan paha setelah mandi pagi.",Higienitas & Self-Care
+7,Trimester 3,Risiko Rendah,1,5,"Selesaikan pengemasan tas persalinan (hospital bag) berisi baju ibu, baju bayi, dan dokumen medis.",Persiapan Praktis
+7,Trimester 3,Risiko Rendah,2,1,Minum air kelapa muda murni segar 1 gelas di antara waktu makan pagi dan siang.,Nutrisi & Hidrasi
+7,Trimester 3,Risiko Rendah,2,2,Konsumsi tablet tambah darah (Fe) harian untuk mencegah anemia menjelang persalinan.,Vitamin & Obat
+7,Trimester 3,Risiko Rendah,2,3,Lakukan senam hamil trimester 3 (gerakan butterfly pose & pelvic tilt) selama 20 menit.,Aktivitas & Istirahat
+7,Trimester 3,Risiko Rendah,2,4,Gunakan bra maternity berukuran pas tanpa kawat yang menopang payudara tanpa menekan saluran ASI.,Higienitas & Self-Care
+7,Trimester 3,Risiko Rendah,2,5,"Beli perlengkapan nifas (pembalut bersalin, underpad, korset pasca salin, bra menyusui).",Persiapan Praktis
+7,Trimester 3,Risiko Rendah,3,1,"Makan siang porsi sedang: nasi merah, ayam ungkep panggang, lalapan rebus daun singkong matang.",Nutrisi & Hidrasi
+7,Trimester 3,Risiko Rendah,3,2,Minum suplemen DHA prenatal sesudah makan siang bersama segelas air putih.,Vitamin & Obat
+7,Trimester 3,Risiko Rendah,3,3,Istirahat tidur siang 45 menit posisi miring kiri dengan kaki disangga bantal.,Aktivitas & Istirahat
+7,Trimester 3,Risiko Rendah,3,4,Mandi air suam-suam kuku dan hindari lantai kamar mandi yang licin dengan karpet karet.,Higienitas & Self-Care
+7,Trimester 3,Risiko Rendah,3,5,Letakkan tas persalinan di dekat pintu keluar kamar atau di bagasi mobil keluarga.,Persiapan Praktis
+7,Trimester 3,Risiko Rendah,4,1,Ngemil buah pepaya matang dan 3 butir buah kurma sebagai penambah stamina alami.,Nutrisi & Hidrasi
+7,Trimester 3,Risiko Rendah,4,2,Konsumsi vitamin C penunjang imunitas dan penyerapan zat besi harian.,Vitamin & Obat
+7,Trimester 3,Risiko Rendah,4,3,"Latihan senam kegel 4 set (tahan 7 detik, rileks 7 detik) untuk elastisitas jalan lahir.",Aktivitas & Istirahat
+7,Trimester 3,Risiko Rendah,4,4,Bersihkan area puting payudara secara lembut dengan kapas basah air hangat tanpa menarik puting.,Higienitas & Self-Care
+7,Trimester 3,Risiko Rendah,4,5,Simpan nomor telepon ruang bersalin (VK) RS dan ambulans di kontak favorit ponsel.,Persiapan Praktis
+7,Trimester 3,Risiko Rendah,5,1,Minum 3 liter air putih terbagi rata sepanjang hari untuk menjaga volume cairan ketuban.,Nutrisi & Hidrasi
+7,Trimester 3,Risiko Rendah,5,2,Minum suplemen vitamin D3 1000 IU untuk mendukung maturitas sel janin.,Vitamin & Obat
+7,Trimester 3,Risiko Rendah,5,3,Duduk aktif di atas birth ball sambil memutar panggul angka 8 selama 15 menit.,Aktivitas & Istirahat
+7,Trimester 3,Risiko Rendah,5,4,Ganti celana dalam hamil berbahan katun ekstra elastis minimal 3 kali sehari.,Higienitas & Self-Care
+7,Trimester 3,Risiko Rendah,5,5,Diskusikan skenario transportasi dan jalur alternatif menuju RS pada jam sibuk/macet.,Persiapan Praktis
+7,Trimester 3,Risiko Rendah,6,1,Makan malam porsi ringan (sup makaroni daging sayur) minimal 2 jam sebelum berbaring tidur.,Nutrisi & Hidrasi
+7,Trimester 3,Risiko Rendah,6,2,Konsumsi tablet kalsium kedua setelah makan malam (sesuai target 1000-1200 mg/hari).,Vitamin & Obat
+7,Trimester 3,Risiko Rendah,6,3,Jalan santai sore 20 menit bersama pasangan sambil melatih napas ritmis persalinan.,Aktivitas & Istirahat
+7,Trimester 3,Risiko Rendah,6,4,Oleskan foot balm pada tumit yang pecah-pecah akibat pertambahan beban tubuh.,Higienitas & Self-Care
+7,Trimester 3,Risiko Rendah,6,5,Ikuti kelas edukasi perawatan tali pusat dan memandikan bayi baru lahir bersama pasangan.,Persiapan Praktis
+7,Trimester 3,Risiko Rendah,7,1,Minum susu hamil hangat porsi kecil 150 ml sebelum tidur untuk mencegah refluks asam lambung.,Nutrisi & Hidrasi
+7,Trimester 3,Risiko Rendah,7,2,Rapikan wadah obat harian dan pastikan stok multivitamin cukup hingga hari persalinan.,Vitamin & Obat
+7,Trimester 3,Risiko Rendah,7,3,Tidur malam teratur 8 jam dengan bantal hamil menopang tubuh dari depan dan belakang.,Aktivitas & Istirahat
+7,Trimester 3,Risiko Rendah,7,4,Lakukan pijat relaksasi mandiri pada betis dari arah tumit menuju lutut sebelum tidur.,Higienitas & Self-Care
+7,Trimester 3,Risiko Rendah,7,5,Pastikan seluruh berkas identitas dan buku KIA sudah dimasukkan ke dalam kantong dokumen RS.,Persiapan Praktis
+7,Trimester 3,Risiko Sedang,1,1,Sarapan roti gandum panggang selai alpukat dan telur rebus matang 1 butir.,Nutrisi & Hidrasi
+7,Trimester 3,Risiko Sedang,1,2,Minum obat pengendali tensi/gula darah (jika ada) tepat waktu setelah bangun pagi.,Vitamin & Obat
+7,Trimester 3,Risiko Sedang,1,3,Jalan santai pagi di sekitar teras rumah selama 15 menit ditemani pendamping.,Aktivitas & Istirahat
+7,Trimester 3,Risiko Sedang,1,4,Oleskan minyak kelapa murni pada kulit perut yang kencang untuk meredakan rasa gatal kulit.,Higienitas & Self-Care
+7,Trimester 3,Risiko Sedang,1,5,Periksa kembali kelengkapan isi tas persalinan keluarga bersama pasangan di rumah.,Persiapan Praktis
+7,Trimester 3,Risiko Sedang,2,1,Minum sari jahe hangat campur sedikit madu untuk meredakan kembung dan heartburn.,Nutrisi & Hidrasi
+7,Trimester 3,Risiko Sedang,2,2,Konsumsi suplemen kalsium dan vitamin D3 setelah sarapan pagi.,Vitamin & Obat
+7,Trimester 3,Risiko Sedang,2,3,Duduk di sofa empuk dan lakukan peregangan pergelangan kaki dan betis 10 menit.,Aktivitas & Istirahat
+7,Trimester 3,Risiko Sedang,2,4,Kenakan daster hamil longgar yang berbahan katun rayon dingin dan tidak gerah.,Higienitas & Self-Care
+7,Trimester 3,Risiko Sedang,2,5,Pesan kebutuhan pembalut bersalin dan perlengkapan nifas secara online dari rumah.,Persiapan Praktis
+7,Trimester 3,Risiko Sedang,3,1,Makan siang nasi tim ayam jamur porsi terukur dan semangkuk sayur bening bayam jagung.,Nutrisi & Hidrasi
+7,Trimester 3,Risiko Sedang,3,2,Minum suplemen DHA prenatal berkonsentrasi tinggi setelah makan siang.,Vitamin & Obat
+7,Trimester 3,Risiko Sedang,3,3,"Istirahat tidur siang terjadwal 1,5 jam di ranjang posisi miring kiri.",Aktivitas & Istirahat
+7,Trimester 3,Risiko Sedang,3,4,Mandi menggunakan kursi mandi dan batasi waktu mandi maksimal 10-15 menit agar tidak pusing.,Higienitas & Self-Care
+7,Trimester 3,Risiko Sedang,3,5,Pastikan tas siaga persalinan diletakkan di tempat yang mudah dijangkau di ruang depan.,Persiapan Praktis
+7,Trimester 3,Risiko Sedang,4,1,Konsumsi potongan buah melon dan 2 keping biskuit gandum sebagai selingan sore.,Nutrisi & Hidrasi
+7,Trimester 3,Risiko Sedang,4,2,Konsumsi tablet zat besi (Fe) pada malam hari sebelum tidur bersama air jeruk.,Vitamin & Obat
+7,Trimester 3,Risiko Sedang,4,3,Hindari membungkuk saat mengambil barang di lantai; selalu tekuk lutut atau minta bantuan.,Aktivitas & Istirahat
+7,Trimester 3,Risiko Sedang,4,4,"Keringkan tubuh dengan handuk secara menyeluruh, terutama di bawah lipatan perut dan payudara.",Higienitas & Self-Care
+7,Trimester 3,Risiko Sedang,4,5,Simpan nomor kontak bidan jaga VK rumah sakit rujukan pada ponsel keluarga.,Persiapan Praktis
+7,Trimester 3,Risiko Sedang,5,1,"Bagi target minum 2,5 liter air mineral dalam porsi-porsi kecil sepanjang hari.",Nutrisi & Hidrasi
+7,Trimester 3,Risiko Sedang,5,2,Minum suplemen magnesium pereda kram tungkai sesudah makan malam.,Vitamin & Obat
+7,Trimester 3,Risiko Sedang,5,3,Latihan napas tiup lambat untuk persiapan mengatasi kontraksi persalinan di kursi santai.,Aktivitas & Istirahat
+7,Trimester 3,Risiko Sedang,5,4,Ganti pakaian dalam segera setiap kali terasa lembap untuk mencegah infeksi saluran kemih.,Higienitas & Self-Care
+7,Trimester 3,Risiko Sedang,5,5,Tentukan dua rute tercepat menuju RS rujukan persalinan dari rumah.,Persiapan Praktis
+7,Trimester 3,Risiko Sedang,6,1,Makan malam sup labu siam daging giling dan perkedel tahu panggang porsi sedang.,Nutrisi & Hidrasi
+7,Trimester 3,Risiko Sedang,6,2,Pastikan tidak ada interaksi obat antara suplemen kalsium dan zat besi dengan jeda 4 jam.,Vitamin & Obat
+7,Trimester 3,Risiko Sedang,6,3,Elevasi tungkai di sofa selama 30 menit pada sore hari untuk kurangi bengkak kaki.,Aktivitas & Istirahat
+7,Trimester 3,Risiko Sedang,6,4,Kompres hangat area pinggang belakang dengan handuk hangat selama 15 menit di sofa.,Higienitas & Self-Care
+7,Trimester 3,Risiko Sedang,6,5,Pelajari video tutorial perawatan bayi baru lahir bersama pasangan di ruang santai.,Persiapan Praktis
+7,Trimester 3,Risiko Sedang,7,1,Minum segelas susu prenatal hangat tanpa gula tambahan 2 jam sebelum jam tidur.,Nutrisi & Hidrasi
+7,Trimester 3,Risiko Sedang,7,2,Siapkan kotak obat portabel untuk dibawa saat bepergian atau kontrol dokter kandungan.,Vitamin & Obat
+7,Trimester 3,Risiko Sedang,7,3,Tidur malam dengan posisi miring kiri stabil berbantal penopang perut dan punggung.,Aktivitas & Istirahat
+7,Trimester 3,Risiko Sedang,7,4,Minta pasangan untuk mengoleskan losion pelembap pada kaki sebelum tidur.,Higienitas & Self-Care
+7,Trimester 3,Risiko Sedang,7,5,"Kumpulkan fotokopi KTP, KK, buku nikah, dan kartu BPJS ke dalam map tas persalinan.",Persiapan Praktis
+7,Trimester 3,Risiko Tinggi,1,1,Santap bubur havermut lembut dengan potongan kurma lunak di ranjang porsi mini.,Nutrisi & Hidrasi
+7,Trimester 3,Risiko Tinggi,1,2,Minum obat pematangan paru/pencegah persalinan prematur dosis pagi tepat waktu di kasur.,Vitamin & Obat
+7,Trimester 3,Risiko Tinggi,1,3,Tirah baring total di kasur dengan posisi miring ke kiri untuk memaksimalkan perfusi plasenta.,Aktivitas & Istirahat
+7,Trimester 3,Risiko Tinggi,1,4,Seka seluruh badan di ranjang menggunakan air hangat dan sabun bayi hipoalergenik.,Higienitas & Self-Care
+7,Trimester 3,Risiko Tinggi,1,5,Pastikan tas persalinan ibu dan bayi sudah terisi lengkap 100% dan berada di samping kasur.,Persiapan Praktis
+7,Trimester 3,Risiko Tinggi,2,1,Minum sari kacang merah atau jus apel rebus encer kaya kalori di tempat tidur.,Nutrisi & Hidrasi
+7,Trimester 3,Risiko Tinggi,2,2,Konsumsi suplemen kalsium dosis tinggi dan vitamin D3 di tempat tidur setelah sarapan.,Vitamin & Obat
+7,Trimester 3,Risiko Tinggi,2,3,Latihan pernapasan dangkal dan lambat 15 menit tanpa memicu kontraksi rahim.,Aktivitas & Istirahat
+7,Trimester 3,Risiko Tinggi,2,4,Oleskan pelembap perut intensif di tempat tidur dengan usapan sangat lembut oleh pendamping.,Higienitas & Self-Care
+7,Trimester 3,Risiko Tinggi,2,5,Siapkan berkas persetujuan tindakan medis dan riwayat pemeriksaan laboratorium di ranjang.,Persiapan Praktis
+7,Trimester 3,Risiko Tinggi,3,1,Makan siang nasi tim saring daging ayam giling dan puree wortel hangat di kasur.,Nutrisi & Hidrasi
+7,Trimester 3,Risiko Tinggi,3,2,Minum obat anti-kontraksi atau obat spesifik dokter spesialis kandungan di ranjang.,Vitamin & Obat
+7,Trimester 3,Risiko Tinggi,3,3,Pijat lembut telapak tangan sendiri dan relaksasi jari di tempat tidur.,Aktivitas & Istirahat
+7,Trimester 3,Risiko Tinggi,3,4,Ganti pakaian tidur katun berkancing depan yang longgar di atas tempat tidur.,Higienitas & Self-Care
+7,Trimester 3,Risiko Tinggi,3,5,Pastikan kursi roda dan akses jalan dari kamar ke mobil darurat tidak terhalang barang.,Persiapan Praktis
+7,Trimester 3,Risiko Tinggi,4,1,Ngemil biskuit marie susu dicelup air hangat di ranjang pada jeda waktu sore.,Nutrisi & Hidrasi
+7,Trimester 3,Risiko Tinggi,4,2,Konsumsi obat anti-kontraksi dosis siang tepat jam sesuai instruksi dokter di ranjang.,Vitamin & Obat
+7,Trimester 3,Risiko Tinggi,4,3,Pertahankan istirahat total di kasur dan hindari perpindahan posisi yang mendadak.,Aktivitas & Istirahat
+7,Trimester 3,Risiko Tinggi,4,4,Lakukan kebersihan area intim di kasur menggunakan pispot higienis dan bilas air steril.,Higienitas & Self-Care
+7,Trimester 3,Risiko Tinggi,4,5,Simpan nomor telepon darurat IGD Kebidanan RS rujukan di panggilan cepat ponsel keluarga.,Persiapan Praktis
+7,Trimester 3,Risiko Tinggi,5,1,"Pertahankan hidrasi 2,2 liter air mineral sedikit-sedikit menggunakan cangkir sedotan.",Nutrisi & Hidrasi
+7,Trimester 3,Risiko Tinggi,5,2,Minum suplemen DHA dan multivitamin trimester 3 di tempat tidur sesudah makan siang.,Vitamin & Obat
+7,Trimester 3,Risiko Tinggi,5,3,Ganjal punggung dan paha dengan bantal memori busa untuk kenyamanan maksimal di kasur.,Aktivitas & Istirahat
+7,Trimester 3,Risiko Tinggi,5,4,Oleskan pelembap pada area tumit dan siku untuk mencegah kulit kering bersisik di ranjang.,Higienitas & Self-Care
+7,Trimester 3,Risiko Tinggi,5,5,Lakukan gladi bersih singkat rute darurat menuju rumah sakit bersama sopir/pendamping.,Persiapan Praktis
+7,Trimester 3,Risiko Tinggi,6,1,Makan malam sup krim kentang daging lunak porsi kecil dalam posisi duduk tegak di kasur.,Nutrisi & Hidrasi
+7,Trimester 3,Risiko Tinggi,6,2,Konsumsi obat anti-kontraksi dosis malam tepat waktu sebelum tidur di kasur.,Vitamin & Obat
+7,Trimester 3,Risiko Tinggi,6,3,Dengarkan audio hypnobirthing persiapan kelahiran di tempat tidur bersama pasangan.,Aktivitas & Istirahat
+7,Trimester 3,Risiko Tinggi,6,4,Minta pendamping memijat lembut kedua lengan dan punggung atas di tempat tidur.,Higienitas & Self-Care
+7,Trimester 3,Risiko Tinggi,6,5,Diskusikan kesiapan mental dan doa bersama keluarga inti untuk kelancaran persalinan.,Persiapan Praktis
+7,Trimester 3,Risiko Tinggi,7,1,Minum segelas susu nutrisi persiapan persalinan hangat di ranjang sebelum tidur.,Nutrisi & Hidrasi
+7,Trimester 3,Risiko Tinggi,7,2,"Letakkan seluruh berkas resep, riwayat alergi obat, dan stok obat di kantong utama tas RS.",Vitamin & Obat
+7,Trimester 3,Risiko Tinggi,7,3,Tidur malam penuh di kasur dengan persiapan siaga menuju rumah sakit kapan pun dibutuhkan.,Aktivitas & Istirahat
+7,Trimester 3,Risiko Tinggi,7,4,Lakukan doa bersama dan relaksasi mendalam di tempat tidur untuk ketenangan menjelang tindakan kelahiran.,Higienitas & Self-Care
+7,Trimester 3,Risiko Tinggi,7,5,Letakkan map berkas medis lengkap di atas meja ranjang siap dibawa dalam satu sentuhan.,Persiapan Praktis
+8,Trimester 3,Risiko Rendah,1,1,Awali pagi dengan sarapan 3-5 butir kurma ajwa dan segelas susu hangat pasteurisasi.,Nutrisi & Hidrasi
+8,Trimester 3,Risiko Rendah,1,2,Minum tablet tambah darah (Fe) untuk mengoptimalkan cadangan hemoglobin persalinan.,Vitamin & Obat
+8,Trimester 3,Risiko Rendah,1,3,Jalan pagi teratur 30-40 menit untuk membantu penurunan kepala janin ke pintu panggul.,Aktivitas & Istirahat
+8,Trimester 3,Risiko Rendah,1,4,Mulai lakukan pemijatan perineum (perineal massage) mandiri dengan minyak almond murni setelah mandi hangat.,Higienitas & Self-Care
+8,Trimester 3,Risiko Rendah,1,5,"Cek ulang isi koper persalinan (pakaian pulang bayi, selimut bayi, pompa ASI, charger ponsel).",Persiapan Praktis
+8,Trimester 3,Risiko Rendah,2,1,Minum air putih 300 ml dan konsumsi sarapan telur dadar sayur matang serta roti gandum.,Nutrisi & Hidrasi
+8,Trimester 3,Risiko Rendah,2,2,Konsumsi suplemen kalsium 500-1000 mg sesudah sarapan pagi.,Vitamin & Obat
+8,Trimester 3,Risiko Rendah,2,3,Latihan goyang panggul di atas birth ball (rotasi panggul dan memantul lembut) 20 menit.,Aktivitas & Istirahat
+8,Trimester 3,Risiko Rendah,2,4,"Aplikasikan pelembap intensif pada perut, payudara, dan paha untuk elastisitas kulit puncak.",Higienitas & Self-Care
+8,Trimester 3,Risiko Rendah,2,5,"Sterilkan botol susu, dot, dan perlengkapan pompa ASI simpan dalam wadah tertutup rapat.",Persiapan Praktis
+8,Trimester 3,Risiko Rendah,3,1,Makan siang nasi merah dengan ikan tuna/tongkol panggang matang dan tumis kangkung toge.,Nutrisi & Hidrasi
+8,Trimester 3,Risiko Rendah,3,2,Minum suplemen DHA prenatal setelah makan siang untuk perkembangan otak tahap akhir.,Vitamin & Obat
+8,Trimester 3,Risiko Rendah,3,3,Istirahat baring miring kiri selama 1 jam di siang hari untuk memulihkan tenaga.,Aktivitas & Istirahat
+8,Trimester 3,Risiko Rendah,3,4,Mandi air hangat suam-suam kuku dan gunakan sabun berpelembap tinggi tanpa busa berlebih.,Higienitas & Self-Care
+8,Trimester 3,Risiko Rendah,3,5,"Pastikan kamar bayi/area tempat tidur bayi bersih, bebas debu, dan memiliki pencahayaan lembut.",Persiapan Praktis
+8,Trimester 3,Risiko Rendah,4,1,"Ngemil salad buah segar (apel, pir, naga) dengan topping keju parut rendah garam.",Nutrisi & Hidrasi
+8,Trimester 3,Risiko Rendah,4,2,Konsumsi vitamin D3 harian bersama segelas air putih sesudah makan.,Vitamin & Obat
+8,Trimester 3,Risiko Rendah,4,3,Latihan pernapasan persalinan (napas dalam & napas tiup panjang) 15 menit.,Aktivitas & Istirahat
+8,Trimester 3,Risiko Rendah,4,4,Bersihkan area lipatan tubuh dan puting secara lembut dengan handuk basah hangat.,Higienitas & Self-Care
+8,Trimester 3,Risiko Rendah,4,5,Siapkan stok makanan beku sehat (frozen food) bergizi untuk kebutuhan nutrisi pasca salin.,Persiapan Praktis
+8,Trimester 3,Risiko Rendah,5,1,Capai target hidrasi 3 liter air mineral untuk mencegah kontraksi palsu akibat dehidrasi.,Nutrisi & Hidrasi
+8,Trimester 3,Risiko Rendah,5,2,Minum vitamin C harian untuk menjaga kekuatan pembuluh darah dan jaringan ketuban.,Vitamin & Obat
+8,Trimester 3,Risiko Rendah,5,3,Lakukan gerakan squat modifikasi berpegangan pada kursi kokoh 10 kali perlahan.,Aktivitas & Istirahat
+8,Trimester 3,Risiko Rendah,5,4,Gunakan celana dalam katun khusus bersalin yang memiliki daya serap optimal.,Higienitas & Self-Care
+8,Trimester 3,Risiko Rendah,5,5,Lakukan gladi bersih perjalanan ke rumah sakit pada jam sibuk untuk mengukur estimasi waktu tempuh.,Persiapan Praktis
+8,Trimester 3,Risiko Rendah,6,1,Makan malam sup iga sayuran bening porsi sedang dan perkedel tempe kukus.,Nutrisi & Hidrasi
+8,Trimester 3,Risiko Rendah,6,2,Konsumsi tablet kalsium malam hari sesudah makan malam.,Vitamin & Obat
+8,Trimester 3,Risiko Rendah,6,3,Jalan santai sore 20 menit di jalur datar yang aman.,Aktivitas & Istirahat
+8,Trimester 3,Risiko Rendah,6,4,Gunakan kompres dingin pada area pergelangan kaki jika terasa bengkak di sore hari.,Higienitas & Self-Care
+8,Trimester 3,Risiko Rendah,6,5,Diskusikan pembagian peran pengasuhan bayi baru lahir pada minggu-minggu pertama kelahiran.,Persiapan Praktis
+8,Trimester 3,Risiko Rendah,7,1,Minum segelas air perasan jeruk manis hangat sebelum tidur malam.,Nutrisi & Hidrasi
+8,Trimester 3,Risiko Rendah,7,2,Periksa ketersediaan seluruh vitamin kehamilan untuk persiapan masuk bulan ke-9.,Vitamin & Obat
+8,Trimester 3,Risiko Rendah,7,3,Tidur malam dengan posisi miring kiri didukung bantal hamil lengkap di seluruh sisi.,Aktivitas & Istirahat
+8,Trimester 3,Risiko Rendah,7,4,Minta pasangan melakukan pijat punggung lembut (endorphin massage) sebelum tidur.,Higienitas & Self-Care
+8,Trimester 3,Risiko Rendah,7,5,"Periksa kembali kelengkapan dokumen pendaftaran akta kelahiran anak (KTP, KK, buku nikah).",Persiapan Praktis
+8,Trimester 3,Risiko Sedang,1,1,Konsumsi 3 butir kurma matang lunak dan segelas air putih hangat saat sarapan.,Nutrisi & Hidrasi
+8,Trimester 3,Risiko Sedang,1,2,Minum obat terapi medis rutin anjuran dokter tepat waktu di pagi hari.,Vitamin & Obat
+8,Trimester 3,Risiko Sedang,1,3,Jalan santai pagi perlahan 15 menit di jalan datar beraspal mulus bersama pendamping.,Aktivitas & Istirahat
+8,Trimester 3,Risiko Sedang,1,4,Oleskan minyak zaitun murni pada kulit perut dan paha untuk meredakan rasa kencang.,Higienitas & Self-Care
+8,Trimester 3,Risiko Sedang,1,5,Minta pasangan mengecek kembali kelengkapan tas siaga persalinan di samping pintu kamar.,Persiapan Praktis
+8,Trimester 3,Risiko Sedang,2,1,Sarapan bubur oatmeal pisang madu hangat yang ramah lambung dan kaya energi.,Nutrisi & Hydrasi
+8,Trimester 3,Risiko Sedang,2,2,Konsumsi suplemen kalsium dan vitamin D3 sesudah sarapan pagi.,Vitamin & Obat
+8,Trimester 3,Risiko Sedang,2,3,Latihan duduk bersila dengan telapak kaki bertemu (tailor sitting) di atas matras empuk 10 menit.,Aktivitas & Istirahat
+8,Trimester 3,Risiko Sedang,2,4,Kenakan pakaian hamil berkancing depan yang longgar dan mudah dibuka untuk menyusui kelak.,Higienitas & Self-Care
+8,Trimester 3,Risiko Sedang,2,5,Instruksikan keluarga untuk merebus/mensterilkan perlengkapan pompa ASI dan wadah susu.,Persiapan Praktis
+8,Trimester 3,Risiko Sedang,3,1,"Makan siang nasi putih pulen, pepes ayam kemangi matang, dan semangkuk sayur lodeh bening labu.",Nutrisi & Hidrasi
+8,Trimester 3,Risiko Sedang,3,2,Minum suplemen DHA prenatal sesudah makan siang dengan air putih.,Vitamin & Obat
+8,Trimester 3,Risiko Sedang,3,3,"Istirahat tidur siang terjadwal 1,5 jam di tempat tidur posisi miring kiri.",Aktivitas & Istirahat
+8,Trimester 3,Risiko Sedang,3,4,Mandi air suam-suam kuku dengan duduk di kursi kamar mandi didampingi di dekat pintu.,Higienitas & Self-Care
+8,Trimester 3,Risiko Sedang,3,5,Pastikan tempat tidur bayi di samping tempat tidur ibu sudah siap pakai dan aman.,Persiapan Praktis
+8,Trimester 3,Risiko Sedang,4,1,Ngemil buah pepaya dingin potong dan biskuit gandum kaya serat di sore hari.,Nutrisi & Hidrasi
+8,Trimester 3,Risiko Sedang,4,2,Konsumsi tablet zat besi (Fe) dosis malam bersama segelas air jeruk segar.,Vitamin & Obat
+8,Trimester 3,Risiko Sedang,4,3,Gunakan korset penyangga perut saat berdiri atau berjalan santai untuk kurangi beban panggul.,Aktivitas & Istirahat
+8,Trimester 3,Risiko Sedang,4,4,Pastikan seluruh lipatan kulit dikeringkan sempurna sebelum mengenakan pakaian bersih.,Higienitas & Self-Care
+8,Trimester 3,Risiko Sedang,4,5,Pesan stok makanan bergizi siap santap untuk persediaan keluarga pasca melahirkan.,Persiapan Praktis
+8,Trimester 3,Risiko Sedang,5,1,"Jaga asupan cairan 2,5 liter air mineral teratur tanpa minum banyak sekaligus.",Nutrisi & Hidrasi
+8,Trimester 3,Risiko Sedang,5,2,Minum suplemen pencegah kram otot (magnesium) setelah makan malam.,Vitamin & Obat
+8,Trimester 3,Risiko Sedang,5,3,Latihan napas relaksasi 15 menit sambil duduk bersandar di sofa empuk.,Aktivitas & Istirahat
+8,Trimester 3,Risiko Sedang,5,4,Ganti pakaian dalam berbahan katun berdaya serap tinggi setiap 3 jam secara rutin.,Higienitas & Self-Care
+8,Trimester 3,Risiko Sedang,5,5,Simpan nomor taksi/layanan darurat 24 jam sebagai alternatif transportasi menuju RS.,Persiapan Praktis
+8,Trimester 3,Risiko Sedang,6,1,Makan malam sup oyong misoa bakso sapi rebus porsi kecil yang hangat dan ringan.,Nutrisi & Hidrasi
+8,Trimester 3,Risiko Sedang,6,2,Jaga keteraturan minum seluruh suplemen sesuai jadwal alarm harian.,Vitamin & Obat
+8,Trimester 3,Risiko Sedang,6,3,Rebahkan kaki di atas bantal guling tinggi selama 30 menit untuk atasi edema kaki di sore hari.,Aktivitas & Istirahat
+8,Trimester 3,Risiko Sedang,6,4,Rendam kaki di air hangat suam-suam kuku campur garam epsom selama 10 menit di kursi santai.,Higienitas & Self-Care
+8,Trimester 3,Risiko Sedang,6,5,Diskusikan jadwal pendampingan pasca melahirkan bersama orang tua atau kerabat dekat.,Persiapan Praktis
+8,Trimester 3,Risiko Sedang,7,1,"Minum susu kehamilan trimester akhir hangat 1 cangkir 1,5 jam sebelum tidur.",Nutrisi & Hidrasi
+8,Trimester 3,Risiko Sedang,7,2,Siapkan obat-obatan rutin dan vitamin ke dalam tas siaga persalinan (hospital bag).,Vitamin & Obat
+8,Trimester 3,Risiko Sedang,7,3,Tidur malam dengan susunan bantal ergonomis penopang panggul dan perut.,Aktivitas & Istirahat
+8,Trimester 3,Risiko Sedang,7,4,Minta pasangan memijat lembut area leher dan pundak untuk meredakan ketegangan otot.,Higienitas & Self-Care
+8,Trimester 3,Risiko Sedang,7,5,Pastikan map dokumen administrasi kelahiran sudah lengkap dan ditaruh di dalam tas RS.,Persiapan Praktis
+8,Trimester 3,Risiko Tinggi,1,1,Santap 3 butir sari kurma/kurma lumat halus dengan segelas susu kedelai hangat di ranjang.,Nutrisi & Hidrasi
+8,Trimester 3,Risiko Tinggi,1,2,Minum obat pemeliharaan kehamilan risiko tinggi dosis pagi tepat waktu di tempat tidur.,Vitamin & Obat
+8,Trimester 3,Risiko Tinggi,1,3,Tirah baring ketat di ranjang posisi lateral kiri untuk mencegah kontraksi prematur.,Aktivitas & Istirahat
+8,Trimester 3,Risiko Tinggi,1,4,Seka badan di atas kasur dengan air hangat campuran aromaterapi lavender yang lembut.,Higienitas & Self-Care
+8,Trimester 3,Risiko Tinggi,1,5,Pastikan koper persalinan medis darurat sudah diletakkan di dalam bagasi mobil keluarga.,Persiapan Praktis
+8,Trimester 3,Risiko Tinggi,2,1,Sarapan bubur tim gandum halus isi telur rebus matang di tempat tidur.,Nutrisi & Hidrasi
+8,Trimester 3,Risiko Tinggi,2,2,Konsumsi suplemen kalsium dan vitamin D3 di ranjang setelah makan pagi.,Vitamin & Obat
+8,Trimester 3,Risiko Tinggi,2,3,Latihan pernapasan relaksasi otot wajah dan bahu di tempat tidur selama 15 menit.,Aktivitas & Istirahat
+8,Trimester 3,Risiko Tinggi,2,4,Oleskan lotion pelembap pada seluruh kulit tubuh di ranjang dibantu pendamping.,Higienitas & Self-Care
+8,Trimester 3,Risiko Tinggi,2,5,Minta pendamping mensterilkan seluruh peralatan bayi dan menyimpannya di lemari steril.,Persiapan Praktis
+8,Trimester 3,Risiko Tinggi,3,1,Makan siang nasi tim daging cincang lembut berkuah kaldu gurih hangat di kasur.,Nutrisi & Hidrasi
+8,Trimester 3,Risiko Tinggi,3,2,Minum obat pencegah kontraksi prematur dosis siang tepat waktu di tempat tidur.,Vitamin & Obat
+8,Trimester 3,Risiko Tinggi,3,3,Lakukan fleksi dan ekstensi pergelangan kaki lembut di kasur untuk cegah trombosis.,Aktivitas & Istirahat
+8,Trimester 3,Risiko Tinggi,3,4,Ganti piyama katun persalinan yang bersih dan steril di atas tempat tidur.,Higienitas & Self-Care
+8,Trimester 3,Risiko Tinggi,3,5,Pastikan boks bayi di kamar tidur siap digunakan dengan kelambu dan alas perlak higienis.,Persiapan Praktis
+8,Trimester 3,Risiko Tinggi,4,1,Konsumsi puree buah pisang ambon dan alpukat lembut kaya kalium di ranjang.,Nutrisi & Hidrasi
+8,Trimester 3,Risiko Tinggi,4,2,Konsumsi suplemen DHA dan multivitamin lengkap setelah makan siang di ranjang.,Vitamin & Obat
+8,Trimester 3,Risiko Tinggi,4,3,Tetap beristirahat penuh di kasur dan delegasikan segala kebutuhan fisik ke keluarga.,Aktivitas & Istirahat
+8,Trimester 3,Risiko Tinggi,4,4,Lakukan kebersihan organ kewanitaan di kasur dengan air hangat mengalir dari wadah steril.,Higienitas & Self-Care
+8,Trimester 3,Risiko Tinggi,4,5,Siapkan kontak katering sehat atau asisten rumah tangga untuk kebutuhan logistik keluarga.,Persiapan Praktis
+8,Trimester 3,Risiko Tinggi,5,1,"Minum air mineral bertahap 2,2 liter via sedotan dengan bantuan pendamping.",Nutrisi & Hidrasi
+8,Trimester 3,Risiko Tinggi,5,2,Minum tablet tambah darah (Fe) dosis medis sore hari bersama air jeruk di kasur.,Vitamin & Obat
+8,Trimester 3,Risiko Tinggi,5,3,Ubah posisi miring kiri ke miring kanan secara sangat perlahan setiap 2-3 jam.,Aktivitas & Istirahat
+8,Trimester 3,Risiko Tinggi,5,4,Ganti alas perlak tempat tidur dan pastikan linen ranjang selalu bersih dan higienis.,Higienitas & Self-Care
+8,Trimester 3,Risiko Tinggi,5,5,Pastikan mobil keluarga selalu diparkir menghadap arah keluar dengan bahan bakar penuh.,Persiapan Praktis
+8,Trimester 3,Risiko Tinggi,6,1,Makan malam sup krim jagung ayam cincang lunak hangat dalam posisi setengah duduk.,Nutrisi & Hidrasi
+8,Trimester 3,Risiko Tinggi,6,2,Konsumsi obat pencegah kontraksi prematur dosis malam tepat jam di tempat tidur.,Vitamin & Obat
+8,Trimester 3,Risiko Tinggi,6,3,Dengarkan lantunan doa/musik relaksasi di tempat tidur untuk ketenangan batin.,Aktivitas & Istirahat
+8,Trimester 3,Risiko Tinggi,6,4,Minta pasangan melakukan pijat sentuhan ringan (light touch massage) di lengan dan dahi di kasur.,Higienitas & Self-Care
+8,Trimester 3,Risiko Tinggi,6,5,Konfirmasi jadwal rawat inap terencana (elective admission) kepada dokter kandungan.,Persiapan Praktis
+8,Trimester 3,Risiko Tinggi,7,1,Minum segelas susu nutrisi persalinan hangat perlahan di tempat tidur.,Nutrisi & Hidrasi
+8,Trimester 3,Risiko Tinggi,7,2,Pastikan seluruh blister obat dan resep dokter tersimpan rapi dalam tas darurat medis.,Vitamin & Obat
+8,Trimester 3,Risiko Tinggi,7,3,Tidur malam optimal di kasur dengan pemantauan kenyamanan istirahat oleh pasangan.,Aktivitas & Istirahat
+8,Trimester 3,Risiko Tinggi,7,4,Gunakan semprotan pelembap wajah air mawar alami di tempat tidur untuk relaksasi.,Higienitas & Self-Care
+8,Trimester 3,Risiko Tinggi,7,5,Pastikan berkas jaminan asuransi rumah sakit sudah siap verifikasi di admisi rawat inap.,Persiapan Praktis
+9,Trimester 3,Risiko Rendah,1,1,Konsumsi 5-7 butir kurma matang dan segelas air hangat di pagi hari untuk cadangan energi persalinan.,Nutrisi & Hidrasi
+9,Trimester 3,Risiko Rendah,1,2,Minum tablet tambah darah (Fe) pagi hari untuk memastikan kadar hemoglobin optimal saat bersalin.,Vitamin & Obat
+9,Trimester 3,Risiko Rendah,1,3,Jalan pagi energik 30-45 menit atau jalan santai naik tangga perlahan untuk merangsang penurunan panggul.,Aktivitas & Istirahat
+9,Trimester 3,Risiko Rendah,1,4,Lanjutkan pemijatan perineum harian dengan minyak zaitun/almond untuk meningkatkan elastisitas jalan lahir.,Higienitas & Self-Care
+9,Trimester 3,Risiko Rendah,1,5,Pastikan koper persalinan sudah berada di mobil atau di samping pintu keluar rumah.,Persiapan Praktis
+9,Trimester 3,Risiko Rendah,2,1,Sarapan makanan tinggi karbohidrat kompleks (nasi uduk beras merah lauk telur dan tempe orek).,Nutrisi & Hidrasi
+9,Trimester 3,Risiko Rendah,2,2,Konsumsi suplemen kalsium setelah sarapan untuk kebutuhan kontraksi otot rahim dan ASI.,Vitamin & Obat
+9,Trimester 3,Risiko Rendah,2,3,Latihan birth ball aktif (gerakan memutar panggul dan squat bersandar) selama 25 menit.,Aktivitas & Istirahat
+9,Trimester 3,Risiko Rendah,2,4,Mandi air hangat suam-suam kuku untuk merilekskan seluruh otot panggul dan meredakan kontraksi palsu.,Higienitas & Self-Care
+9,Trimester 3,Risiko Rendah,2,5,Simpan nomor telepon ruang persalinan (VK) RS dan dokter spesialis kandungan di speed dial.,Persiapan Praktis
+9,Trimester 3,Risiko Rendah,3,1,Makan siang sup ayam kampung komplit hangat dengan kentang dan wortel penambah stamina.,Nutrisi & Hidrasi
+9,Trimester 3,Risiko Rendah,3,2,Minum suplemen multivitamin prenatal akhir dengan segelas air mineral setelah makan siang.,Vitamin & Obat
+9,Trimester 3,Risiko Rendah,3,3,"Istirahat tidur siang berkualitas 1-1,5 jam posisi miring kiri untuk menimbun energi persalinan.",Aktivitas & Istirahat
+9,Trimester 3,Risiko Rendah,3,4,Bersihkan area puting dan payudara dengan air hangat secara lembut untuk persiapan inisiasi menyusu dini.,Higienitas & Self-Care
+9,Trimester 3,Risiko Rendah,3,5,Pasang alas perlak anti-air di atas kasur tidur ibu untuk mengantisipasi ketuban pecah dini.,Persiapan Praktis
+9,Trimester 3,Risiko Rendah,4,1,Ngemil buah pisang cavendish dan segenggam kacang mede panggang sebagai booster energi.,Nutrisi & Hidrasi
+9,Trimester 3,Risiko Rendah,4,2,Konsumsi vitamin C harian untuk menjaga stamina dan elastisitas jaringan perineum.,Vitamin & Obat
+9,Trimester 3,Risiko Rendah,4,3,Latihan teknik napas mengejan efektif dan napas rileks persalinan 15 menit bersama pasangan.,Aktivitas & Istirahat
+9,Trimester 3,Risiko Rendah,4,4,Potong kuku tangan pendek dan bersih untuk persiapan memegang bayi baru lahir.,Higienitas & Self-Care
+9,Trimester 3,Risiko Rendah,4,5,Siapkan pakaian longgar berkancing untuk dipakai saat berangkat ke rumah sakit saat kontraksi aktif.,Persiapan Praktis
+9,Trimester 3,Risiko Rendah,5,1,Pertahankan hidrasi optimal 3 liter air mineral agar stamina tubuh prima menjelang persalinan.,Nutrisi & Hidrasi
+9,Trimester 3,Risiko Rendah,5,2,Minum suplemen minyak ikan / DHA prenatal harian secara tertib.,Vitamin & Obat
+9,Trimester 3,Risiko Rendah,5,3,Lakukan posisi knee-chest (bersujud menungging) lembut selama 10 menit jika posisi janin belum optimal.,Aktivitas & Istirahat
+9,Trimester 3,Risiko Rendah,5,4,Kenakan pakaian dalam katun longgar dan siapkan pembalut nifas (maternity pads) di dalam tas.,Higienitas & Self-Care
+9,Trimester 3,Risiko Rendah,5,5,Pastikan baterai ponsel dan power bank terisi penuh setiap malam sebelum tidur.,Persiapan Praktis
+9,Trimester 3,Risiko Rendah,6,1,Makan malam nasi pulen dengan fillet ikan gurame saus tomat manis dan sayur bening bayam.,Nutrisi & Hidrasi
+9,Trimester 3,Risiko Rendah,6,2,Konsumsi tablet kalsium malam sesudah makan malam untuk mencegah kram persalinan.,Vitamin & Obat
+9,Trimester 3,Risiko Rendah,6,3,Jalan santai sore 25 menit menikmati udara segar untuk merangsang hormon oksitosin alami.,Aktivitas & Istirahat
+9,Trimester 3,Risiko Rendah,6,4,Oleskan lotion pelembap alami pada seluruh tubuh sehabis mandi untuk kenyamanan kulit.,Higienitas & Self-Care
+9,Trimester 3,Risiko Rendah,6,5,Lakukan relaksasi dan afirmasi positif persalinan bersama pasangan dalam suasana tenang.,Persiapan Praktis
+9,Trimester 3,Risiko Rendah,7,1,Minum segelas susu hangat dan madu alami 1 sendok teh sebelum tidur malam.,Nutrisi & Hidrasi
+9,Trimester 3,Risiko Rendah,7,2,Masukkan seluruh sisa vitamin ke dalam kantong khusus di dalam koper persalinan.,Vitamin & Obat
+9,Trimester 3,Risiko Rendah,7,3,Tidur malam optimal dengan posisi miring kiri ditopang bantal empuk agar tubuh bugar saat persalinan.,Aktivitas & Istirahat
+9,Trimester 3,Risiko Rendah,7,4,Lakukan pijat oksitosin lembut pada punggung bersama pasangan untuk merangsang relaksasi jelang persalinan.,Higienitas & Self-Care
+9,Trimester 3,Risiko Rendah,7,5,"Pastikan seluruh dokumen identitas, buku KIA, dan kartu asuransi siap dibawa dalam satu genggaman.",Persiapan Praktis
+9,Trimester 3,Risiko Sedang,1,1,Makan 3-5 butir kurma lunak dan segelas susu hamil hangat saat bangun pagi.,Nutrisi & Hidrasi
+9,Trimester 3,Risiko Sedang,1,2,Minum obat pengontrol kondisi klinis anjuran dokter kandungan tepat waktu di pagi hari.,Vitamin & Obat
+9,Trimester 3,Risiko Sedang,1,3,Jalan santai pagi 15-20 menit di dalam rumah atau pekarangan dengan didampingi pasangan.,Aktivitas & Istirahat
+9,Trimester 3,Risiko Sedang,1,4,Oleskan minyak kelapa murni pada area perut dan punggung bawah untuk meredakan rasa pegal persalinan.,Higienitas & Self-Care
+9,Trimester 3,Risiko Sedang,1,5,Pastikan tas siaga persalinan sudah siap di ruang depan dan siap angkut ke mobil.,Persiapan Praktis
+9,Trimester 3,Risiko Sedang,2,1,Sarapan roti panggang isi telur orak-arik matang dan segelas jus jeruk manis murni.,Nutrisi & Hidrasi
+9,Trimester 3,Risiko Sedang,2,2,Konsumsi suplemen kalsium dan multivitamin kehamilan sesudah sarapan pagi.,Vitamin & Obat
+9,Trimester 3,Risiko Sedang,2,3,Duduk di atas birth ball empuk sambil melakukan ayunan panggul lembut 15 menit.,Aktivitas & Istirahat
+9,Trimester 3,Risiko Sedang,2,4,Kenakan pakaian longgar berkancing depan berbahan katun adem yang siap dipakai ke klinik bersalin.,Higienitas & Self-Care
+9,Trimester 3,Risiko Sedang,2,5,Simpan nomor IGD kebidanan dan nomor bidan jaga di kontak darurat ponsel pasangan.,Persiapan Praktis
+9,Trimester 3,Risiko Sedang,3,1,Makan siang nasi putih dengan semur daging empuk porsi sedang dan tumis labu siam wortel.,Nutrisi & Hidrasi
+9,Trimester 3,Risiko Sedang,3,2,Minum suplemen prenatal lanjutan sesudah makan siang dengan air putih.,Vitamin & Obat
+9,Trimester 3,Risiko Sedang,3,3,"Istirahat tidur siang terjadwal 1,5 jam di ranjang posisi miring kiri dengan kaki diganjal bantal.",Aktivitas & Istirahat
+9,Trimester 3,Risiko Sedang,3,4,Mandi air hangat dengan pengawasan pasangan di dekat kamar mandi untuk mencegah terpeleset.,Higienitas & Self-Care
+9,Trimester 3,Risiko Sedang,3,5,Lapisi tempat tidur ibu dengan perlak medis untuk kenyamanan istirahat di minggu akhir.,Persiapan Praktis
+9,Trimester 3,Risiko Sedang,4,1,Ngemil puding buah naga buatan sendiri dan biskuit energi di sore hari.,Nutrisi & Hidrasi
+9,Trimester 3,Risiko Sedang,4,2,Konsumsi tablet tambah darah (Fe) malam hari sebelum tidur bersama air jeruk.,Vitamin & Obat
+9,Trimester 3,Risiko Sedang,4,3,Batasi berdiri terlalu lama dan hindari aktivitas rumah tangga yang menguras tenaga.,Aktivitas & Istirahat
+9,Trimester 3,Risiko Sedang,4,4,Pastikan kebersihan diri terjaga sempurna dengan mencuci tangan dan area genital secara teratur.,Higienitas & Self-Care
+9,Trimester 3,Risiko Sedang,4,5,"Siapkan baju ganti yang nyaman, sandal rumah sakit, dan jaket hangat di saku teratas tas RS.",Persiapan Praktis
+9,Trimester 3,Risiko Sedang,5,1,"Bagi konsumsi air mineral 2,5 liter dalam takaran gelas teratur sepanjang hari.",Nutrisi & Hidrasi
+9,Trimester 3,Risiko Sedang,5,2,Pastikan semua obat resep dokter diminum tanpa terlewat menjelang hari H.,Vitamin & Obat
+9,Trimester 3,Risiko Sedang,5,3,Latihan pernapasan tiup tenang untuk menghadapi gelombang kontraksi di kursi santai.,Aktivitas & Istirahat
+9,Trimester 3,Risiko Sedang,5,4,Ganti pakaian dalam secara berkala dan gunakan pembalut bersalin higienis jika keputihan meningkat.,Higienitas & Self-Care
+9,Trimester 3,Risiko Sedang,5,5,Pastikan ponsel pendamping selalu aktif dan dalam mode dering keras 24 jam.,Persiapan Praktis
+9,Trimester 3,Risiko Sedang,6,1,Makan malam sup makaroni ayam bening hangat yang mudah dicerna dan tidak memicu begah.,Nutrisi & Hidrasi
+9,Trimester 3,Risiko Sedang,6,2,Cek tanggal kadaluarsa seluruh obat dan suplemen yang dibawa ke rumah sakit bersalin.,Vitamin & Obat
+9,Trimester 3,Risiko Sedang,6,3,Elevasi tungkai di sofa selama 30 menit pada sore hari untuk meredakan ketegangan betis.,Aktivitas & Istirahat
+9,Trimester 3,Risiko Sedang,6,4,Kompres hangat area pinggang bawah dengan handuk basah selama 15 menit di sofa.,Higienitas & Self-Care
+9,Trimester 3,Risiko Sedang,6,5,Lakukan doa bersama pasangan untuk ketenangan dan kelancaran proses persalinan.,Persiapan Praktis
+9,Trimester 3,Risiko Sedang,7,1,Minum secangkir susu kalsium prenatal hangat 1 jam sebelum beristirahat malam.,Nutrisi & Hidrasi
+9,Trimester 3,Risiko Sedang,7,2,Simpan obat-obatan rutin pribadi di saku terluar tas persalinan yang mudah dijangkau.,Vitamin & Obat
+9,Trimester 3,Risiko Sedang,7,3,Tidur malam dengan susunan bantal maternity lengkap agar siap menghadapi tanda persalinan.,Aktivitas & Istirahat
+9,Trimester 3,Risiko Sedang,7,4,Minta pasangan melakukan pijatan lembut di area pelipis dan bahu untuk menenangkan pikiran.,Higienitas & Self-Care
+9,Trimester 3,Risiko Sedang,7,5,"Periksa ulang keaslian dokumen KTP, KK, dan surat rujukan medis di dalam tas persalinan.",Persiapan Praktis
+9,Trimester 3,Risiko Tinggi,1,1,Santap 3 butir kurma lumat campur madu murni dan segelas susu hangat di tempat tidur.,Nutrisi & Hidrasi
+9,Trimester 3,Risiko Tinggi,1,2,Minum obat pengontrol risiko medis kehamilan dosis pagi tepat waktu di kasur.,Vitamin & Obat
+9,Trimester 3,Risiko Tinggi,1,3,Pertahankan tirah baring optimal di tempat tidur posisi miring kiri untuk suplai oksigen maksimal ke janin.,Aktivitas & Istirahat
+9,Trimester 3,Risiko Tinggi,1,4,Seka seluruh badan di ranjang dengan air hangat bersabun antiseptik lembut oleh perawat/pendamping.,Higienitas & Self-Care
+9,Trimester 3,Risiko Tinggi,1,5,"Pastikan seluruh perlengkapan medis, koper RS, dan berkas rujukan siap angkut 24 jam.",Persiapan Praktis
+9,Trimester 3,Risiko Tinggi,2,1,Sarapan bubur tim beras putih kaldu ayam kampung kental kaya nutrisi di ranjang.,Nutrisi & Hidrasi
+9,Trimester 3,Risiko Tinggi,2,2,Konsumsi suplemen multivitamin dan kalsium dosis anjuran dokter di tempat tidur.,Vitamin & Obat
+9,Trimester 3,Risiko Tinggi,2,3,Latihan teknik pernapasan lambat menenangkan untuk persiapan operasi/tindakan persalinan di ranjang.,Aktivitas & Istirahat
+9,Trimester 3,Risiko Tinggi,2,4,Kenakan gaun/piyama bersalin katun berkancing depan yang siap untuk tindakan medis di rumah sakit.,Higienitas & Self-Care
+9,Trimester 3,Risiko Tinggi,2,5,Konfirmasi ulang kesiapan tim dokter spesialis kandungan dan tim bedah di RS rujukan.,Persiapan Praktis
+9,Trimester 3,Risiko Tinggi,3,1,Makan siang nasi tim daging cincang lembut dengan sari kuah bayam hangat di kasur.,Nutrisi & Hidrasi
+9,Trimester 3,Risiko Tinggi,3,2,Minum obat resep dokter spesialis kandungan dosis siang tepat waktu di ranjang.,Vitamin & Obat
+9,Trimester 3,Risiko Tinggi,3,3,Peregangan pasif pergelangan tangan dan kaki lembut dengan bantuan pendamping di ranjang.,Aktivitas & Istirahat
+9,Trimester 3,Risiko Tinggi,3,4,Lakukan perawatan higienitas mulut dan pembersihan wajah di atas kasur secara seksama.,Higienitas & Self-Care
+9,Trimester 3,Risiko Tinggi,3,5,Lapisi tempat tidur ranjang dengan underpad medis steril untuk proteksi maksimal.,Persiapan Praktis
+9,Trimester 3,Risiko Tinggi,4,1,Konsumsi camilan puree buah pir rebus manis dan agar-agar lembut di ranjang.,Nutrisi & Hidrasi
+9,Trimester 3,Risiko Tinggi,4,2,Konsumsi tablet tambah darah (Fe) dosis medis di tempat tidur sesudah makan siang.,Vitamin & Obat
+9,Trimester 3,Risiko Tinggi,4,3,Istirahat total di kasur untuk menjaga kondisi fisik tetap prima menjelang jadwal tindakan medis.,Aktivitas & Istirahat
+9,Trimester 3,Risiko Tinggi,4,4,Bersihkan area genital di kasur dengan cairan antiseptik steril sesuai panduan medis persalinan.,Higienitas & Self-Care
+9,Trimester 3,Risiko Tinggi,4,5,Kenakan pakaian yang mudah dilepas untuk persiapan pemeriksaan dan mobilisasi ke RS.,Persiapan Praktis
+9,Trimester 3,Risiko Tinggi,5,1,"Penuhi asupan 2,2 liter cairan (air mineral & kuah kaldu) sedikit demi sedikit via sedotan.",Nutrisi & Hidrasi
+9,Trimester 3,Risiko Tinggi,5,2,Minum obat penstabil kehamilan dosis sore sesuai jadwal instruksi dokter di ranjang.,Vitamin & Obat
+9,Trimester 3,Risiko Tinggi,5,3,Atur posisi sandaran kasur semi-Fowler 30 derajat yang nyaman untuk mengurangi sesak napas.,Aktivitas & Istirahat
+9,Trimester 3,Risiko Tinggi,5,4,"Pastikan kuku tangan dan kaki bersih, pendek, dan bebas dari cat kuku (kuteks) untuk pantauan medis.",Higienitas & Self-Care
+9,Trimester 3,Risiko Tinggi,5,5,Pastikan pendamping siaga di dekat tempat tidur dan kendaraan siap berangkat kapan pun.,Persiapan Praktis
+9,Trimester 3,Risiko Tinggi,6,1,Makan malam sup krim kentang daging ayam giling porsi ringan dalam posisi setengah duduk.,Nutrisi & Hidrasi
+9,Trimester 3,Risiko Tinggi,6,2,Konsumsi obat resep dokter dosis malam tepat waktu sebelum tidur di tempat tidur.,Vitamin & Obat
+9,Trimester 3,Risiko Tinggi,6,3,Dengarkan audio hypnobirthing persiapan kelahiran di tempat tidur bersama pasangan.,Aktivitas & Istirahat
+9,Trimester 3,Risiko Tinggi,6,4,Minta pendamping mengoleskan pelembap bibir dan minyak relaksasi di pergelangan tangan di kasur.,Higienitas & Self-Care
+9,Trimester 3,Risiko Tinggi,6,5,Lakukan afirmasi ketenangan jiwa dan pasrahkan proses persalinan kepada tim medis profesional.,Persiapan Praktis
+9,Trimester 3,Risiko Tinggi,7,1,Minum segelas susu nutrisi persiapan persalinan hangat di ranjang sebelum tidur.,Nutrisi & Hidrasi
+9,Trimester 3,Risiko Tinggi,7,2,"Letakkan seluruh berkas resep, riwayat alergi obat, dan stok obat di kantong utama tas RS.",Vitamin & Obat
+9,Trimester 3,Risiko Tinggi,7,3,Tidur malam penuh di kasur dengan persiapan siaga menuju rumah sakit kapan pun dibutuhkan.,Aktivitas & Istirahat
+9,Trimester 3,Risiko Tinggi,7,4,Lakukan doa bersama dan relaksasi mendalam di tempat tidur untuk ketenangan menjelang tindakan kelahiran.,Higienitas & Self-Care
+9,Trimester 3,Risiko Tinggi,7,5,Letakkan map berkas medis lengkap di atas meja ranjang siap dibawa dalam satu sentuhan.,Persiapan Praktis

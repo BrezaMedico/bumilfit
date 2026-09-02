@@ -1,0 +1,8 @@
+{
+  "name": "bumilfit-monorepo",
+  "private": true,
+  "workspaces": [
+    "backend",
+    "frontend"
+  ]
+}

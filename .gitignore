@@ -1,0 +1,48 @@
+# Dependencies
+node_modules/
+*/node_modules/
+
+# Production builds & compile artifacts
+dist/
+*/dist/
+dist-ssr/
+build/
+.output/
+
+# Environment Variables & Secrets
+.env
+.env.*
+*.env
+!.env.example
+!*/.env.example
+
+# Database & local sqlite/neon temp
+*.sqlite
+*.sqlite3
+*.db
+backend/.neon
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Editor & OS files
+.vscode/
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Agent & temporary files
+.agents/
+*/.agents/

@@ -1,0 +1,143 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  IBU_HAMIL
+  DOKTER
+}
+
+enum Keparahan {
+  RINGAN
+  SEDANG
+  BERAT
+}
+
+model User {
+  id          String           @id @default(uuid())
+  email       String           @unique
+  password    String
+  role        Role
+  isVerified  Boolean          @default(false)
+  profilIbu   ProfilIbuHamil?
+  keluhanLogs KeluhanLog[]
+  otp         OtpVerification?
+  posts       Post[]
+  comments    Comment[]
+  likes       Like[]
+  todos       UserTodo[]
+  createdAt   DateTime         @default(now())
+}
+
+model ProfilIbuHamil {
+  id                  String   @id @default(uuid())
+  userId              String   @unique
+  user                User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  namaIbu             String
+  namaAnak            String?
+  usiaKehamilanMinggu Int
+  usiaKehamilanHari   Int      @default(0)
+  nomorWhatsapp       String
+  genderAnak          String?
+  golonganDarah       String?
+  fotoProfil          String?
+  alamat              String?
+  kategoriSkrining    String?  @default("Risiko Rendah")
+  sudahSkrining       Boolean  @default(false)
+  skorSkrining        Int?
+  usiaKehamilanUpdatedAt DateTime @default(now())
+}
+
+model KeluhanLog {
+  id               String    @id @default(uuid())
+  userId           String
+  user             User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tanggal          DateTime  @default(now())
+  daftarKeluhan    String[]
+  tingkatKeparahan Keparahan
+  isRedFlag        Boolean   @default(false)
+  catatanBebas     String?
+}
+
+model OtpVerification {
+  id              String   @id @default(uuid())
+  userId          String   @unique
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  kode            String
+  expiredAt       DateTime
+  jumlahPercobaan Int      @default(0)
+}
+
+model Post {
+  id        String    @id @default(uuid())
+  authorId  String
+  author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  isiPost   String
+  tag       String
+  createdAt DateTime  @default(now())
+  comments  Comment[]
+  likes     Like[]
+}
+
+model Comment {
+  id          String   @id @default(uuid())
+  postId      String
+  post        Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  authorId    String
+  author      User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  isiKomentar String
+  createdAt   DateTime @default(now())
+}
+
+model Like {
+  id        String   @id @default(uuid())
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([postId, userId])
+}
+
+enum RiskCategory {
+  RENDAH
+  SEDANG
+  TINGGI
+}
+
+model MasterTodo {
+  id                String       @id @default(uuid())
+  bulan             Int          // 1 s.d. 9
+  trimester         String       // e.g. "Trimester 1"
+  kategoriRisiko    RiskCategory
+  hariKe            Int          // 1 s.d. 7 (Siklus Harian)
+  noTugas           Int          // 1 s.d. 5 (5 tugas per hari)
+  tugasHarian       String
+  kategoriAktivitas String
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+
+  userTodos         UserTodo[]
+
+  @@unique([bulan, kategoriRisiko, hariKe, noTugas])
+}
+
+model UserTodo {
+  id           String     @id @default(uuid())
+  userId       String
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  masterTodoId String
+  masterTodo   MasterTodo @relation(fields: [masterTodoId], references: [id], onDelete: Cascade)
+  tanggal      DateTime   // Menyimpan tanggal (Y-M-D) tanpa jam
+  isCompleted  Boolean    @default(false)
+  completedAt  DateTime?
+  createdAt    DateTime   @default(now())
+
+  @@unique([userId, masterTodoId, tanggal])
+}
+
