@@ -276,6 +276,63 @@ export const toggleLike = async (req: Request, res: Response) => {
   }
 };
 
+// Ambil daftar komentar untuk suatu postingan tertentu
+export const getCommentsByPostId = async (req: Request, res: Response) => {
+  try {
+    const postId = req.params.id as string;
+
+    const post = await prisma.post.findUnique({
+      where: { id: postId },
+    });
+
+    if (!post) {
+      return res.status(404).json({ message: 'Postingan tidak ditemukan' });
+    }
+
+    const comments = await prisma.comment.findMany({
+      where: { postId },
+      orderBy: { createdAt: 'asc' },
+      include: {
+        author: {
+          include: {
+            profilIbu: true,
+          },
+        },
+      },
+    });
+
+    const formattedComments = comments.map((comment) => {
+      let commentAuthorName = 'Ibu Anonim';
+      let commentAuthorAvatar = null;
+      let commentPeran = undefined;
+
+      if (comment.author.role === 'IBU_HAMIL' && comment.author.profilIbu) {
+        commentAuthorName = comment.author.profilIbu.namaIbu;
+        commentAuthorAvatar = comment.author.profilIbu.fotoProfil;
+      } else if (comment.author.role === 'DOKTER') {
+        commentAuthorName = 'dr. Deniz Affansyah, Sp.OG';
+        commentPeran = 'Dokter Kandungan';
+      }
+
+      return {
+        id: comment.id,
+        postId: comment.postId,
+        namaUser: commentAuthorName,
+        avatar: commentAuthorAvatar,
+        timestamp: comment.createdAt.toISOString(),
+        isiKomentar: comment.isiKomentar,
+        peran: commentPeran,
+        authorId: comment.authorId,
+      };
+    });
+
+    res.status(200).json(formattedComments);
+  } catch (error) {
+    console.error('Error fetching comments:', error);
+    res.status(500).json({ message: 'Gagal mengambil komentar postingan' });
+  }
+};
+
 // Buat komentar baru
 export const createComment = async (req: Request, res: Response) => {
   try {

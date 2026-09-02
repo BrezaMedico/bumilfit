@@ -11,7 +11,9 @@ import {
   Clock, 
   BookOpen, 
   AlertCircle,
-  Trash2
+  Trash2,
+  Loader2,
+  CheckCircle2
 } from 'lucide-react';
 import { apiClient } from '../../lib/apiClient';
 import komunitasImg from '../../assets/komunitas.png';
@@ -57,6 +59,17 @@ export const KomunitasPage = () => {
 
   // State untuk mengetik komentar baru per postingan
   const [commentInputs, setCommentInputs] = useState<Record<string, string>>({});
+  const [submittingComment, setSubmittingComment] = useState<Record<string, boolean>>({});
+
+  // State untuk notifikasi Toast
+  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
+
+  const showToast = (message: string, type: 'success' | 'error' = 'success') => {
+    setToast({ message, type });
+    setTimeout(() => {
+      setToast(null);
+    }, 3000);
+  };
 
   // Kategori kategori forum
   const categories = ['Semua', 'Keluhan & Tips', 'Nutrisi & Makanan', 'Kesehatan', 'Persiapan Melahirkan'];
@@ -194,11 +207,14 @@ export const KomunitasPage = () => {
     }));
   };
 
-  // Logika mengirim komentar baru (Optimistic UI + Persistence)
+  // Logika mengirim komentar baru (Optimistic UI + Database Sync)
   const handleAddComment = async (postId: string, e: React.FormEvent) => {
     e.preventDefault();
     const content = commentInputs[postId]?.trim();
     if (!content) return;
+    if (submittingComment[postId]) return;
+
+    setSubmittingComment(prev => ({ ...prev, [postId]: true }));
 
     const tempCommentId = `temp-${Date.now()}`;
     const tempComment: Comment = {
@@ -223,17 +239,17 @@ export const KomunitasPage = () => {
       })
     );
 
-    // Reset field input & buka utas
+    // Reset field input & buka utas komentar
     setCommentInputs(prev => ({ ...prev, [postId]: '' }));
     setExpandedComments(prev => ({ ...prev, [postId]: true }));
 
-    // Kirim ke database
+    // Kirim data ke API backend
     try {
       const response = await apiClient.post(`/komunitas/posts/${postId}/comments`, {
         isiKomentar: content
       });
 
-      // Tukar data komentar sementara dengan data asli dari database
+      // Tukar data komentar sementara dengan data tersimpan dari database
       setPosts(prevPosts => 
         prevPosts.map(post => {
           if (post.id === postId) {
@@ -245,9 +261,10 @@ export const KomunitasPage = () => {
           return post;
         })
       );
-    } catch (error) {
+      showToast('Komentar berhasil dikirim!', 'success');
+    } catch (error: any) {
       console.error('Gagal mengirim komentar ke database:', error);
-      // Kembalikan state awal (hapus komentar temp dan kembalikan teks input)
+      // Rollback: Hapus komentar temp dan kembalikan teks ke input field
       setPosts(prevPosts => 
         prevPosts.map(post => {
           if (post.id === postId) {
@@ -260,7 +277,9 @@ export const KomunitasPage = () => {
         })
       );
       setCommentInputs(prev => ({ ...prev, [postId]: content }));
-      alert('Gagal mengirim komentar. Silakan coba kembali.');
+      showToast(error.response?.data?.message || 'Gagal mengirim komentar. Silakan periksa koneksi Anda.', 'error');
+    } finally {
+      setSubmittingComment(prev => ({ ...prev, [postId]: false }));
     }
   };
 
@@ -630,14 +649,20 @@ export const KomunitasPage = () => {
                           value={commentInputs[post.id] || ''}
                           onChange={(e) => setCommentInputs(prev => ({ ...prev, [post.id]: e.target.value }))}
                           placeholder="Tulis komentar balasan..." 
-                          className="flex-1 py-2.5 px-4 text-xs sm:text-sm rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#389D9C]/20 focus:border-[#389D9C] transition-all bg-slate-50/30 text-slate-700"
+                          disabled={submittingComment[post.id]}
+                          className="flex-1 py-2.5 px-4 text-xs sm:text-sm rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#389D9C]/20 focus:border-[#389D9C] transition-all bg-slate-50/30 text-slate-700 disabled:opacity-60"
                         />
                         <button 
                           type="submit" 
-                          className="bg-[#389D9C] hover:bg-[#389D9C]/90 text-white p-2.5 rounded-xl flex items-center justify-center transition-colors shadow-xs cursor-pointer"
+                          disabled={submittingComment[post.id] || !commentInputs[post.id]?.trim()}
+                          className="bg-[#389D9C] hover:bg-[#2c7d7c] disabled:bg-slate-200 disabled:cursor-not-allowed text-white p-2.5 rounded-xl flex items-center justify-center transition-colors shadow-xs cursor-pointer"
                           aria-label="Kirim balasan"
                         >
-                          <Send className="w-4 h-4" />
+                          {submittingComment[post.id] ? (
+                            <Loader2 className="w-4 h-4 animate-spin text-white" />
+                          ) : (
+                            <Send className="w-4 h-4" />
+                          )}
                         </button>
                       </form>
                     </div>
@@ -748,6 +773,22 @@ export const KomunitasPage = () => {
               </div>
             </form>
           </div>
+        </div>
+      )}
+
+      {/* 7. Toast Notification Feedback */}
+      {toast && (
+        <div className={`fixed bottom-6 right-6 z-50 px-5 py-3 rounded-2xl shadow-lg border text-xs sm:text-sm font-bold flex items-center gap-2.5 animate-in slide-in-from-bottom-5 fade-in duration-300 ${
+          toast.type === 'success' 
+            ? 'bg-teal-50 border-teal-200 text-teal-800' 
+            : 'bg-rose-50 border-rose-200 text-rose-800'
+        }`}>
+          {toast.type === 'success' ? (
+            <CheckCircle2 size={18} className="text-[#389D9C] flex-shrink-0" />
+          ) : (
+            <AlertCircle size={18} className="text-rose-500 flex-shrink-0" />
+          )}
+          <span>{toast.message}</span>
         </div>
       )}
 
