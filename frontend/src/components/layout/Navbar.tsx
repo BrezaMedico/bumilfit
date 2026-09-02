@@ -2,10 +2,12 @@ import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { Crown, User, Settings, Key, LogOut, ChevronDown } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import { apiClient } from '../../lib/apiClient';
+import { PricingModal } from '../pricing/PricingModal';
 
 export const Navbar = () => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
+  const [isPricingOpen, setIsPricingOpen] = useState(false);
   const [profile, setProfile] = useState<{ namaIbu: string; email: string; fotoProfil: string | null } | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -108,7 +110,11 @@ export const Navbar = () => {
 
           {/* Bagian Kanan: Premium CTA & Avatar Profil */}
           <div className="flex items-center gap-4 relative">
-            <button className="flex items-center gap-2 bg-[#389D9C] hover:bg-[#389D9C]/90 text-white px-5 py-2 rounded-xl font-medium transition-all shadow-sm">
+            <button 
+              type="button"
+              onClick={() => setIsPricingOpen(true)}
+              className="flex items-center gap-2 bg-[#389D9C] hover:bg-[#2C7E7D] text-white px-5 py-2 rounded-xl font-medium transition-all shadow-sm cursor-pointer active:scale-95"
+            >
               <Crown size={18} className="text-white" fill="currentColor" />
               <span className="hidden sm:inline">Premium</span>
             </button>
@@ -221,6 +227,12 @@ export const Navbar = () => {
           
         </div>
       </div>
+
+      {/* Modal Daftar Harga Premium */}
+      <PricingModal 
+        isOpen={isPricingOpen} 
+        onClose={() => setIsPricingOpen(false)} 
+      />
     </nav>
   );
 };
