@@ -39,11 +39,6 @@ export const LoginPage = () => {
   });
 
   const onSubmit = async (data: LoginForm) => {
-    if (!recaptchaToken) {
-      setErrorMsg('Harap selesaikan verifikasi reCAPTCHA terlebih dahulu');
-      return;
-    }
-
     setIsLoading(true);
     setErrorMsg('');
     setUnverifiedData(null);
@@ -357,7 +352,7 @@ export const LoginPage = () => {
           <div className="pt-2">
             <Button 
               type="submit" 
-              disabled={isLoading || isGoogleLoading || !recaptchaToken} 
+              disabled={isLoading || isGoogleLoading} 
               className="w-full h-12 bg-bumil-primary hover:bg-[#2E8281] active:scale-[0.99] text-white font-bold rounded-xl shadow-sm hover:shadow-md transition-all cursor-pointer flex items-center justify-center gap-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLoading ? (

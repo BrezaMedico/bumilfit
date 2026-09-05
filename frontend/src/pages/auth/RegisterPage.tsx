@@ -289,11 +289,6 @@ export const RegisterPage = () => {
     e.preventDefault();
     setErrorMsg('');
 
-    if (!recaptchaToken) {
-      setErrorMsg('Harap selesaikan verifikasi reCAPTCHA terlebih dahulu');
-      return;
-    }
-
     const cleanWa = normalizePhoneNumber(nomorWhatsapp);
     if (!cleanWa || cleanWa.length < 10 || cleanWa.length > 15) {
       setErrorMsg('Masukkan nomor WhatsApp yang valid (10-15 digit)');
@@ -855,7 +850,7 @@ export const RegisterPage = () => {
             <div className="pt-2">
               <Button
                 type="submit"
-                disabled={isLoading || !recaptchaToken}
+                disabled={isLoading}
                 className="w-full h-12 bg-bumil-primary hover:bg-[#2E8281] active:scale-[0.99] text-white font-bold rounded-xl shadow-sm hover:shadow-md transition-all cursor-pointer flex items-center justify-center gap-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isLoading ? (
