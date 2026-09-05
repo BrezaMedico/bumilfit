@@ -28,7 +28,7 @@ export const PricingFAQ = () => {
     {
       question: 'Apakah saya bisa upgrade paket kapan saja?',
       answer:
-        'Tentu saja! Bunda dapat melakukan upgrade dari Paket Basic atau Pro ke Paket Premium atau Premium Lengkap kapan saja. Sisa masa aktif paket sebelumnya akan otomatis diakumulasikan dan disesuaikan secara proporsional.',
+        'Tentu saja! Bunda dapat melakukan upgrade dari Paket Basic atau Pro ke Paket Premium atau Paket Premium+ kapan saja. Sisa masa aktif paket sebelumnya akan otomatis diakumulasikan dan disesuaikan secara proporsional.',
     },
     {
       question: 'Apakah paket langganan akan otomatis memotong saldo (auto-renewal)?',

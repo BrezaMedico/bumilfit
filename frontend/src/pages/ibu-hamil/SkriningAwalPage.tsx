@@ -182,7 +182,7 @@ export const SkriningAwalPage: React.FC = () => {
           disabled={!selectedScore}
           className={`px-8 py-3.5 rounded-full font-bold text-sm shadow-md hover:shadow-lg transition-all flex items-center gap-2 group cursor-pointer ${
             selectedScore 
-              ? 'bg-[#389D9C] hover:bg-[#2C8584] text-white' 
+              ? 'bg-[#389D9C] hover:bg-[#2E8281] text-white' 
               : 'bg-slate-250 text-slate-400 cursor-not-allowed border border-slate-100 shadow-none'
           }`}
         >

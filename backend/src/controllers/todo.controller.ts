@@ -1,6 +1,7 @@
 import type { Request, Response } from 'express';
 import prisma from '../lib/prisma.js';
 import { genAI } from '../lib/gemini.js';
+import { sendDailyReminders } from '../services/reminder.service.js';
 
 // Helper to convert gestational weeks to month of pregnancy (1 - 9)
 function getPregnancyMonth(weeks: number): number {
@@ -80,7 +81,8 @@ export const getDailyTodos = async (req: Request, res: Response) => {
         tanggal: {
           gte: startOfToday,
           lt: endOfToday
-        }
+        },
+        isCompleted: true
       }
     });
 
@@ -104,6 +106,15 @@ export const getDailyTodos = async (req: Request, res: Response) => {
     const completedCount = tasks.filter(t => t.isCompleted).length;
     const totalCount = tasks.length;
     const percentage = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
+
+    // Catat keaktifan user & auto-resume pengingat jika user membuka to-do list
+    await prisma.user.update({
+      where: { id: userId },
+      data: {
+        lastActiveAt: new Date(),
+        reminderAutoPaused: false
+      }
+    });
 
     res.status(200).json({
       success: true,
@@ -134,7 +145,7 @@ export const getDailyTodos = async (req: Request, res: Response) => {
 export const completeTodo = async (req: Request, res: Response) => {
   try {
     const userId = (req as any).user.id;
-    const { masterTodoId } = req.body;
+    const { masterTodoId, isCompleted } = req.body;
 
     if (!masterTodoId) {
       return res.status(400).json({ message: 'masterTodoId harus disertakan' });
@@ -142,6 +153,20 @@ export const completeTodo = async (req: Request, res: Response) => {
 
     const startOfToday = new Date();
     startOfToday.setHours(0, 0, 0, 0);
+
+    let targetCompleted: boolean;
+    if (typeof isCompleted === 'boolean') {
+      targetCompleted = isCompleted;
+    } else {
+      const existing = await prisma.userTodo.findFirst({
+        where: {
+          userId,
+          masterTodoId,
+          tanggal: startOfToday
+        }
+      });
+      targetCompleted = existing ? !existing.isCompleted : true;
+    }
 
     const userTodo = await prisma.userTodo.upsert({
       where: {
@@ -152,21 +177,34 @@ export const completeTodo = async (req: Request, res: Response) => {
         }
       },
       update: {
-        isCompleted: true,
-        completedAt: new Date()
+        isCompleted: targetCompleted,
+        completedAt: targetCompleted ? new Date() : null
       },
       create: {
         userId,
         masterTodoId,
         tanggal: startOfToday,
-        isCompleted: true,
-        completedAt: new Date()
+        isCompleted: targetCompleted,
+        completedAt: targetCompleted ? new Date() : null
       }
     });
 
-    res.status(200).json({ success: true, message: 'Tugas berhasil ditandai selesai', data: userTodo });
+    // Catat keaktifan user & auto-resume pengingat saat berinteraksi dengan tugas
+    await prisma.user.update({
+      where: { id: userId },
+      data: {
+        lastActiveAt: new Date(),
+        reminderAutoPaused: false
+      }
+    });
+
+    res.status(200).json({
+      success: true,
+      message: targetCompleted ? 'Tugas berhasil ditandai selesai' : 'Tugas dibatalkan dari status selesai',
+      data: userTodo
+    });
   } catch (error: any) {
-    console.error('Error Complete Task:', error);
+    console.error('Error Complete/Toggle Task:', error);
     res.status(500).json({ message: 'Terjadi kesalahan saat mengupdate status tugas.', error: error.message });
   }
 };
@@ -205,97 +243,147 @@ export const createKeluhanLog = async (req: Request, res: Response) => {
 export const evaluateSymptoms = async (req: Request, res: Response) => {
   try {
     const userId = (req as any).user.id;
-    const { completedTasks, symptoms } = req.body;
+    const { completedTasks, uncompletedTasks, symptoms } = req.body;
 
     if (!Array.isArray(symptoms)) {
       return res.status(400).json({ message: 'symptoms harus berupa array' });
     }
 
-    let hasHeavy = false;
-    let hasMedium = false;
-    const activeSymptomsList: string[] = [];
-
-    symptoms.forEach((s: any) => {
-      const severityStr = s.severity || 'Tidak Ada';
-      activeSymptomsList.push(`${s.name}: ${severityStr}`);
-      if (severityStr.includes('Berat')) {
-        hasHeavy = true;
-      } else if (severityStr.includes('Ringan')) {
-        hasMedium = true;
-      }
+    // 1. Ambil Profil Ibu Hamil untuk konteks usia kehamilan
+    const profile = await prisma.profilIbuHamil.findUnique({
+      where: { userId }
     });
 
-    const tingkatKeparahan = hasHeavy ? 'BERAT' : hasMedium ? 'SEDANG' : 'RINGAN';
-    const isRedFlag = hasHeavy;
+    const usiaMinggu = profile?.usiaKehamilanMinggu ?? 0;
+    const usiaHari = profile?.usiaKehamilanHari ?? 0;
+    const namaIbu = profile?.namaIbu ? `Bunda ${profile.namaIbu}` : 'Bunda';
 
-    const completedTasksStr = Array.isArray(completedTasks) && completedTasks.length > 0
-      ? completedTasks.map((t: string) => `- ${t}`).join('\n')
-      : 'Tidak ada tugas yang diselesaikan hari ini.';
+    // 2. Sistem Skoring Gejala: Tidak Ada/Baik = 0, Ringan = 1, Berat = 2
+    let totalScore = 0;
+    const scoredSymptoms = symptoms.map((s: any) => {
+      const severityStr = s.severity || 'Tidak Ada';
+      let score = 0;
+      if (severityStr.includes('Berat')) {
+        score = 2;
+      } else if (severityStr.includes('Ringan')) {
+        score = 1;
+      } else {
+        score = 0;
+      }
+      totalScore += score;
+      return {
+        name: s.name,
+        severity: severityStr,
+        score
+      };
+    });
 
-    const activeSymptomsStr = symptoms
-      .filter((s: any) => s.severity && !s.severity.includes('Tidak Ada'))
-      .map((s: any) => `- ${s.name}: ${s.severity}`)
-      .join('\n') || 'Tidak ada keluhan hari ini.';
+    const maxScore = 10;
+    const hasSevere = scoredSymptoms.some(s => s.score === 2);
+    // Aturan Bahaya: Jika skor >= 4 ATAU ada keluhan berstatus Berat (skor 2), maka Wajib Lapor Dokter (Red Flag)
+    const isRedFlag = totalScore >= 4 || hasSevere;
+    const tingkatKeparahan: 'RINGAN' | 'SEDANG' | 'BERAT' = isRedFlag ? 'BERAT' : totalScore >= 2 ? 'SEDANG' : 'RINGAN';
 
-    const prompt = `Anda adalah asisten AI medis untuk ibu hamil di aplikasi BumilFit.
-Tugas Anda adalah merumuskan kesimpulan harian yang dinamis dan bervariasi berdasarkan data hari ini.
+    const activeSymptomsList = scoredSymptoms.map(s => `${s.name}: ${s.severity}`);
 
-Tugas harian yang BERHASIL diselesaikan Bunda hari ini:
+    const completedTasksArr = Array.isArray(completedTasks) ? completedTasks : [];
+    const uncompletedTasksArr = Array.isArray(uncompletedTasks) ? uncompletedTasks : [];
+
+    const completedTasksStr = completedTasksArr.length > 0
+      ? completedTasksArr.map((t: string) => `- ${t}`).join('\n')
+      : 'Belum ada tugas yang diselesaikan hari ini.';
+
+    const uncompletedTasksStr = uncompletedTasksArr.length > 0
+      ? uncompletedTasksArr.map((t: string) => `- ${t}`).join('\n')
+      : 'Semua tugas harian berhasil diselesaikan.';
+
+    const activeSymptomsStr = scoredSymptoms
+      .filter((s) => s.score > 0)
+      .map((s) => `- ${s.name}: ${s.severity}`)
+      .join('\n') || 'Tidak ada keluhan fisik (Kondisi Baik/Normal).';
+
+    // 3. Prompt AI untuk Menggabungkan Hasil To-Do List dan Skrining Keluhan Fisik
+    const prompt = `Anda adalah asisten medis kehamilan cerdas dan empatik di aplikasi BumilFit.
+Tugas Anda: Buat SATU KESIMPULAN DAN EVALUASI TERPADU yang MENGGABUNGKAN hasil pencapaian To-Do List Bunda hari ini dengan keluhan fisik harian yang dialami.
+
+Profil Pasien:
+- Panggilan: ${namaIbu}
+- Usia Kehamilan: ${usiaMinggu > 0 ? `${usiaMinggu} minggu ${usiaHari} hari` : 'Sedang berjalan'}
+- Status Medis Internal: ${isRedFlag ? 'PERINGATAN BAHAYA (Wajib Lapor Dokter)' : 'KONDISI STABIL / AMAN'}
+
+Hasil Tugas Harian (To-Do List):
+- Tugas yang Diselesaikan:
 ${completedTasksStr}
+- Tugas yang Belum Diselesaikan:
+${uncompletedTasksStr}
 
-Keluhan fisik yang dirasakan Bunda hari ini:
+Hasil Skrining Keluhan Fisik:
 ${activeSymptomsStr}
 
 Aturan Penulisan Respon (PENTING):
-1. Gunakan Bahasa Indonesia yang hangat, berempati, menenangkan, dan profesional. Selalu sapa dengan panggilan "Bunda".
-2. Panjang respon harus MAKSIMAL 2-3 kalimat saja (sekitar 40-60 kata). Jangan menghasilkan kalimat template yang kaku dan repetitif.
-3. Struktur Jawaban:
-   - Kalimat 1: Berikan apresiasi secara spesifik atas pencapaian tugas harian yang diselesaikan hari ini (sebutkan salah satu nama tugas secara kreatif).
-   - Kalimat 2-3: Berikan saran kesehatan/hidrasi yang praktis dan relevan untuk mengatasi keluhan spesifik yang dialami (jika ada keluhan), atau berikan tips menjaga kebugaran jika tidak ada keluhan.
-4. JANGAN memberikan resep obat atau diagnosis medis pasti.
-5. Gunakan variasi kata dan diksi yang natural agar saran terasa dinamis dan personal.`;
+1. GABUNGKAN kedua data (tugas harian & keluhan fisik) menjadi satu kesimpulan analisis terpadu yang saling berhubungan.
+   - Contoh: Hubungkan tugas nutrisi/hidrasi/aktivitas yang sudah dikerjakan atau yang belum dengan sensasi fisik yang dialami (misal: pusing, mual, pegal, atau kram).
+   - Jika tugas belum lengkap karena ada keluhan, berikan pemakluman yang menenangkan bahwa istirahat adalah prioritas utama hari ini.
+   - Jika semua tugas selesai dan tidak ada keluhan, simpulkan bahwa kedisiplinan Bunda menjaga rutinitas harian berdampak sangat positif pada kondisi fisik yang prima.
+2. JANGAN PERNAH MENYEBUTKAN ANGKA SKOR, NILAI POIN, ATAU KATA "SKOR" / "POIN" dalam teks respon Anda! Sistem skoring hanya berjalan secara rahasia di backend sistem. Tuliskan kesimpulan secara alami, hangat, dan mengalir selayaknya percakapan bidan/dokter spesialis dengan pasien.
+3. Panjang respon: MAKSIMAL 3-4 kalimat (sekitar 50-80 kata). Selalu sapa dengan panggilan "Bunda".
+4. Tanda Bahaya & Status Medis:
+   - Jika Status Medis: PERINGATAN BAHAYA (${isRedFlag ? 'YA' : 'TIDAK'}): Sampaikan dengan tenang bahwa keluhan fisik yang dialami membutuhkan evaluasi medis, dan sarankan Bunda segera berkonsultasi dengan dokter spesialis melalui tombol "Hubungi Dokter".
+   - Jika Kondisi Stabil: Berikan dorongan semangat positif untuk mempertahankan pola hidup sehat.
+5. JANGAN memberikan resep obat keras atau diagnosis penyakit yang menakut-nakuti.`;
 
-    // Logika fallback dinamis jika API Gemini gagal terkoneksi (misal API key belum didaftarkan di Google AI Studio)
-    const taskApresiasi = Array.isArray(completedTasks) && completedTasks.length > 0
-      ? `Luar biasa Bunda sudah menyelesaikan tugas harian "${completedTasks[0].replace(/\.$/, '')}" dengan sangat baik.`
-      : 'Terima kasih sudah mencatat agenda harian kehamilan hari ini, Bunda.';
+    // 4. Logika Fallback Cerdas (Penggabungan To-Do + Gejala Lokal) jika Gemini Offline
+    const generateFallbackAdvice = () => {
+      const taskDoneCount = completedTasksArr.length;
+      const totalTaskCount = taskDoneCount + uncompletedTasksArr.length;
+      const firstCompleted = completedTasksArr[0]?.replace(/\.$/, '') || '';
+      const severeSymptoms = scoredSymptoms.filter(s => s.score === 2);
+      const mildSymptoms = scoredSymptoms.filter(s => s.score === 1);
 
-    const activeSymptoms = symptoms.filter((s: any) => s.severity && !s.severity.includes('Tidak Ada'));
-    let keluhanAdvice = 'Tetap pertahankan pola makan sehat, penuhi target air mineral harian, dan pastikan istirahat Bunda cukup.';
-    
-    if (activeSymptoms.length > 0) {
-      const topSymptom = activeSymptoms[0];
-      const cleanSymptomName = topSymptom.name.split(' (')[0];
-      if (topSymptom.severity.includes('Berat')) {
-        keluhanAdvice = `Karena keluhan ${cleanSymptomName} Bunda hari ini terasa sangat berat, mohon untuk segera istirahat total (bedrest) dan pertimbangkan untuk berkonsultasi ke dokter spesialis kandungan.`;
+      let opening = '';
+      if (taskDoneCount === totalTaskCount && totalTaskCount > 0) {
+        opening = `Hebat sekali, Bunda telah menuntaskan seluruh ${totalTaskCount} agenda harian kehamilan hari ini.`;
+      } else if (taskDoneCount > 0) {
+        opening = `Apresiasi untuk Bunda yang sudah menyelesaikan tugas "${firstCompleted}".`;
       } else {
-        keluhanAdvice = `Terkait keluhan ${cleanSymptomName} yang terasa ringan, cobalah kurangi aktivitas fisik berlebih dan minumlah air putih hangat secara berkala.`;
+        opening = 'Terima kasih telah mencatat perkembangan harian Bunda bersama BumilFit.';
       }
-    }
-    let advice = `${taskApresiasi} ${keluhanAdvice}`;
 
-    try {
-      // Menggunakan model gemini-3.5-flash dengan temperature 0.7 untuk variasi yang natural
-      const model = genAI.getGenerativeModel({ 
-        model: 'gemini-3.5-flash',
-        generationConfig: { temperature: 0.7 }
-      });
-      const result = await model.generateContent(prompt);
-      const text = result.response.text().trim();
-      if (text) {
-        advice = text;
+      let medicalBody = '';
+      if (isRedFlag) {
+        const criticalNames = severeSymptoms.map(s => s.name.split(' (')[0]).join(' dan ') || 'kondisi fisik';
+        medicalBody = ` Namun, Bunda saat ini mengalami keluhan ${criticalNames} yang cukup berat dan membutuhkan perhatian medis. Kami sangat menyarankan Bunda segera beristirahat total dan berkonsultasi dengan dokter spesialis kandungan melalui tombol yang tersedia.`;
+      } else if (mildSymptoms.length > 0) {
+        const mildNames = mildSymptoms.map(s => s.name.split(' (')[0]).join(', ');
+        medicalBody = ` Kondisi fisik Bunda secara umum terpantau stabil dengan adanya keluhan ringan (${mildNames}). Penuhi hidrasi air hangat, lakukan peregangan santai, dan jangan memaksakan sisa agenda harian jika tubuh merasa lelah.`;
+      } else {
+        medicalBody = ` Kondisi fisik Bunda hari ini terpantau sangat prima tanpa keluhan berarti. Tetap pertahankan pola makan bergizi seimbang, cukup tidur, dan nikmati masa kehamilan dengan bahagia ya, Bun!`;
       }
-    } catch (aiError: any) {
-      console.warn('Percobaan pertama Gemini gagal, mencoba fallback model gemini-3.6-flash...', aiError.message || aiError);
+
+      return `${opening}${medicalBody}`;
+    };
+
+    let advice = generateFallbackAdvice();
+
+    // 5. Pemanggilan Gemini API dengan Model Flash Cepat
+    const candidateModels = ['gemini-3.6-flash', 'gemini-flash-latest'];
+    for (const modelName of candidateModels) {
       try {
-        const fallbackModel = genAI.getGenerativeModel({ model: 'gemini-3.6-flash' });
-        const result = await fallbackModel.generateContent(prompt);
+        const model = genAI.getGenerativeModel({
+          model: modelName,
+          generationConfig: { temperature: 0.7 }
+        });
+        const timeoutPromise = new Promise((_, reject) =>
+          setTimeout(() => reject(new Error('AI generation timeout')), 4000)
+        );
+        const result: any = await Promise.race([model.generateContent(prompt), timeoutPromise]);
         const text = result.response.text().trim();
         if (text) {
           advice = text;
+          break;
         }
-      } catch (fallbackErr: any) {
-        console.error('Gemini API call failed, falling back to dynamic local advice:', fallbackErr.message || fallbackErr);
+      } catch (err: any) {
+        console.warn(`Panggilan model ${modelName} untuk to-do evaluate gagal:`, err.message || err);
       }
     }
 
@@ -314,6 +402,8 @@ Aturan Penulisan Respon (PENTING):
       data: {
         advice,
         isRedFlag,
+        totalScore,
+        maxScore,
         tingkatKeparahan,
         logId: log.id
       }
@@ -321,5 +411,20 @@ Aturan Penulisan Respon (PENTING):
   } catch (error: any) {
     console.error('Error Evaluate Symptoms:', error);
     res.status(500).json({ message: 'Terjadi kesalahan saat mengevaluasi kondisi.', error: error.message });
+  }
+};
+
+export const triggerRemindersManual = async (req: Request, res: Response) => {
+  try {
+    const type = (req.query.type as string) === 'evening' ? 'evening' : 'morning';
+    const result = await sendDailyReminders(type);
+    res.status(200).json({
+      success: true,
+      message: `Pengingat to-do (${type.toUpperCase()}) berhasil dijalankan`,
+      data: result
+    });
+  } catch (error: any) {
+    console.error('Error Trigger Reminders Manual:', error);
+    res.status(500).json({ message: 'Gagal memicu pengingat', error: error.message });
   }
 };

@@ -1,12 +1,17 @@
 import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
-import { Crown, User, Settings, Key, LogOut, ChevronDown } from 'lucide-react';
-import { useState, useEffect, useRef } from 'react';
+import { Crown, User, Key, LogOut, ChevronDown, Menu, X, LayoutDashboard, MessageSquare, ShoppingBag, Users } from 'lucide-react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { apiClient } from '../../lib/apiClient';
+import { UserAvatar } from '../common/UserAvatar';
+import { useSubscription } from '../../context/SubscriptionContext';
+import logoBumilfit from '../../assets/logo-bumilfit.png';
 
 export const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { hasActiveSubscription, planBadge } = useSubscription();
   const [isOpen, setIsOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [profile, setProfile] = useState<{ namaIbu: string; email: string; fotoProfil: string | null } | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -16,6 +21,54 @@ export const Navbar = () => {
     { to: '/belanja-obat', label: 'Belanja Obat' },
     { to: '/komunitas', label: 'Komunitas' },
   ];
+
+  // Ref dan state untuk mengukur & menggeser lingkaran oval hijau secara mulus
+  const navContainerRef = useRef<HTMLDivElement>(null);
+  const linkRefs = useRef<(HTMLAnchorElement | null)[]>([]);
+  const [indicatorStyle, setIndicatorStyle] = useState<{
+    left: number;
+    width: number;
+    opacity: number;
+  }>({
+    left: 0,
+    width: 0,
+    opacity: 0,
+  });
+
+  const updateIndicator = useCallback(() => {
+    const activeIndex = navLinks.findIndex((link) => {
+      if (link.to === '/') return location.pathname === '/' || location.pathname === '';
+      return location.pathname.startsWith(link.to);
+    });
+
+    if (activeIndex !== -1) {
+      const activeEl = linkRefs.current[activeIndex];
+      const containerEl = navContainerRef.current;
+      if (activeEl && containerEl) {
+        const containerRect = containerEl.getBoundingClientRect();
+        const elRect = activeEl.getBoundingClientRect();
+        setIndicatorStyle({
+          left: elRect.left - containerRect.left,
+          width: elRect.width,
+          opacity: 1,
+        });
+        return;
+      }
+    }
+    // Sembunyikan jika berada di halaman luar navigasi utama (misal /pricing atau /profil)
+    setIndicatorStyle((prev) => ({ ...prev, opacity: 0 }));
+  }, [location.pathname]);
+
+  useEffect(() => {
+    updateIndicator();
+    const frameId = requestAnimationFrame(updateIndicator);
+    return () => cancelAnimationFrame(frameId);
+  }, [location.pathname, updateIndicator]);
+
+  useEffect(() => {
+    window.addEventListener('resize', updateIndicator);
+    return () => window.removeEventListener('resize', updateIndicator);
+  }, [updateIndicator]);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -68,84 +121,112 @@ export const Navbar = () => {
     navigate('/login');
   };
 
+  // Konfigurasi Bottom Navigation mobile (4 menu utama)
+  const bottomNavLinks = [
+    { to: '/', label: 'Dashboard', Icon: LayoutDashboard },
+    { to: '/chat', label: 'Dokter', Icon: MessageSquare },
+    { to: '/belanja-obat', label: 'Apotek', Icon: ShoppingBag },
+    { to: '/komunitas', label: 'Komunitas', Icon: Users },
+  ];
+
   return (
+    <>
     <nav className="sticky top-0 z-50 bg-white border-b border-[#194668]/20">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           
-          {/* Bagian Kiri: Identitas Merek */}
+          {/* Bagian Kiri: Identitas Merek (Logo Gambar BUMILFIT) */}
           <div className="flex-shrink-0 flex items-center">
-            <Link to="/" className="text-2xl font-bold text-[#389D9C] tracking-tight">
-              BumilFit
+            <Link to="/" className="flex items-center hover:opacity-90 transition-opacity" aria-label="BUMILFIT Home">
+              <img 
+                src={logoBumilfit} 
+                alt="BUMILFIT" 
+                className="h-8 sm:h-9 w-auto object-contain select-none" 
+                loading="eager"
+              />
             </Link>
           </div>
 
-          {/* Bagian Tengah: Menu Navigasi Horizontal */}
-          <div className="hidden md:flex items-center space-x-8 h-full">
-            {navLinks.map((link) => (
-              <NavLink
-                key={link.to}
-                to={link.to}
-                className={({ isActive }) =>
-                  `relative flex items-center h-full text-sm md:text-base font-medium transition-colors duration-200 ${
-                    isActive ? 'text-[#194668]' : 'text-[#2D3748] hover:text-[#389D9C]'
-                  }`
-                }
-              >
-                {({ isActive }) => (
-                  <>
-                    <span className="py-2">{link.label}</span>
-                    {/* Garis bawah aktif dengan animasi transisi geser/fade */}
-                    <span
-                      className={`absolute bottom-0 left-0 right-0 h-[3px] bg-[#194668] rounded-t-full transition-all duration-300 transform origin-left ${
-                        isActive ? 'scale-x-100 opacity-100' : 'scale-x-0 opacity-0'
-                      }`}
-                    />
-                  </>
-                )}
-              </NavLink>
-            ))}
+          {/* Bagian Tengah: Menu Navigasi Horizontal (Hanya Oval Hijau, Tanpa Background Abu-abu, Jarak Lebih Lebar) */}
+          <div 
+            ref={navContainerRef}
+            className="hidden md:flex items-center relative gap-2 lg:gap-3"
+          >
+            {/* Lingkaran Oval Hijau yang Bergeser Mulus (Sliding Pill Indicator) */}
+            <div
+              className="absolute top-0 bottom-0 left-0 bg-[#389D9C] rounded-full pointer-events-none shadow-[0_3px_12px_rgba(56,157,156,0.35)]"
+              style={{
+                transform: `translate3d(${indicatorStyle.left}px, 0, 0)`,
+                width: `${indicatorStyle.width}px`,
+                opacity: indicatorStyle.opacity,
+                transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease',
+              }}
+            />
+
+            {navLinks.map((link, idx) => {
+              const isActive =
+                link.to === '/'
+                  ? location.pathname === '/'
+                  : location.pathname.startsWith(link.to);
+
+              return (
+                <NavLink
+                  key={link.to}
+                  ref={(el) => {
+                    linkRefs.current[idx] = el;
+                  }}
+                  to={link.to}
+                  className={`relative z-10 px-5 py-2 text-sm md:text-[14.5px] font-semibold rounded-full transition-colors duration-200 select-none whitespace-nowrap ${
+                    isActive
+                      ? 'text-white font-bold'
+                      : 'text-slate-600 hover:text-[#194668]'
+                  }`}
+                >
+                  {link.label}
+                </NavLink>
+              );
+            })}
           </div>
 
-          {/* Bagian Kanan: Premium CTA & Avatar Profil */}
-          <div className="flex items-center gap-4 relative">
+          {/* Bagian Kanan: Premium CTA, Avatar Profil, & Mobile Toggle */}
+          <div className="flex items-center gap-3 sm:gap-4 relative">
             <button
               onClick={() => navigate('/pricing')}
-              className={`flex items-center gap-2 px-5 py-2 rounded-xl font-semibold transition-all shadow-sm cursor-pointer group ${
-                location.pathname === '/pricing'
+              className={`flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-xl font-semibold transition-all shadow-sm cursor-pointer group text-xs sm:text-sm ${
+                hasActiveSubscription
+                  ? 'bg-gradient-to-r from-[#194668] to-[#389D9C] text-white ring-2 ring-[#75D5D4]/40 shadow-md'
+                  : location.pathname === '/pricing'
                   ? 'bg-gradient-to-r from-[#194668] to-[#389D9C] text-white ring-2 ring-[#389D9C]/50 shadow-md scale-105'
-                  : 'bg-[#389D9C] hover:bg-[#328b8a] text-white hover:shadow-md hover:scale-102'
+                  : 'bg-[#389D9C] hover:bg-[#2E8281] text-white hover:shadow-md hover:scale-102'
               }`}
             >
               <Crown
-                size={18}
+                size={17}
                 className={`transition-transform duration-200 group-hover:scale-110 ${
-                  location.pathname === '/pricing' ? 'text-amber-300' : 'text-white'
+                  hasActiveSubscription || location.pathname === '/pricing' ? 'text-amber-300' : 'text-white'
                 }`}
                 fill="currentColor"
               />
-              <span className="hidden sm:inline">Premium</span>
+              <span className="hidden sm:inline">
+                {hasActiveSubscription ? (planBadge || 'Premium') : 'Langganan'}
+              </span>
             </button>
             
             {/* Avatar Trigger & Dropdown */}
             <div ref={dropdownRef} className="relative flex items-center">
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="flex items-center gap-1 focus:outline-none p-1 rounded-xl hover:bg-gray-50 transition-colors cursor-pointer"
+                className="flex items-center gap-1.5 focus:outline-none p-1 rounded-xl hover:bg-gray-50 transition-colors cursor-pointer"
                 aria-expanded={isOpen}
                 aria-haspopup="menu"
                 aria-label="Menu profil"
               >
-                <div className="w-10 h-10 rounded-full overflow-hidden border border-gray-200 flex items-center justify-center bg-[#389D9C]/10 text-[#389D9C] font-bold shadow-sm">
-                  {profile?.fotoProfil ? (
-                    <img src={profile.fotoProfil} alt={profile.namaIbu} className="w-full h-full object-cover" />
-                  ) : (
-                    <span className="text-sm">
-                      {profile?.namaIbu ? profile.namaIbu.charAt(0).toUpperCase() : <User size={18} />}
-                    </span>
-                  )}
-                </div>
-                <ChevronDown size={14} className={`text-gray-400 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+                <UserAvatar
+                  size="md"
+                  src={profile?.fotoProfil}
+                  name={profile?.namaIbu}
+                />
+                <ChevronDown size={14} className={`hidden md:block text-gray-400 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
               </button>
 
               {/* Dropdown Menu */}
@@ -158,18 +239,20 @@ export const Navbar = () => {
               >
                 {/* Header Dropdown */}
                 <div className="px-4 py-3 border-b border-gray-100 flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full overflow-hidden border border-gray-200 flex items-center justify-center bg-[#389D9C]/10 text-[#389D9C] font-bold shadow-sm">
-                    {profile?.fotoProfil ? (
-                      <img src={profile.fotoProfil} alt={profile.namaIbu} className="w-full h-full object-cover" />
-                    ) : (
-                      <span className="text-sm">
-                        {profile?.namaIbu ? profile.namaIbu.charAt(0).toUpperCase() : <User size={18} />}
-                      </span>
-                    )}
-                  </div>
-                  <div className="flex flex-col min-w-0">
-                    <span className="text-sm font-bold text-gray-800 truncate">{profile?.namaIbu || 'Pengguna'}</span>
-                    <span className="text-xs text-gray-400 truncate">{profile?.email || ''}</span>
+                  <UserAvatar
+                    size="md"
+                    src={profile?.fotoProfil}
+                    name={profile?.namaIbu}
+                  />
+                  <div className="flex flex-col min-w-0 text-left">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-sm font-bold text-gray-800 truncate">{profile?.namaIbu || 'Pengguna'}</span>
+                      {hasActiveSubscription && (
+                        <span className="px-1.5 py-0.2 rounded-md bg-gradient-to-r from-[#389D9C] to-[#75D5D4] text-white text-[9px] font-black uppercase tracking-wider shrink-0">
+                          {planBadge}
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
 
@@ -180,34 +263,22 @@ export const Navbar = () => {
                       setIsOpen(false);
                       navigate('/profil');
                     }}
-                    className="w-full flex items-center gap-3 px-3 py-2 text-sm font-medium text-gray-600 hover:bg-[#389D9C]/10 hover:text-[#389D9C] rounded-xl transition-all duration-150 cursor-pointer"
+                    className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-[#389D9C]/10 hover:text-[#389D9C] rounded-xl transition-all duration-150 cursor-pointer text-left"
                     role="menuitem"
                   >
-                    <User size={16} />
+                    <User size={16} className="text-[#389D9C]" />
                     <span>Profil Anda</span>
                   </button>
                   
                   <button
                     onClick={() => {
                       setIsOpen(false);
-                      navigate('/pengaturan');
+                      navigate('/kata-sandi');
                     }}
-                    className="w-full flex items-center gap-3 px-3 py-2 text-sm font-medium text-gray-600 hover:bg-[#389D9C]/10 hover:text-[#389D9C] rounded-xl transition-all duration-150 cursor-pointer"
+                    className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-[#389D9C]/10 hover:text-[#389D9C] rounded-xl transition-all duration-150 cursor-pointer text-left"
                     role="menuitem"
                   >
-                    <Settings size={16} />
-                    <span>Pengaturan</span>
-                  </button>
-                  
-                  <button
-                    onClick={() => {
-                      setIsOpen(false);
-                      navigate('/profil');
-                    }}
-                    className="w-full flex items-center gap-3 px-3 py-2 text-sm font-medium text-gray-600 hover:bg-[#389D9C]/10 hover:text-[#389D9C] rounded-xl transition-all duration-150 cursor-pointer"
-                    role="menuitem"
-                  >
-                    <Key size={16} />
+                    <Key size={16} className="text-[#389D9C]" />
                     <span>Kata Sandi</span>
                   </button>
                 </div>
@@ -231,10 +302,94 @@ export const Navbar = () => {
                 </div>
               </div>
             </div>
+
+            {/* Mobile Menu Toggle Button */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden p-1.5 rounded-xl text-slate-600 hover:bg-slate-100 cursor-pointer transition-colors"
+              aria-label={mobileMenuOpen ? 'Tutup menu navigasi' : 'Buka menu navigasi'}
+            >
+              {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+            </button>
           </div>
           
         </div>
+
+        {/* Mobile Navigation Drawer */}
+        {mobileMenuOpen && (
+          <div className="md:hidden py-3 border-t border-slate-100 flex flex-col gap-1.5 animate-in fade-in slide-in-from-top-2 duration-200">
+            {navLinks.map((link) => {
+              const isActive =
+                link.to === '/'
+                  ? location.pathname === '/'
+                  : location.pathname.startsWith(link.to);
+
+              return (
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`px-4 py-3 rounded-2xl text-sm font-semibold transition-all flex items-center justify-between ${
+                    isActive
+                      ? 'bg-[#389D9C] text-white shadow-sm font-bold'
+                      : 'text-slate-600 hover:bg-slate-50'
+                  }`}
+                >
+                  <span>{link.label}</span>
+                </Link>
+              );
+            })}
+          </div>
+        )}
       </div>
     </nav>
+
+      {/* ===== BOTTOM NAVIGATION BAR — HANYA MOBILE (md:hidden) ===== */}
+      {/* Desktop sticky top-navbar tetap tidak berubah; ini hanya untuk mobile */}
+      <nav
+        className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-slate-100/80 shadow-[0_-4px_20px_rgba(25,70,104,0.07)] safe-area-pb"
+        aria-label="Navigasi utama mobile"
+        style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
+      >
+        <div className="flex items-stretch justify-around px-1 py-1.5">
+          {bottomNavLinks.map(({ to, label, Icon }) => {
+            const isActive =
+              to === '/'
+                ? location.pathname === '/'
+                : location.pathname.startsWith(to);
+
+            return (
+              <Link
+                key={to}
+                to={to}
+                onClick={() => setMobileMenuOpen(false)}
+                className={`flex flex-col items-center justify-center gap-0.5 flex-1 py-2 px-1 rounded-xl transition-all duration-200 min-h-[52px] ${
+                  isActive
+                    ? 'text-[#389D9C]'
+                    : 'text-slate-400 hover:text-slate-600'
+                }`}
+                aria-label={label}
+              >
+                <div className={`relative flex items-center justify-center ${
+                  isActive ? 'scale-105' : ''
+                } transition-transform duration-200`}>
+                  <Icon
+                    size={22}
+                    strokeWidth={isActive ? 2.5 : 1.8}
+                    className="transition-all duration-200"
+                  />
+                </div>
+                <span className={`text-[10px] font-semibold leading-tight mt-0.5 ${
+                  isActive ? 'font-bold text-[#389D9C]' : ''
+                }`}>
+                  {label}
+                </span>
+              </Link>
+            );
+          })}
+        </div>
+      </nav>
+    </>
   );
 };
+

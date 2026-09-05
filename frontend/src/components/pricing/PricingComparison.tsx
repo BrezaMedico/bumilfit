@@ -236,7 +236,7 @@ export const PricingComparison = () => {
                 <div className="text-[11px] text-[#389D9C] font-semibold lowercase">105k/3bulan</div>
               </th>
               <th className="py-4 px-4 text-center text-xs font-bold text-[#194668] uppercase tracking-wider w-[16%]">
-                Premium Lengkap
+                Premium+
                 <div className="text-[11px] text-gray-400 font-normal lowercase">299k/9bulan</div>
               </th>
             </tr>
@@ -284,7 +284,7 @@ export const PricingComparison = () => {
 
       {/* Footer Info */}
       <div className="p-4 sm:p-5 bg-gray-50 text-center border-t border-gray-100 text-xs text-gray-500">
-        💡 <strong className="text-gray-700">Tips Hemat:</strong> Paket <span className="text-[#389D9C] font-bold">Premium (3 Bulan)</span> dan <span className="text-[#194668] font-bold">Premium Lengkap (9 Bulan)</span> sudah termasuk <strong className="text-gray-800">Fitur Cek Gizi dengan Kamera (AI Food Scanner)</strong> tanpa batas.
+        💡 <strong className="text-gray-700">Tips Hemat:</strong> Paket <span className="text-[#389D9C] font-bold">Premium (3 Bulan)</span> dan <span className="text-[#194668] font-bold">Premium+ (9 Bulan)</span> sudah termasuk <strong className="text-gray-800">Fitur Cek Gizi dengan Kamera (AI Food Scanner)</strong> tanpa batas.
       </div>
     </div>
   );

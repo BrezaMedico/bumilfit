@@ -10,6 +10,9 @@ import chatAiRoutes from './routes/chat-ai.routes.js';
 import komunitasRoutes from './routes/komunitas.routes.js';
 import giziRoutes from './routes/gizi.routes.js';
 import todoRoutes from './routes/todo.routes.js';
+import subscriptionRoutes from './routes/subscription.routes.js';
+import orderRoutes from './routes/order.routes.js';
+import whatsappRoutes from './routes/whatsapp.routes.js';
 
 const app = express();
 
@@ -28,6 +31,9 @@ app.use('/api/chat-ai', chatAiRoutes);
 app.use('/api/komunitas', komunitasRoutes);
 app.use('/api/gizi', giziRoutes);
 app.use('/api/todo', todoRoutes);
+app.use('/api/subscription', subscriptionRoutes);
+app.use('/api/orders', orderRoutes);
+app.use('/api/whatsapp', whatsappRoutes);
 
 // Endpoint pengujian healthcheck
 app.get('/api/health', (_req, res) => {

@@ -1,0 +1,44 @@
+export const verifyRecaptchaToken = async (token?: string): Promise<boolean> => {
+  const secretKey = process.env.RECAPTCHA_SECRET_KEY;
+
+  // Jika token tidak disertakan sama sekali
+  if (!token) {
+    // Jika secret key belum diset di development, beri toleransi dengan peringatan
+    if (!secretKey) {
+      console.warn('[reCAPTCHA] RECAPTCHA_SECRET_KEY belum diset dan tidak ada token dikirim (development bypass).');
+      return true;
+    }
+    return false;
+  }
+
+  // Dukungan token pengujian otomatis pada mode non-produksi
+  if (process.env.NODE_ENV !== 'production' && token === 'test_recaptcha_mock_token') {
+    return true;
+  }
+
+  // Jika secret key belum diset di environment backend (misal masa development lokal awal)
+  if (!secretKey) {
+    console.warn('[reCAPTCHA] RECAPTCHA_SECRET_KEY belum diset di backend .env. Token diterima tetapi dilewati untuk testing lokal.');
+    return true;
+  }
+
+  try {
+    const params = new URLSearchParams();
+    params.append('secret', secretKey);
+    params.append('response', token);
+
+    const response = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: params.toString(),
+    });
+
+    const data = await response.json();
+    return Boolean(data.success);
+  } catch (error) {
+    console.error('[reCAPTCHA] Gagal memverifikasi token reCAPTCHA ke Google:', error);
+    return false;
+  }
+};

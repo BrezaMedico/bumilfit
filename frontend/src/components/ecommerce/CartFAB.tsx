@@ -11,7 +11,7 @@ export const CartFAB = () => {
     <button
       id="cart-fab"
       onClick={() => navigate('/keranjang')}
-      className="fixed bottom-8 right-8 z-50 w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#389D9C] hover:bg-[#2b7f7e] text-white flex items-center justify-center shadow-[0_10px_30px_rgba(56,157,156,0.35)] hover:shadow-[0_15px_35px_rgba(56,157,156,0.5)] hover:-translate-y-0.5 transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer focus:outline-none focus:ring-4 focus:ring-[#389D9C]/30 focus:ring-offset-2"
+      className="fixed bottom-[calc(5rem+env(safe-area-inset-bottom,0px))] md:bottom-8 right-4 sm:right-8 z-40 w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#389D9C] hover:bg-[#2E8281] text-white flex items-center justify-center shadow-[0_10px_30px_rgba(56,157,156,0.35)] hover:shadow-[0_15px_35px_rgba(56,157,156,0.5)] hover:-translate-y-0.5 transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer focus:outline-none focus:ring-4 focus:ring-[#389D9C]/30 focus:ring-offset-2"
       aria-label="Keranjang Belanja"
     >
       <div className="relative">

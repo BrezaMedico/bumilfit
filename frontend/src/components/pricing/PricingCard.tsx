@@ -6,6 +6,7 @@ export interface PlanItem {
   badge?: string;
   isPopular?: boolean;
   tagline?: string;
+  price?: number;
   priceFormatted: string;
   periodText: string;
   features: string[];

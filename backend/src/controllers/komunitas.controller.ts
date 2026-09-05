@@ -1,6 +1,13 @@
 import type { Request, Response } from 'express';
 import prisma from '../lib/prisma.js';
 
+// Helper memeriksa apakah pengguna memiliki langganan aktif
+const checkSubscriptionActive = (author: any): boolean => {
+  if (!author?.subscription) return false;
+  const sub = author.subscription;
+  return sub.status === 'ACTIVE' && new Date().getTime() < new Date(sub.endDate).getTime();
+};
+
 // Ambil semua postingan komunitas beserta detail likes & komentar
 export const getPosts = async (req: Request, res: Response) => {
   try {
@@ -12,6 +19,7 @@ export const getPosts = async (req: Request, res: Response) => {
         author: {
           include: {
             profilIbu: true,
+            subscription: true,
           },
         },
         likes: true,
@@ -21,6 +29,7 @@ export const getPosts = async (req: Request, res: Response) => {
             author: {
               include: {
                 profilIbu: true,
+                subscription: true,
               },
             },
           },
@@ -63,6 +72,7 @@ export const getPosts = async (req: Request, res: Response) => {
           isiKomentar: comment.isiKomentar,
           peran: commentPeran,
           authorId: comment.authorId,
+          isSubscribed: checkSubscriptionActive(comment.author),
         };
       });
 
@@ -77,6 +87,7 @@ export const getPosts = async (req: Request, res: Response) => {
         likedByUser: isLiked,
         comments: formattedComments,
         authorId: post.authorId,
+        isSubscribed: checkSubscriptionActive(post.author),
       };
     });
 
@@ -107,6 +118,7 @@ export const createPost = async (req: Request, res: Response) => {
         author: {
           include: {
             profilIbu: true,
+            subscription: true,
           },
         },
         likes: true,
@@ -134,6 +146,7 @@ export const createPost = async (req: Request, res: Response) => {
       likedByUser: false,
       comments: [],
       authorId: newPost.authorId,
+      isSubscribed: checkSubscriptionActive(newPost.author),
     };
 
     res.status(201).json(formattedPost);
@@ -242,6 +255,7 @@ export const getCommentsByPostId = async (req: Request, res: Response) => {
         author: {
           include: {
             profilIbu: true,
+            subscription: true,
           },
         },
       },
@@ -269,6 +283,7 @@ export const getCommentsByPostId = async (req: Request, res: Response) => {
         isiKomentar: comment.isiKomentar,
         peran: commentPeran,
         authorId: comment.authorId,
+        isSubscribed: checkSubscriptionActive(comment.author),
       };
     });
 
@@ -308,6 +323,7 @@ export const createComment = async (req: Request, res: Response) => {
         author: {
           include: {
             profilIbu: true,
+            subscription: true,
           },
         },
       },
@@ -333,6 +349,7 @@ export const createComment = async (req: Request, res: Response) => {
       isiKomentar: newComment.isiKomentar,
       peran: commentPeran,
       authorId: newComment.authorId,
+      isSubscribed: checkSubscriptionActive(newComment.author),
     };
 
     res.status(201).json(formattedComment);
@@ -373,3 +390,119 @@ export const deleteComment = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Gagal menghapus komentar' });
   }
 };
+
+// Laporkan komentar (auto-delete jika 5 akun berbeda melaporkan)
+export const reportComment = async (req: Request, res: Response) => {
+  try {
+    const userId = (req as any).user.id;
+    const id = req.params.id as string;
+
+    const comment = await prisma.comment.findUnique({
+      where: { id },
+    });
+
+    if (!comment) {
+      return res.status(404).json({ message: 'Komentar tidak ditemukan' });
+    }
+
+    const reportedBy = comment.reportedBy || [];
+    if (reportedBy.includes(userId)) {
+      return res.status(400).json({ 
+        message: 'Anda sudah pernah melaporkan komentar ini.',
+        alreadyReported: true,
+        reportCount: reportedBy.length 
+      });
+    }
+
+    const updatedReports = [...reportedBy, userId];
+
+    // Jika dilaporkan oleh 5 akun berbeda, otomatis terdelete oleh sistem
+    if (updatedReports.length >= 5) {
+      await prisma.comment.delete({
+        where: { id },
+      });
+
+      return res.status(200).json({
+        message: 'Berhasil dilaporkan',
+        deleted: true,
+        reportCount: updatedReports.length,
+      });
+    }
+
+    // Jika belum mencapai 5, update daftar pelapor
+    await prisma.comment.update({
+      where: { id },
+      data: {
+        reportedBy: updatedReports,
+      },
+    });
+
+    res.status(200).json({
+      message: 'Berhasil dilaporkan',
+      deleted: false,
+      reportCount: updatedReports.length,
+    });
+  } catch (error) {
+    console.error('Error reporting comment:', error);
+    res.status(500).json({ message: 'Gagal melaporkan komentar' });
+  }
+};
+
+// Laporkan postingan (komentar utama)
+export const reportPost = async (req: Request, res: Response) => {
+  try {
+    const userId = (req as any).user.id;
+    const id = req.params.id as string;
+
+    const post = await prisma.post.findUnique({
+      where: { id },
+    });
+
+    if (!post) {
+      return res.status(404).json({ message: 'Postingan tidak ditemukan' });
+    }
+
+    const reportedBy = post.reportedBy || [];
+    if (reportedBy.includes(userId)) {
+      return res.status(400).json({ 
+        message: 'Anda sudah pernah melaporkan postingan ini.',
+        alreadyReported: true,
+        reportCount: reportedBy.length 
+      });
+    }
+
+    const updatedReports = [...reportedBy, userId];
+
+    // Jika dilaporkan oleh 5 akun berbeda, otomatis terdelete oleh sistem
+    if (updatedReports.length >= 5) {
+      await prisma.post.delete({
+        where: { id },
+      });
+
+      return res.status(200).json({
+        message: 'Berhasil dilaporkan',
+        deleted: true,
+        reportCount: updatedReports.length,
+      });
+    }
+
+    // Jika belum mencapai 5, update daftar pelapor
+    await prisma.post.update({
+      where: { id },
+      data: {
+        reportedBy: updatedReports,
+      },
+    });
+
+    res.status(200).json({
+      message: 'Berhasil dilaporkan',
+      deleted: false,
+      reportCount: updatedReports.length,
+    });
+  } catch (error) {
+    console.error('Error reporting post:', error);
+    res.status(500).json({ message: 'Gagal melaporkan postingan' });
+  }
+};
+
+

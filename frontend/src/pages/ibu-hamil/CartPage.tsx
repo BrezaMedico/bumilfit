@@ -22,17 +22,17 @@ export const CartPage = () => {
       {/* HEADER HALAMAN */}
       <div className="sticky top-0 z-10 bg-[#F8FAFC]/90 backdrop-blur-md border-b border-gray-100 px-4 py-4 flex items-center justify-between">
         <button 
-          onClick={() => navigate(-1)} 
-          className="text-[#389D9C] hover:bg-teal-50 p-2 rounded-xl transition-colors"
-          aria-label="Kembali"
+          onClick={() => navigate('/belanja-obat')} 
+          className="text-[#389D9C] hover:bg-teal-50 p-2 rounded-xl transition-colors cursor-pointer"
+          aria-label="Kembali ke belanja obat"
         >
           <ArrowLeft size={24} />
         </button>
-        <h1 className="text-lg font-bold text-gray-800 flex-1 text-center pr-10">Keranjang Saya</h1>
+        <h1 className="text-lg font-extrabold text-[#194668] flex-1 text-center pr-10">Keranjang Saya</h1>
       </div>
 
       {/* DAFTAR ITEM (Tumpukan Kartu) */}
-      <div className="flex-1 max-w-3xl w-full mx-auto p-4 md:p-6 space-y-4 pb-40">
+      <div className="flex-1 max-w-3xl w-full mx-auto p-4 md:p-6 space-y-4 pb-52 md:pb-40">
         
         {cartItems.length === 0 ? (
           <div className="text-center py-20">
@@ -49,8 +49,8 @@ export const CartPage = () => {
               {/* KIRI & TENGAH: Gambar & Tipografi */}
               <div className="flex items-center gap-4 w-full sm:w-auto sm:flex-1">
                 {/* Placeholder Gambar (Persegi dengan sudut membulat) */}
-                <div className="w-16 h-16 md:w-20 md:h-20 bg-gray-100 rounded-2xl flex-shrink-0 overflow-hidden">
-                  <img src={item.image} alt={item.name} className="w-full h-full object-cover mix-blend-multiply" />
+                <div className="w-16 h-16 md:w-20 md:h-20 bg-slate-50 border border-slate-100 rounded-2xl flex-shrink-0 overflow-hidden flex items-center justify-center p-1.5">
+                  <img src={item.image} alt={item.name} className="w-full h-full object-contain mix-blend-multiply" />
                 </div>
                 
                 {/* Kolom Tipografi */}
@@ -67,14 +67,14 @@ export const CartPage = () => {
                 <div className="flex items-center gap-3">
                   <button 
                     onClick={() => updateQuantity(item.id, -1)}
-                    className="w-7 h-7 rounded-full bg-[#389D9C] flex items-center justify-center text-white hover:bg-[#2b7f7e] transition-colors active:scale-95 shadow-sm"
+                    className="w-7 h-7 rounded-full bg-[#389D9C] flex items-center justify-center text-white hover:bg-[#2E8281] transition-colors active:scale-95 shadow-sm"
                   >
                     <Minus size={14} strokeWidth={3} />
                   </button>
                   <span className="font-bold text-gray-800 w-5 text-center text-sm">{item.quantity}</span>
                   <button 
                     onClick={() => updateQuantity(item.id, 1)}
-                    className="w-7 h-7 rounded-full bg-[#389D9C] flex items-center justify-center text-white hover:bg-[#2b7f7e] transition-colors active:scale-95 shadow-sm"
+                    className="w-7 h-7 rounded-full bg-[#389D9C] flex items-center justify-center text-white hover:bg-[#2E8281] transition-colors active:scale-95 shadow-sm"
                   >
                     <Plus size={14} strokeWidth={3} />
                   </button>
@@ -102,19 +102,19 @@ export const CartPage = () => {
 
       {/* AREA RINGKASAN & TOMBOL TINDAKAN (Fixed Bottom) */}
       {cartItems.length > 0 && (
-        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 shadow-[0_-8px_30px_rgb(0,0,0,0.04)] px-4 py-5 md:px-8">
+        <div className="fixed bottom-[calc(65px+env(safe-area-inset-bottom,0px))] md:bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-gray-200/80 shadow-[0_-8px_30px_rgb(0,0,0,0.06)] px-4 py-3 sm:py-4 md:px-8 z-40">
           <div className="max-w-3xl mx-auto">
             
             {/* Footer Ringkasan */}
-            <div className="flex justify-between items-center mb-4 px-2">
-              <span className="font-bold text-gray-800 text-base md:text-lg">Total</span>
-              <span className="font-bold text-[#389D9C] text-xl md:text-2xl">{formatRupiah(totalBelanja)}</span>
+            <div className="flex justify-between items-center mb-2.5 sm:mb-4 px-1 sm:px-2">
+              <span className="font-bold text-gray-800 text-sm sm:text-base md:text-lg">Total</span>
+              <span className="font-bold text-[#389D9C] text-lg sm:text-xl md:text-2xl">{formatRupiah(totalBelanja)}</span>
             </div>
             
             {/* Tombol Tindakan Utama */}
             <button 
               onClick={() => navigate('/checkout')}
-              className="w-full bg-[#389D9C] hover:bg-[#2b7f7e] text-white py-4 rounded-[1.25rem] font-bold text-base shadow-sm transition-transform active:scale-[0.98] flex justify-center items-center gap-2 cursor-pointer"
+              className="w-full bg-[#389D9C] hover:bg-[#2E8281] text-white py-3.5 sm:py-4 rounded-xl sm:rounded-2xl font-bold text-sm sm:text-base shadow-sm transition-all active:scale-[0.98] flex justify-center items-center gap-2 cursor-pointer"
             >
               Lanjutkan ke Pembayaran
             </button>

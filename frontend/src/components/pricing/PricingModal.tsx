@@ -11,10 +11,13 @@ import {
   ArrowRight,
   Clock,
   Copy,
-  ChevronDown
+  ChevronDown,
+  Sparkles
 } from 'lucide-react';
 import type { PlanItem } from './PricingCard';
 import { useNavigate } from 'react-router-dom';
+import { useSubscription } from '../../context/SubscriptionContext';
+import { AuthenticQrisCard } from '../payment/AuthenticQrisCard';
 
 interface PricingModalProps {
   plan: PlanItem | null;
@@ -44,6 +47,7 @@ const INDONESIAN_EWALLETS = [
 
 export const PricingModal = ({ plan, isOpen, onClose }: PricingModalProps) => {
   const navigate = useNavigate();
+  const { activatePlan } = useSubscription();
   
   // Metode pembayaran terpilih
   const [paymentCategory, setPaymentCategory] = useState<'qris' | 'bank' | 'ewallet'>('qris');
@@ -69,6 +73,17 @@ export const PricingModal = ({ plan, isOpen, onClose }: PricingModalProps) => {
     }
   }, [isOpen]);
 
+  // Kunci scroll halaman belakang ketika modal terbuka agar tidak lag saat di-scroll
+  useEffect(() => {
+    if (isOpen) {
+      const originalOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = originalOverflow;
+      };
+    }
+  }, [isOpen]);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isOpen) {
@@ -83,6 +98,7 @@ export const PricingModal = ({ plan, isOpen, onClose }: PricingModalProps) => {
 
   // Harga dasar paket
   const getRawPrice = () => {
+    if (plan.price) return plan.price;
     switch (plan.id) {
       case 'basic':
         return 15000;
@@ -98,16 +114,19 @@ export const PricingModal = ({ plan, isOpen, onClose }: PricingModalProps) => {
   };
 
   const rawPrice = getRawPrice();
+  // 3 Komponen Pembayaran (Harga Paket, Pajak PPN 11%, Biaya Layanan 5%):
+  // Dibulatkan ke bilangan bulat (Math.round) agar rapi dan tidak ada koma desimal
   const ppnTax = Math.round(rawPrice * 0.11); // Pajak PPN 11%
-  const adminFee = 0; // Bebas biaya admin
-  const totalPrice = rawPrice + ppnTax + adminFee;
+  const serviceFee = Math.round(rawPrice * 0.05); // Biaya Layanan 5% dari harga paket
+  const totalPrice = Math.round(rawPrice + ppnTax + serviceFee); // Total Harga di bawah
 
   const formatRupiah = (num: number) => {
     return new Intl.NumberFormat('id-ID', {
       style: 'currency',
       currency: 'IDR',
       minimumFractionDigits: 0,
-    }).format(num);
+      maximumFractionDigits: 0,
+    }).format(Math.round(num));
   };
 
   const handlePay = () => {
@@ -118,12 +137,18 @@ export const PricingModal = ({ plan, isOpen, onClose }: PricingModalProps) => {
     }, 800);
   };
 
-  const handleConfirmPaid = () => {
+  const handleConfirmPaid = async () => {
     setIsProcessing(true);
-    setTimeout(() => {
+    try {
+      if (plan) {
+        await activatePlan(plan.id);
+      }
+    } catch (err) {
+      console.error('Gagal aktivasi paket:', err);
+    } finally {
       setIsProcessing(false);
       setStep('success');
-    }, 1200);
+    }
   };
 
   const copyVA = (text: string) => {
@@ -133,18 +158,18 @@ export const PricingModal = ({ plan, isOpen, onClose }: PricingModalProps) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/65 transition-opacity">
       <div 
-        className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100 flex flex-col max-h-[90vh] animate-in zoom-in-95 duration-200"
+        className="relative w-full max-w-lg bg-white rounded-2xl sm:rounded-3xl shadow-xl overflow-hidden border border-gray-200 flex flex-col max-h-[90vh] [transform:translateZ(0)] will-change-transform"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header Modal Sederhana (Tanpa Icon Atas Kiri) */}
-        <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between bg-white">
+        {/* Header Modal Sederhana */}
+        <div className="px-5 py-3.5 sm:px-6 sm:py-4 border-b border-gray-100 flex items-center justify-between bg-white shrink-0">
           <div>
             <h2 className="text-base sm:text-lg font-bold text-gray-900">
               {step === 'checkout' && 'Checkout Paket Langganan'}
               {step === 'payment_process' && 'Instruksi Pembayaran'}
-              {step === 'success' && 'Pembayaran Berhasil! 🎉'}
+              {step === 'success' && 'Pembayaran Berhasil!'}
             </h2>
             <p className="text-xs text-gray-500">
               {step === 'checkout' && 'Pilih metode pembayaran aman dan nikmati seluruh fiturnya'}
@@ -161,14 +186,14 @@ export const PricingModal = ({ plan, isOpen, onClose }: PricingModalProps) => {
           </button>
         </div>
 
-        {/* Modal Body: Scrollable */}
-        <div className="p-6 overflow-y-auto space-y-5 flex-1 text-left">
+        {/* Modal Body: Scrollable dengan GPU Acceleration & Overscroll Contain */}
+        <div className="p-4 sm:p-5 sm:px-6 overflow-y-auto space-y-4 flex-1 text-left overscroll-contain [transform:translateZ(0)] [scrollbar-width:thin]">
           
           {/* STEP 1: CHECKOUT */}
           {step === 'checkout' && (
             <>
               {/* Ringkasan Paket */}
-              <div className="p-4 rounded-2xl bg-[#75D5D4]/15 border border-[#389D9C]/30 flex items-center justify-between">
+              <div className="p-3.5 sm:p-4 rounded-2xl bg-[#75D5D4]/15 border border-[#389D9C]/30 flex items-center justify-between">
                 <div>
                   <span className="text-[10px] font-bold text-[#389D9C] uppercase tracking-wider block">
                     Paket Dipilih
@@ -183,7 +208,7 @@ export const PricingModal = ({ plan, isOpen, onClose }: PricingModalProps) => {
               </div>
 
               {/* Pilihan Metode Pembayaran */}
-              <div className="space-y-3">
+              <div className="space-y-2.5">
                 <label className="text-xs font-bold text-gray-900 uppercase tracking-wider block">
                   Pilih Metode Pembayaran:
                 </label>
@@ -195,7 +220,7 @@ export const PricingModal = ({ plan, isOpen, onClose }: PricingModalProps) => {
                     setIsBankDropdownOpen(false);
                     setIsEwalletDropdownOpen(false);
                   }}
-                  className={`p-3.5 rounded-2xl border flex items-center justify-between cursor-pointer transition-all ${
+                  className={`p-3 sm:p-3.5 rounded-2xl border flex items-center justify-between cursor-pointer transition-colors ${
                     paymentCategory === 'qris'
                       ? 'border-[#389D9C] bg-[#75D5D4]/10 ring-2 ring-[#389D9C]/20'
                       : 'border-gray-200 hover:border-gray-300'
@@ -223,7 +248,7 @@ export const PricingModal = ({ plan, isOpen, onClose }: PricingModalProps) => {
                       setIsBankDropdownOpen(!isBankDropdownOpen);
                       setIsEwalletDropdownOpen(false);
                     }}
-                    className={`p-3.5 rounded-2xl border flex items-center justify-between cursor-pointer transition-all ${
+                    className={`p-3 sm:p-3.5 rounded-2xl border flex items-center justify-between cursor-pointer transition-colors ${
                       paymentCategory === 'bank'
                         ? 'border-[#389D9C] bg-[#75D5D4]/10 ring-2 ring-[#389D9C]/20'
                         : 'border-gray-200 hover:border-gray-300'
@@ -277,7 +302,7 @@ export const PricingModal = ({ plan, isOpen, onClose }: PricingModalProps) => {
                       setIsEwalletDropdownOpen(!isEwalletDropdownOpen);
                       setIsBankDropdownOpen(false);
                     }}
-                    className={`p-3.5 rounded-2xl border flex items-center justify-between cursor-pointer transition-all ${
+                    className={`p-3 sm:p-3.5 rounded-2xl border flex items-center justify-between cursor-pointer transition-colors ${
                       paymentCategory === 'ewallet'
                         ? 'border-[#389D9C] bg-[#75D5D4]/10 ring-2 ring-[#389D9C]/20'
                         : 'border-gray-200 hover:border-gray-300'
@@ -325,23 +350,26 @@ export const PricingModal = ({ plan, isOpen, onClose }: PricingModalProps) => {
 
               </div>
 
-              {/* Rincian Biaya & PPN 11% */}
-              <div className="p-4 rounded-2xl bg-gray-50 border border-gray-200 space-y-2 text-xs sm:text-sm">
+              {/* Rincian Biaya: 3 Komponen (Harga Paket, Pajak, Biaya Layanan) & Total Harga di Bawah */}
+              <div className="p-3.5 sm:p-4 rounded-2xl bg-gray-50 border border-gray-200 space-y-2 text-xs sm:text-sm">
                 <div className="flex justify-between text-gray-600">
                   <span>Harga Paket ({plan.name})</span>
-                  <span>{formatRupiah(rawPrice)}</span>
+                  <span className="font-semibold text-gray-900">{formatRupiah(rawPrice)}</span>
                 </div>
                 <div className="flex justify-between text-gray-600">
-                  <span>Pajak PPN (11%)</span>
-                  <span>{formatRupiah(ppnTax)}</span>
+                  <span>Pajak (PPN 11%)</span>
+                  <span className="font-semibold text-gray-900">{formatRupiah(ppnTax)}</span>
                 </div>
                 <div className="flex justify-between text-gray-600">
-                  <span>Biaya Admin</span>
-                  <span className="text-emerald-600 font-bold">Gratis (Rp 0)</span>
+                  <span>Biaya Layanan (5%)</span>
+                  <span className="font-semibold text-gray-900">{formatRupiah(serviceFee)}</span>
                 </div>
                 <div className="border-t border-gray-200 pt-2 flex justify-between items-baseline font-bold text-gray-900">
-                  <span>Total Pembayaran</span>
-                  <span className="text-lg text-[#389D9C] font-black">{formatRupiah(totalPrice)}</span>
+                  <div>
+                    <span className="text-sm sm:text-base block text-gray-900 font-extrabold">Total Harga</span>
+                    <span className="text-[11px] font-normal text-gray-500">Harga bulat (paket + pajak + layanan)</span>
+                  </div>
+                  <span className="text-lg sm:text-xl text-[#389D9C] font-black">{formatRupiah(totalPrice)}</span>
                 </div>
               </div>
 
@@ -366,16 +394,15 @@ export const PricingModal = ({ plan, isOpen, onClose }: PricingModalProps) => {
               </div>
 
               {paymentCategory === 'qris' && (
-                <div className="space-y-3 flex flex-col items-center">
-                  <div className="p-4 bg-white rounded-3xl border-2 border-[#389D9C]/40 shadow-md inline-block">
-                    <div className="w-44 h-44 bg-gray-900 rounded-2xl flex flex-col items-center justify-center p-3 text-white">
-                      <QrCode className="w-32 h-32 text-white" />
-                      <span className="text-[10px] font-bold tracking-widest uppercase">QRIS BUMILFIT</span>
-                    </div>
-                  </div>
-                  <p className="text-xs text-gray-600 max-w-xs">
-                    Scan kode QRIS menggunakan e-wallet atau mobile banking Bunda.
-                  </p>
+                <div className="w-full flex flex-col items-center">
+                  <AuthenticQrisCard
+                    totalAmount={totalPrice}
+                    orderId="SUB-PREMIUM"
+                    merchantName="BUMILFIT PREMIUM OFFICIAL"
+                    nmid="ID102024090500123"
+                    compact={true}
+                    showInstructions={false}
+                  />
                 </div>
               )}
 
@@ -421,17 +448,21 @@ export const PricingModal = ({ plan, isOpen, onClose }: PricingModalProps) => {
 
           {/* STEP 3: SUCCESS */}
           {step === 'success' && (
-            <div className="py-6 text-center space-y-4">
+            <div className="py-6 text-center space-y-4 animate-in fade-in zoom-in-95 duration-200">
               <div className="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto ring-8 ring-emerald-50">
                 <CheckCircle2 className="w-8 h-8" />
               </div>
               <div>
                 <h3 className="text-lg font-extrabold text-gray-900">
-                  Pembayaran Berhasil!
+                  Pembayaran Berhasil & Langganan Aktif!
                 </h3>
                 <p className="text-xs sm:text-sm text-gray-600 max-w-sm mx-auto mt-1">
-                  Paket <strong className="text-[#389D9C]">{plan.name}</strong> Bunda telah aktif.
+                  Selamat! <strong className="text-[#389D9C]">{plan.name}</strong> Bunda telah aktif. Seluruh fitur terkait kini dapat digunakan.
                 </p>
+                <div className="mt-3 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold border border-emerald-200">
+                  <Sparkles size={14} className="text-emerald-500 animate-pulse" />
+                  <span>Masa Aktif: {plan.periodText.replace('/', '')}</span>
+                </div>
               </div>
             </div>
           )}
@@ -439,7 +470,7 @@ export const PricingModal = ({ plan, isOpen, onClose }: PricingModalProps) => {
         </div>
 
         {/* Footer Modal Action Buttons */}
-        <div className="px-6 py-4 border-t border-gray-100 bg-gray-50 flex items-center justify-between gap-3">
+        <div className="px-5 py-3.5 sm:px-6 sm:py-4 border-t border-gray-100 bg-gray-50 flex items-center justify-between gap-3 shrink-0">
           {step === 'checkout' && (
             <>
               <button
@@ -483,7 +514,7 @@ export const PricingModal = ({ plan, isOpen, onClose }: PricingModalProps) => {
                 type="button"
                 onClick={handleConfirmPaid}
                 disabled={isProcessing}
-                className="flex-1 sm:flex-none px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-bold shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                className="flex-1 sm:flex-none px-6 py-2.5 rounded-xl bg-[#389D9C] hover:bg-[#2E8281] text-white text-xs sm:text-sm font-bold shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
               >
                 {isProcessing ? (
                   <>

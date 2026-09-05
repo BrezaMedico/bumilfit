@@ -9,6 +9,7 @@ datasource db {
 enum Role {
   IBU_HAMIL
   DOKTER
+  WHATSAPP_ADMIN
 }
 
 enum Keparahan {
@@ -20,17 +21,22 @@ enum Keparahan {
 model User {
   id          String           @id @default(uuid())
   email       String           @unique
-  password    String
+  password    String?
   role        Role
+  authProvider String          @default("LOCAL")
   isVerified  Boolean          @default(false)
-  profilIbu   ProfilIbuHamil?
-  keluhanLogs KeluhanLog[]
-  otp         OtpVerification?
-  posts       Post[]
-  comments    Comment[]
-  likes       Like[]
-  todos       UserTodo[]
-  createdAt   DateTime         @default(now())
+  lastActiveAt        DateTime         @default(now())
+  reminderAutoPaused  Boolean          @default(false)
+  profilIbu           ProfilIbuHamil?
+  keluhanLogs         KeluhanLog[]
+  otp                 OtpVerification?
+  posts               Post[]
+  comments            Comment[]
+  likes               Like[]
+  todos               UserTodo[]
+  subscription        Subscription?
+  orders              Order[]
+  createdAt           DateTime         @default(now())
 }
 
 model ProfilIbuHamil {
@@ -73,14 +79,15 @@ model OtpVerification {
 }
 
 model Post {
-  id        String    @id @default(uuid())
-  authorId  String
-  author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  isiPost   String
-  tag       String
-  createdAt DateTime  @default(now())
-  comments  Comment[]
-  likes     Like[]
+  id         String    @id @default(uuid())
+  authorId   String
+  author     User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  isiPost    String
+  tag        String
+  reportedBy String[]  @default([])
+  createdAt  DateTime  @default(now())
+  comments   Comment[]
+  likes      Like[]
 }
 
 model Comment {
@@ -90,6 +97,7 @@ model Comment {
   authorId    String
   author      User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
   isiKomentar String
+  reportedBy  String[] @default([])
   createdAt   DateTime @default(now())
 }
 
@@ -139,5 +147,72 @@ model UserTodo {
   createdAt    DateTime   @default(now())
 
   @@unique([userId, masterTodoId, tanggal])
+}
+
+enum SubscriptionPlan {
+  BASIC
+  PRO
+  PREMIUM
+  PREMIUM_LENGKAP
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  EXPIRED
+  CANCELLED
+}
+
+model Subscription {
+  id        String             @id @default(uuid())
+  userId    String             @unique
+  user      User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plan      SubscriptionPlan
+  status    SubscriptionStatus @default(ACTIVE)
+  startDate DateTime           @default(now())
+  endDate   DateTime
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+
+  @@index([userId, status, endDate])
+}
+
+enum OrderStatus {
+  BELUM_BAYAR
+  DIKEMAS
+  DIKIRIM
+  SELESAI
+  DIBATALKAN
+}
+
+model Order {
+  id               String      @id @default(uuid())
+  orderNumber      String      @unique
+  userId           String
+  user             User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  status           OrderStatus @default(BELUM_BAYAR)
+  
+  // Data Pembelian
+  items            Json        // Array produk [{id, name, price, quantity, image, description}]
+  totalPrice       Float       // Total keseluruhan (subtotal + shippingFee)
+  subtotal         Float       // Total belanja produk
+  shippingFee      Float       // Biaya ongkos kirim
+  courierName      String?     // Nama kurir & layanan
+  paymentMethod    String      // 'qris' | 'bank' | 'cod'
+  bankName         String?     // 'BCA' | 'Mandiri' | dll
+  vaNumber         String?     // Nomor Virtual Account jika bank
+  shippingAddress  String?     // Alamat lengkap penerima
+  
+  // Timestamp lifecycle untuk evaluasi status dan countdown
+  createdAt        DateTime    @default(now())
+  paymentDeadline  DateTime    // createdAt + 24 jam (1 hari)
+  paidAt           DateTime?   // waktu saat pembayaran berhasil
+  packedAt         DateTime?   // waktu saat masuk status DIKEMAS
+  packedDeadline   DateTime?   // packedAt + 30 menit
+  shippedAt        DateTime?   // waktu saat masuk status DIKIRIM
+  shippingDeadline DateTime?   // shippedAt + 24 jam (1 hari)
+  completedAt      DateTime?   // waktu saat status SELESAI
+  updatedAt        DateTime    @updatedAt
+
+  @@index([userId, status])
 }
 

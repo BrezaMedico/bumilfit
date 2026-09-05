@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { 
   Send, 
-  AlertTriangle, 
   Stethoscope, 
   Search, 
   Plus, 
@@ -9,9 +8,17 @@ import {
   ArrowLeft, 
   MessageSquare,
   X,
-  Star
+  Star,
+  Lock,
+  Crown,
+  ChevronDown
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { apiClient } from '../../lib/apiClient';
+import { useSubscription } from '../../context/SubscriptionContext';
+import { UserAvatar } from '../../components/common/UserAvatar';
+import { ConfirmDialog } from '../../components/ui/ConfirmDialog';
+import { toast } from '../../store/useToastStore';
 
 interface DoctorConversation {
   id: string;
@@ -145,6 +152,8 @@ const DOCTORS_POOL = [
 ];
 
 export const ChatPage = () => {
+  const navigate = useNavigate();
+  const { hasActiveSubscription, canAccessDoctorConsultation, planBadge } = useSubscription();
 
   // State untuk Konsultasi Dokter Virtual
   const [conversations, setConversations] = useState<DoctorConversation[]>(() => {
@@ -158,6 +167,15 @@ export const ChatPage = () => {
   const [doctorChatInput, setDoctorChatInput] = useState('');
   const [isDoctorLoading, setIsDoctorLoading] = useState(false);
   const doctorMessagesEndRef = useRef<HTMLDivElement>(null);
+  const chatMessagesContainerRef = useRef<HTMLDivElement>(null);
+  const [showScrollToBottom, setShowScrollToBottom] = useState(false);
+
+  const handleChatScroll = () => {
+    if (!chatMessagesContainerRef.current) return;
+    const { scrollTop, scrollHeight, clientHeight } = chatMessagesContainerRef.current;
+    const isFarFromBottom = scrollHeight - scrollTop - clientHeight > 120;
+    setShowScrollToBottom(isFarFromBottom);
+  };
 
   const activeConv = conversations.find(c => c.id === activeConvId);
 
@@ -176,9 +194,6 @@ export const ChatPage = () => {
   const [deleteConfirmationModalOpen, setDeleteConfirmationModalOpen] = useState(false);
   const [confirmDeleteConvId, setConfirmDeleteConvId] = useState<string | null>(null);
 
-  // State untuk Toast Notification
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
-
   // State baru untuk alur konfirmasi sekuensial dan rangkuman AI
   const [awaitingEndConfirmation, setAwaitingEndConfirmation] = useState(false);
   const [isSummaryLoading, setIsSummaryLoading] = useState(false);
@@ -187,10 +202,7 @@ export const ChatPage = () => {
   const AUTO_FOLLOW_UP_TEXT = "Bunda, apakah masih ada hal lain seputar kesehatan kehamilan yang ingin dikonsultasikan? Saya siap membantu menjawab pertanyaan Bunda lebih lanjut.";
 
   const showToast = (message: string) => {
-    setToastMessage(message);
-    setTimeout(() => {
-      setToastMessage(null);
-    }, 3000);
+    toast.success(message);
   };
 
   // Deteksi Pesan Penutup Pasien
@@ -350,6 +362,17 @@ export const ChatPage = () => {
 
   // Simulasi Pencocokan Dokter Kandungan Baru (Matching simulation)
   const startNewConsultation = () => {
+    // Validasi hak akses langganan: Alihkan ke pricelist jika belum aktif
+    if (!hasActiveSubscription || !canAccessDoctorConsultation) {
+      navigate('/pricing', {
+        state: {
+          alert: 'Fitur Hubungi Dokter membutuhkan paket langganan aktif. Silakan pilih paket langganan Bunda untuk mulai berkonsultasi dengan dokter.',
+          reason: 'consultation',
+        },
+      });
+      return;
+    }
+
     setIsMatching(true);
     setMatchingStatusText('Mencari dokter yang tersedia...');
 
@@ -393,6 +416,17 @@ export const ChatPage = () => {
   const handleDoctorSend = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!doctorChatInput.trim() || !activeConvId || !activeConv) return;
+
+    // Validasi masa aktif sebelum mengirim pesan
+    if (!hasActiveSubscription || !canAccessDoctorConsultation) {
+      navigate('/pricing', {
+        state: {
+          alert: 'Masa aktif langganan Bunda telah berakhir. Silakan perpanjang paket langganan untuk melanjutkan konsultasi dokter.',
+          reason: 'consultation',
+        },
+      });
+      return;
+    }
 
     const userText = doctorChatInput.trim();
     const messageTime = new Date().toISOString();
@@ -590,25 +624,17 @@ export const ChatPage = () => {
   );
 
   return (
-    <div className="flex flex-col h-[calc(100vh-4rem)] max-w-4xl mx-auto bg-gray-50 border-x border-gray-100 shadow-sm relative text-left">
+    <div className="flex flex-col h-full max-w-4xl w-full mx-auto bg-gray-50 border-x border-gray-100 shadow-sm relative text-left overflow-hidden">
       
-      {/* Disclaimer Header */}
-      <div className="bg-teal-50 border-b border-teal-100 p-3 flex items-start gap-3 flex-shrink-0">
-        <AlertTriangle className="text-[#0D9488] w-5 h-5 flex-shrink-0 mt-0.5 animate-pulse" />
-        <p className="text-xs sm:text-sm text-teal-800 font-medium leading-relaxed">
-          Konsultasi ini bersifat virtual dan edukatif menggunakan kecerdasan buatan. Bila Bunda mengalami kondisi gawat darurat (pendarahan hebat, kontraksi berlebih), segera datangi RS terdekat.
-        </p>
-      </div>
-
       {/* 1. KONTEN UTAMA: DOKTER VIRTUAL */}
       <div className="flex-1 flex flex-col min-h-0 bg-white">
           
           {/* SIMULASI COCOK DOKTER / MATCHING SCREEN */}
           {isMatching ? (
             <div className="flex-1 flex flex-col items-center justify-center p-6 text-center bg-white space-y-6">
-              <div className="relative h-24 w-24 rounded-full bg-teal-50 flex items-center justify-center text-[#0D9488] mb-4">
-                <Loader2 size={44} className="animate-spin text-[#0D9488]" />
-                <div className="absolute inset-0 rounded-full border-4 border-dashed border-[#0D9488] animate-spin [animation-duration:15s]" />
+              <div className="relative h-24 w-24 rounded-full bg-teal-50 flex items-center justify-center text-[#389D9C] mb-4">
+                <Loader2 size={44} className="animate-spin text-[#389D9C]" />
+                <div className="absolute inset-0 rounded-full border-4 border-dashed border-[#389D9C] animate-spin [animation-duration:15s]" />
               </div>
               <div className="space-y-2">
                 <h3 className="text-xl font-black text-slate-800 tracking-tight">{matchingStatusText}</h3>
@@ -619,9 +645,9 @@ export const ChatPage = () => {
               
               {/* Bounce 3-Dots loading wave */}
               <div className="flex gap-1.5 items-center justify-center pt-2">
-                <div className="w-2.5 h-2.5 bg-[#0D9488] rounded-full animate-bounce [animation-delay:-0.3s]"></div>
-                <div className="w-2.5 h-2.5 bg-[#0D9488] rounded-full animate-bounce [animation-delay:-0.15s]"></div>
-                <div className="w-2.5 h-2.5 bg-[#0D9488] rounded-full animate-bounce"></div>
+                <div className="w-2.5 h-2.5 bg-[#389D9C] rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+                <div className="w-2.5 h-2.5 bg-[#389D9C] rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+                <div className="w-2.5 h-2.5 bg-[#389D9C] rounded-full animate-bounce"></div>
               </div>
             </div>
           ) : activeConvId && activeConv ? (
@@ -639,7 +665,7 @@ export const ChatPage = () => {
                   >
                     <ArrowLeft size={20} />
                   </button>
-                  <div className="w-10 h-10 rounded-full bg-teal-50 flex items-center justify-center font-black text-sm text-[#0D9488]">
+                  <div className="w-10 h-10 rounded-full bg-teal-50 flex items-center justify-center font-black text-sm text-[#389D9C]">
                     {activeConv.doctorName.replace('dr. ', '').charAt(0).toUpperCase()}
                   </div>
                   <div>
@@ -657,9 +683,10 @@ export const ChatPage = () => {
                   {activeConv.status === 'Aktif' && (
                     <button
                       onClick={() => endConsultation(activeConv.id)}
-                      className="text-xs px-3.5 py-1.5 border border-emerald-200 bg-emerald-50 text-emerald-600 rounded-xl font-bold hover:bg-emerald-100 hover:text-emerald-700 transition-colors cursor-pointer"
+                      className="text-xs px-3 sm:px-3.5 py-1.5 border border-emerald-200 bg-emerald-50 text-emerald-600 rounded-xl font-bold hover:bg-emerald-100 hover:text-emerald-700 transition-colors cursor-pointer whitespace-nowrap"
                     >
-                      Selesai Konsultasi
+                      <span className="hidden sm:inline">Selesai Konsultasi</span>
+                      <span className="sm:hidden">Selesai</span>
                     </button>
                   )}
                   {activeConv.status === 'Selesai' && (
@@ -671,18 +698,22 @@ export const ChatPage = () => {
               </div>
 
               {/* Chat Thread Messages list */}
-              <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6">
+              <div 
+                ref={chatMessagesContainerRef}
+                onScroll={handleChatScroll}
+                className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6 bumil-scrollbar overflow-x-hidden relative"
+              >
                 {activeConv.messages.map((msg, idx) => (
-                  <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'} gap-3`}>
+                  <div key={idx} className={`flex items-end ${msg.role === 'user' ? 'justify-end' : 'justify-start'} gap-2.5`}>
                     {msg.role === 'model' && (
-                      <div className="w-8 h-8 rounded-full bg-teal-50 flex items-center justify-center flex-shrink-0 text-[#0D9488] font-bold text-xs">
+                      <div className="w-8 h-8 rounded-full bg-teal-50 flex items-center justify-center shrink-0 flex-shrink-0 self-end mb-1 text-[#389D9C] font-bold text-xs">
                         {activeConv.doctorName.replace('dr. ', '').charAt(0).toUpperCase()}
                       </div>
                     )}
                     
-                    <div className={`max-w-[80%] rounded-2xl p-4 ${
+                    <div className={`max-w-[85%] sm:max-w-[80%] rounded-2xl p-3.5 sm:p-4 ${
                       msg.role === 'user' 
-                        ? 'bg-[#0D9488] text-white rounded-tr-sm shadow-xs' 
+                        ? 'bg-[#389D9C] text-white rounded-tr-sm shadow-xs' 
                         : 'bg-white border border-slate-100 text-slate-800 rounded-tl-sm shadow-xs'
                     }`}>
                       {msg.role === 'user' ? (
@@ -698,32 +729,42 @@ export const ChatPage = () => {
                     </div>
 
                     {msg.role === 'user' && (
-                      <div className="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center flex-shrink-0 text-white bg-[#194668] overflow-hidden shadow-2xs">
-                        {profile?.fotoProfil ? (
-                          <img src={profile.fotoProfil} alt="Profil" className="w-full h-full object-cover" />
-                        ) : (
-                          <span className="text-[10px] font-extrabold uppercase">
-                            {profile?.namaIbu ? profile.namaIbu.charAt(0) : 'I'}
-                          </span>
-                        )}
+                      <div className="shrink-0 flex-shrink-0 self-end mb-1">
+                        <UserAvatar
+                          size="sm"
+                          src={profile?.fotoProfil}
+                          name={profile?.namaIbu}
+                        />
                       </div>
                     )}
                   </div>
                 ))}
 
                 {isDoctorLoading && (
-                  <div className="flex justify-start gap-3">
-                    <div className="w-8 h-8 rounded-full bg-teal-50 flex items-center justify-center flex-shrink-0 text-[#0D9488] font-bold text-xs">
+                  <div className="flex justify-start items-end gap-2.5">
+                    <div className="w-8 h-8 rounded-full bg-teal-50 flex items-center justify-center shrink-0 flex-shrink-0 self-end mb-1 text-[#389D9C] font-bold text-xs">
                       {activeConv.doctorName.replace('dr. ', '').charAt(0).toUpperCase()}
                     </div>
                     <div className="bg-white border border-slate-100 rounded-2xl rounded-tl-sm p-4 flex gap-1 items-center shadow-xs">
-                      <div className="w-2 h-2 bg-[#0D9488] rounded-full animate-bounce"></div>
-                      <div className="w-2 h-2 bg-[#0D9488] rounded-full animate-bounce [animation-delay:0.15s]"></div>
-                      <div className="w-2 h-2 bg-[#0D9488] rounded-full animate-bounce [animation-delay:0.3s]"></div>
+                      <div className="w-2 h-2 bg-[#389D9C] rounded-full animate-bounce"></div>
+                      <div className="w-2 h-2 bg-[#389D9C] rounded-full animate-bounce [animation-delay:0.15s]"></div>
+                      <div className="w-2 h-2 bg-[#389D9C] rounded-full animate-bounce [animation-delay:0.3s]"></div>
                     </div>
                   </div>
                 )}
                 <div ref={doctorMessagesEndRef} />
+
+                {/* Floating Scroll to Bottom Button strictly inside container */}
+                {showScrollToBottom && (
+                  <button
+                    type="button"
+                    onClick={() => doctorMessagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })}
+                    className="sticky bottom-2 float-right z-20 bg-white hover:bg-slate-50 text-[#389D9C] border border-teal-200/80 shadow-md p-2.5 rounded-full transition-all duration-200 hover:scale-110 active:scale-95 cursor-pointer flex items-center justify-center"
+                    title="Scroll ke pesan terbaru"
+                  >
+                    <ChevronDown size={18} className="animate-bounce" />
+                  </button>
+                )}
               </div>
 
               {/* Input Area Chat Dokter */}
@@ -735,13 +776,13 @@ export const ChatPage = () => {
                       value={doctorChatInput}
                       onChange={(e) => setDoctorChatInput(e.target.value)}
                       placeholder={`Ketik pesan ke ${activeConv.doctorName}...`}
-                      className="flex-1 rounded-full border border-gray-300 px-5 py-3 focus:outline-none focus:ring-2 focus:ring-[#0D9488] focus:border-transparent text-sm disabled:bg-slate-50 disabled:text-slate-400"
+                      className="flex-1 rounded-full border border-gray-300 px-5 py-3 focus:outline-none focus:ring-2 focus:ring-[#389D9C] focus:border-transparent text-sm disabled:bg-slate-50 disabled:text-slate-400"
                       disabled={isDoctorLoading}
                     />
                     <button 
                       type="submit" 
                       disabled={isDoctorLoading || !doctorChatInput.trim()}
-                      className="bg-[#0D9488] hover:bg-[#0D9488]/90 disabled:bg-gray-300 text-white w-12 h-12 rounded-full flex items-center justify-center transition-colors flex-shrink-0 cursor-pointer shadow-xs"
+                      className="bg-[#389D9C] hover:bg-[#2E8281] disabled:bg-gray-300 text-white w-12 h-12 rounded-full flex items-center justify-center transition-colors flex-shrink-0 cursor-pointer shadow-xs"
                     >
                       <Send size={18} />
                     </button>
@@ -759,27 +800,39 @@ export const ChatPage = () => {
             <div className="flex-1 flex items-center justify-center p-6 bg-[#F8FAFC]">
               <div className="bg-white p-8 sm:p-10 rounded-3xl border border-slate-100 shadow-sm max-w-md w-full flex flex-col items-center space-y-6 text-center animate-in fade-in zoom-in-95 duration-300">
                 {/* Header Visual: Stetoskop dengan Sentuhan AI/Pulse Wave */}
-                <div className="h-20 w-20 rounded-full bg-teal-50 flex items-center justify-center text-[#0D9488] relative">
+                <div className="h-20 w-20 rounded-full bg-teal-50 flex items-center justify-center text-[#389D9C] relative">
                   <Stethoscope size={36} className="relative z-10" />
                   <span className="absolute inset-0 rounded-full bg-teal-100/40 animate-ping duration-1000" />
                 </div>
                 
                 {/* Teks Petunjuk */}
                 <div className="space-y-2.5">
-                  <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight leading-tight">
-                    Mulai Konsultasi Kesehatan
+                  <h3 className="text-2xl sm:text-3xl font-extrabold text-[#194668] tracking-tight leading-tight">
+                    Mulai Konsultasi Dokter
                   </h3>
                   <p className="text-xs sm:text-sm text-slate-500 leading-relaxed max-w-xs mx-auto">
                     Konsultasikan keluhan Anda kapan saja dengan dokter siaga kami secara virtual.
                   </p>
+                  {hasActiveSubscription ? (
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold border border-emerald-200">
+                      <Crown size={13} className="text-emerald-600" />
+                      <span>Paket {planBadge} Aktif</span>
+                    </div>
+                  ) : (
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 text-amber-700 text-xs font-bold border border-amber-200">
+                      <Lock size={13} className="text-amber-600" />
+                      <span>Memerlukan Langganan Aktif</span>
+                    </div>
+                  )}
                 </div>
 
                 {/* Tombol Aksi (CTA) */}
                 <button
                   onClick={startNewConsultation}
-                  className="bg-[#0D9488] hover:bg-[#0d8478] active:scale-98 text-white w-full py-3.5 rounded-2xl font-extrabold text-sm shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer"
+                  className="bg-[#389D9C] hover:bg-[#2E8281] active:scale-[0.98] text-white w-full h-12 rounded-xl font-bold text-sm sm:text-base shadow-sm hover:shadow transition-all duration-200 cursor-pointer flex items-center justify-center gap-2"
                 >
-                  Mulai Percakapan Baru
+                  <Stethoscope size={18} />
+                  <span>Mulai Hubungi Dokter</span>
                 </button>
               </div>
             </div>
@@ -797,15 +850,15 @@ export const ChatPage = () => {
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Cari nama dokter atau cuplikan pesan..."
-                    className="w-full h-11 pl-11 pr-4 rounded-full bg-slate-50 border border-slate-200 focus:outline-none focus:bg-white focus:border-[#0D9488] focus:ring-2 focus:ring-[#0D9488]/20 transition-all text-sm text-slate-700 placeholder-slate-400 font-medium"
+                    className="w-full h-11 pl-11 pr-4 rounded-full bg-slate-50 border border-slate-200 focus:outline-none focus:bg-white focus:border-[#389D9C] focus:ring-2 focus:ring-[#389D9C]/20 transition-all text-sm text-slate-700 placeholder-slate-400 font-medium"
                   />
                 </div>
                 <button
                   onClick={startNewConsultation}
-                  className="w-full sm:w-auto h-11 px-5 bg-[#0D9488] hover:bg-[#0d8478] active:scale-95 text-white rounded-full font-bold text-sm flex items-center justify-center gap-2 transition-all shadow-md cursor-pointer whitespace-nowrap"
+                  className="w-full sm:w-auto h-11 px-5 bg-[#389D9C] hover:bg-[#2E8281] active:scale-95 text-white rounded-full font-bold text-sm flex items-center justify-center gap-2 transition-all shadow-sm cursor-pointer whitespace-nowrap"
                 >
                   <Plus size={16} />
-                  <span>Percakapan Baru</span>
+                  <span>Hubungi Dokter</span>
                 </button>
               </div>
 
@@ -818,11 +871,11 @@ export const ChatPage = () => {
                     <div
                       key={conv.id}
                       onClick={() => setActiveConvId(conv.id)}
-                      className="bg-white rounded-2xl border border-slate-100 hover:border-[#0D9488]/50 shadow-3xs p-4 flex justify-between items-center hover:shadow-xs transition-all duration-200 cursor-pointer group text-left"
+                      className="bg-white rounded-2xl border border-slate-100 hover:border-[#389D9C]/50 shadow-3xs p-4 flex justify-between items-center hover:shadow-xs transition-all duration-200 cursor-pointer group text-left"
                     >
                       <div className="flex gap-4 items-center flex-1 min-w-0">
                         {/* Avatar Dokter */}
-                        <div className="w-12 h-12 rounded-full bg-teal-50 flex items-center justify-center font-black text-base text-[#0D9488] shadow-3xs flex-shrink-0">
+                        <div className="w-12 h-12 rounded-full bg-teal-50 flex items-center justify-center font-black text-base text-[#389D9C] shadow-3xs flex-shrink-0">
                           {conv.doctorName.replace("dr. ", "").charAt(0).toUpperCase()}
                         </div>
 
@@ -857,7 +910,7 @@ export const ChatPage = () => {
 
                         <button
                           onClick={(e) => deleteConversation(conv.id, e)}
-                          className="p-1 text-slate-300 hover:text-rose-500 hover:bg-rose-50 rounded-lg transition-colors opacity-0 group-hover:opacity-100 cursor-pointer flex items-center justify-center flex-shrink-0"
+                          className="p-1.5 text-slate-400 hover:text-rose-500 hover:bg-rose-50 rounded-lg transition-colors opacity-100 sm:opacity-0 sm:group-hover:opacity-100 cursor-pointer flex items-center justify-center flex-shrink-0"
                           title="Hapus riwayat"
                         >
                           <X size={14} />
@@ -882,7 +935,7 @@ export const ChatPage = () => {
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl p-6 shadow-xl max-w-md w-full text-center space-y-5 animate-in fade-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto">
             {/* Visual Header */}
-            <div className="h-14 w-14 rounded-full bg-teal-50 text-[#0D9488] flex items-center justify-center mx-auto shadow-3xs">
+            <div className="h-14 w-14 rounded-full bg-teal-50 text-[#389D9C] flex items-center justify-center mx-auto shadow-3xs">
               <Stethoscope size={28} />
             </div>
             
@@ -943,7 +996,7 @@ export const ChatPage = () => {
                 value={ratingComment}
                 onChange={(e) => setRatingComment(e.target.value)}
                 placeholder="Tulis ulasan Bunda seputar pelayanan dokter (opsional)..."
-                className="w-full text-xs p-3 border border-slate-200 rounded-2xl focus:outline-none focus:border-[#0D9488] focus:ring-2 focus:ring-[#0D9488]/10 resize-none h-20 placeholder-slate-400 text-slate-700 font-medium"
+                className="w-full text-xs p-3 border border-slate-200 rounded-2xl focus:outline-none focus:border-[#389D9C] focus:ring-2 focus:ring-[#389D9C]/10 resize-none h-20 placeholder-slate-400 text-slate-700 font-medium"
               />
             </div>
 
@@ -952,7 +1005,7 @@ export const ChatPage = () => {
               <button
                 onClick={confirmEndConsultation}
                 disabled={selectedRating === 0}
-                className="bg-[#0D9488] hover:bg-[#0d8478] disabled:bg-slate-200 disabled:text-slate-400 active:scale-98 text-white w-full py-3.5 rounded-2xl font-extrabold text-sm shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer"
+                className="bg-[#389D9C] hover:bg-[#2E8281] disabled:bg-slate-200 disabled:text-slate-400 active:scale-[0.98] text-white w-full h-12 rounded-xl font-bold text-sm sm:text-base shadow-sm hover:shadow transition-all duration-200 cursor-pointer flex items-center justify-center"
                 type="button"
               >
                 Kirim & Kembali ke Beranda
@@ -974,50 +1027,20 @@ export const ChatPage = () => {
         </div>
       )}
 
-      {/* MODAL KONFIRMASI HAPUS RIWAYAT */}
-      {deleteConfirmationModalOpen && (
-        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl p-6 shadow-xl max-w-sm w-full text-center space-y-5 animate-in fade-in zoom-in-95 duration-200">
-            <div className="h-16 w-16 rounded-full bg-rose-50 text-rose-500 flex items-center justify-center mx-auto shadow-3xs">
-              <AlertTriangle size={32} />
-            </div>
-            
-            <div className="space-y-2">
-              <h3 className="font-extrabold text-slate-800 text-lg">Hapus Riwayat Konsultasi</h3>
-              <p className="text-sm text-slate-500 max-w-xs mx-auto leading-relaxed">
-                Apakah Bunda yakin ingin menghapus riwayat konsultasi dengan <span className="font-bold text-slate-700">{conversations.find(c => c.id === confirmDeleteConvId)?.doctorName}</span> ini secara permanen?
-              </p>
-            </div>
-
-            <div className="space-y-3 pt-2">
-              <button
-                onClick={confirmDeleteConversation}
-                className="bg-rose-500 hover:bg-rose-600 active:scale-98 text-white w-full py-3.5 rounded-2xl font-extrabold text-sm shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer"
-                type="button"
-              >
-                Hapus Permanen
-              </button>
-              <button
-                onClick={() => {
-                  setDeleteConfirmationModalOpen(false);
-                  setConfirmDeleteConvId(null);
-                }}
-                className="w-full py-3 border border-slate-200 text-slate-500 hover:text-slate-700 font-bold rounded-2xl text-sm transition-colors cursor-pointer"
-                type="button"
-              >
-                Batal
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* TOAST NOTIFICATION */}
-      {toastMessage && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-slate-800 text-white text-xs sm:text-sm font-semibold py-3 px-6 rounded-full shadow-lg border border-slate-700 animate-in fade-in slide-in-from-bottom-4 duration-300">
-          {toastMessage}
-        </div>
-      )}
+      {/* DIALOG KONFIRMASI HAPUS RIWAYAT */}
+      <ConfirmDialog
+        isOpen={deleteConfirmationModalOpen}
+        onClose={() => {
+          setDeleteConfirmationModalOpen(false);
+          setConfirmDeleteConvId(null);
+        }}
+        onConfirm={confirmDeleteConversation}
+        title="Hapus Riwayat Konsultasi"
+        description={`Apakah Bunda yakin ingin menghapus riwayat konsultasi dengan ${conversations.find(c => c.id === confirmDeleteConvId)?.doctorName || 'dokter'} ini secara permanen?`}
+        confirmText="Hapus Permanen"
+        cancelText="Batal"
+        variant="danger"
+      />
     </div>
   );
 };

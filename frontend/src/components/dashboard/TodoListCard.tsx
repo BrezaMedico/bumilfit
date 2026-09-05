@@ -1,14 +1,7 @@
-import { useState, useEffect } from 'react';
-import { Sparkles, CheckCircle2, Circle, ArrowRight, ArrowLeft, Activity, ShieldAlert, CheckCircle } from 'lucide-react';
+import { useState, useEffect, useLayoutEffect, useRef } from 'react';
+import { Sparkles, CheckCircle2, Circle, ArrowRight, ArrowLeft, Activity, ShieldAlert, CheckCircle, ChevronDown } from 'lucide-react';
 import { apiClient } from '../../lib/apiClient';
 
-const CATEGORY_COLORS: Record<string, string> = {
-  'Nutrisi & Hidrasi': 'bg-emerald-50 text-emerald-700 border-emerald-100',
-  'Vitamin & Obat': 'bg-blue-50 text-blue-700 border-blue-100',
-  'Aktivitas & Istirahat': 'bg-amber-50 text-amber-700 border-amber-100',
-  'Higienitas & Self-Care': 'bg-rose-50 text-rose-700 border-rose-100',
-  'Persiapan Praktis': 'bg-purple-50 text-purple-700 border-purple-100'
-};
 
 const SYMPTOMS_LIST = [
   { id: 'morning_sickness', name: 'Mual dan Muntah (Morning Sickness)', desc: 'Sensasi mual/muntah harian' },
@@ -39,10 +32,63 @@ export const TodoListCard = (_props: TodoListCardProps) => {
     cramps: 'Tidak Ada'
   });
 
-  // AI Recommendation State
+  // Symptoms Scroll Indicators State
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [showScrollTopFade, setShowScrollTopFade] = useState(false);
+  const [showScrollBottomFade, setShowScrollBottomFade] = useState(true);
+
+  // Measure Step 1 (To-Do List) natural height so Step 2 exactly follows it
+  const step1Ref = useRef<HTMLDivElement>(null);
+  const [todoListHeight, setTodoListHeight] = useState<number | undefined>(undefined);
+
+  useLayoutEffect(() => {
+    if (!step1Ref.current) return;
+    const updateHeight = () => {
+      if (step1Ref.current) {
+        const h = step1Ref.current.offsetHeight;
+        setTodoListHeight((prev) => (prev !== h ? h : prev));
+      }
+    };
+
+    updateHeight();
+    const observer = new ResizeObserver(updateHeight);
+    observer.observe(step1Ref.current);
+    return () => observer.disconnect();
+  }, [data?.tasks]);
+
+  const handleSymptomsScroll = () => {
+    if (!scrollContainerRef.current) return;
+    const { scrollTop, scrollHeight, clientHeight } = scrollContainerRef.current;
+    const nextTopFade = scrollTop > 10;
+    const nextBottomFade = scrollTop + clientHeight < scrollHeight - 20;
+    setShowScrollTopFade((prev) => (prev !== nextTopFade ? nextTopFade : prev));
+    setShowScrollBottomFade((prev) => (prev !== nextBottomFade ? nextBottomFade : prev));
+  };
+
+  useEffect(() => {
+    if (currentStep === 2) {
+      const timer = setTimeout(() => {
+        handleSymptomsScroll();
+      }, 150);
+      return () => clearTimeout(timer);
+    }
+  }, [currentStep]);
+
+  // AI Recommendation & Scoring State
   const [aiAdvice, setAiAdvice] = useState<string>('');
   const [isRedFlag, setIsRedFlag] = useState<boolean>(false);
+  const [, setSymptomScore] = useState<number>(0);
   const [loadingAI, setLoadingAI] = useState<boolean>(false);
+
+  // Perhitungan Skor Skrining: Tidak Ada/Baik = 0, Ringan = 1, Berat = 2
+  const calculateScore = (state: Record<string, string>) => {
+    let score = 0;
+    Object.values(state).forEach((val) => {
+      if (val.includes('Berat')) score += 2;
+      else if (val.includes('Ringan')) score += 1;
+    });
+    return score;
+  };
 
   const fetchDailyTodos = async () => {
     try {
@@ -60,18 +106,47 @@ export const TodoListCard = (_props: TodoListCardProps) => {
   }, []);
 
   const handleToggleTask = async (masterTodoId: string, currentlyCompleted: boolean) => {
-    if (currentlyCompleted) return;
+    const nextCompleted = !currentlyCompleted;
+
+    // Optimistic update for instant UI feedback
+    setData((prev: any) => {
+      if (!prev) return prev;
+      const updatedTasks = prev.tasks.map((t: any) =>
+        t.masterTodoId === masterTodoId ? { ...t, isCompleted: nextCompleted } : t
+      );
+      const completedCount = updatedTasks.filter((t: any) => t.isCompleted).length;
+      const totalCount = updatedTasks.length;
+      return {
+        ...prev,
+        progress: {
+          ...prev.progress,
+          completedTasks: completedCount,
+          percentage: totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0
+        },
+        tasks: updatedTasks
+      };
+    });
+
     try {
-      await apiClient.post('/todo/complete', { masterTodoId });
+      await apiClient.post('/todo/complete', {
+        masterTodoId,
+        isCompleted: nextCompleted
+      });
       await fetchDailyTodos();
     } catch (err) {
-      console.error("Gagal menandai tugas selesai:", err);
+      console.error("Gagal mengubah status tugas:", err);
+      await fetchDailyTodos();
     }
   };
 
   const handleSendAnalysis = async () => {
     setLoadingAI(true);
     setCurrentStep(3); // Slide ke step 3
+
+    const localScore = calculateScore(symptomsState);
+    setSymptomScore(localScore);
+    const hasLocalSevere = Object.values(symptomsState).some(val => val.includes('Berat'));
+    setIsRedFlag(localScore >= 4 || hasLocalSevere);
     
     try {
       const formattedSymptoms = SYMPTOMS_LIST.map(sym => ({
@@ -83,18 +158,25 @@ export const TodoListCard = (_props: TodoListCardProps) => {
         .filter((t: any) => t.isCompleted)
         .map((t: any) => t.tugasHarian) || [];
 
+      const uncompletedTasksText = data?.tasks
+        .filter((t: any) => !t.isCompleted)
+        .map((t: any) => t.tugasHarian) || [];
+
       const response = await apiClient.post('/todo/evaluate', {
         completedTasks: completedTasksText,
-        symptoms: formattedSymptoms
+        uncompletedTasks: uncompletedTasksText,
+        symptoms: formattedSymptoms,
+        score: localScore
       });
 
       setAiAdvice(response.data.data.advice);
       setIsRedFlag(response.data.data.isRedFlag);
+      if (typeof response.data.data.totalScore === 'number') {
+        setSymptomScore(response.data.data.totalScore);
+      }
     } catch (err) {
       console.error("Gagal mengirim analisis AI:", err);
       setAiAdvice("Maaf, gagal memproses saran kesehatan Bunda saat ini. Pastikan jaringan internet Anda stabil.");
-      const hasLocalHeavy = Object.values(symptomsState).some(val => val.includes('Berat'));
-      setIsRedFlag(hasLocalHeavy);
     } finally {
       setLoadingAI(false);
     }
@@ -110,6 +192,7 @@ export const TodoListCard = (_props: TodoListCardProps) => {
     });
     setAiAdvice('');
     setIsRedFlag(false);
+    setSymptomScore(0);
     setCurrentStep(1);
   };
 
@@ -135,31 +218,31 @@ export const TodoListCard = (_props: TodoListCardProps) => {
     );
   }
 
-  // Cek apakah seluruh 5 tugas telah diselesaikan
-  const isAllTasksCompleted = data?.tasks?.length > 0 && data.tasks.every((t: any) => t.isCompleted);
-
   return (
-    <div className="bg-gradient-to-br from-white to-slate-50/50 rounded-3xl border border-slate-100 p-6 sm:p-8 shadow-[0_15px_45px_rgba(0,0,0,0.03)] text-left overflow-hidden relative">
-      
-      {/* Header Panel (UI Cleanup: Badges dan Metadata ditiadakan) */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 pb-5 mb-5">
-        <div>
-          <span className="text-slate-400 text-xs font-bold px-3 py-1 rounded-full bg-slate-100">
+    <div className="bg-white rounded-[1.5rem] sm:rounded-3xl md:rounded-[2.5rem] border border-slate-100 shadow-[0_15px_45px_rgba(25,70,104,0.04)] p-4 sm:p-5 lg:p-7 text-left overflow-hidden relative text-slate-800 transform-gpu">
+      {/* Background Subtle Mint Radial Accents */}
+      <div className="absolute top-0 right-0 -mr-16 -mt-16 w-80 h-80 rounded-full bg-[radial-gradient(circle,rgba(56,157,156,0.06)_0%,transparent_70%)] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 -ml-16 -mb-16 w-80 h-80 rounded-full bg-[radial-gradient(circle,rgba(56,157,156,0.04)_0%,transparent_70%)] pointer-events-none" />
+
+      {/* Header Panel */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 border-b border-slate-100 pb-3.5 mb-3.5 relative z-10">
+        <div className="flex-1 min-w-0">
+          <span className="bg-teal-50 text-[#1A7775] text-xs font-extrabold px-3.5 py-1 rounded-full border border-teal-200/60 shadow-2xs inline-block">
             Langkah {currentStep} dari 3
           </span>
-          <h3 className="text-xl sm:text-2xl font-extrabold text-[#194668] mt-2">
+          <h3 className="text-lg sm:text-2xl font-extrabold text-[#194668] mt-1.5 sm:mt-2 tracking-tight">
             Buku Harian Kesehatan Bunda
           </h3>
         </div>
 
-        {/* Circular Progress (Disesuaikan dengan viewBox & padding utuh agar tidak terpotong) */}
+        {/* Circular Progress */}
         {currentStep === 1 && (
-          <div className="flex items-center gap-4 self-start md:self-center">
-            <div className="text-right">
-              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">TUGAS HARI INI</p>
-              <p className="text-lg font-black text-[#194668]">{data.progress.percentage}% Selesai</p>
+          <div className="flex items-center justify-between sm:justify-end gap-3 self-stretch sm:self-center bg-slate-50/80 sm:bg-transparent p-2.5 sm:p-0 rounded-xl sm:rounded-none shrink-0">
+            <div className="text-left sm:text-right">
+              <p className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest">TUGAS HARI INI</p>
+              <p className="text-base sm:text-lg font-black text-slate-800">{data.progress.percentage}% Selesai</p>
             </div>
-            <div className="relative w-14 h-14 flex items-center justify-center p-0.5">
+            <div className="relative w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center p-0.5 shrink-0">
               <svg className="w-full h-full transform -rotate-90" viewBox="0 0 48 48">
                 <circle cx="24" cy="24" r="21" className="stroke-slate-100" strokeWidth="4.5" fill="transparent" />
                 <circle cx="24" cy="24" r="21" className="stroke-[#389D9C] transition-all duration-500 ease-out" 
@@ -167,7 +250,7 @@ export const TodoListCard = (_props: TodoListCardProps) => {
                         strokeDasharray={2 * Math.PI * 21}
                         strokeDashoffset={2 * Math.PI * 21 * (1 - data.progress.percentage / 100)} />
               </svg>
-              <span className="absolute text-xs font-black text-[#389D9C]">
+              <span className="absolute text-xs font-black text-slate-700">
                 {data.progress.completedTasks}/{data.progress.totalTasks}
               </span>
             </div>
@@ -176,169 +259,265 @@ export const TodoListCard = (_props: TodoListCardProps) => {
       </div>
 
       {/* Main Slide Carousel Container */}
-      <div className="relative w-full overflow-hidden">
+      <div 
+        className="relative w-full overflow-hidden"
+        style={{ minHeight: '380px', height: todoListHeight ? `${Math.max(380, todoListHeight)}px` : undefined }}
+      >
         <div 
-          className="flex transition-transform duration-500 ease-in-out" 
+          className="flex items-start transition-transform duration-300 ease-out w-full" 
           style={{ transform: `translateX(-${(currentStep - 1) * 100}%)` }}
         >
-          {/* [STEP 1: Checklist Tugas Harian - Simpler UI] */}
-          <div className="w-full flex-shrink-0 space-y-4 pr-2">
-            <div className="divide-y divide-slate-100 max-h-[320px] overflow-y-auto pr-1">
+          {/* [STEP 1: Checklist Tugas Harian] */}
+          <div className="w-full flex-shrink-0 relative z-10">
+            {/* Container Daftar Tugas */}
+            <div 
+              ref={step1Ref}
+              className="w-full bg-slate-50/60 border border-slate-100 rounded-2xl p-2.5 sm:p-3.5 space-y-2 sm:space-y-2.5 shadow-inner"
+            >
               {data.tasks.map((task: any) => (
-                <button
+                <div
                   key={task.masterTodoId}
                   onClick={() => handleToggleTask(task.masterTodoId, task.isCompleted)}
-                  disabled={task.isCompleted}
-                  className={`w-full flex items-center gap-3 py-3 text-left transition-all ${
-                    task.isCompleted ? 'opacity-50 cursor-default' : 'hover:bg-slate-50/50 px-2 rounded-xl'
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      handleToggleTask(task.masterTodoId, task.isCompleted);
+                    }
+                  }}
+                  className={`group cursor-pointer w-full flex items-start gap-2.5 sm:gap-3.5 p-3 sm:p-4 rounded-xl border transition-colors duration-150 select-none ${
+                    task.isCompleted
+                      ? 'bg-slate-100/70 border-slate-200/50 text-slate-400 shadow-none'
+                      : 'bg-white hover:bg-teal-50/30 border border-slate-200/90 hover:border-[#389D9C]/50 shadow-xs text-slate-800'
                   }`}
                 >
-                  <span className="flex-shrink-0">
+                  {/* Checkbox Icon */}
+                  <div className="mt-0.5 flex-shrink-0">
                     {task.isCompleted ? (
-                      <CheckCircle2 className="w-5 h-5 text-[#389D9C]" />
+                      <CheckCircle2 className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-500" />
                     ) : (
-                      <Circle className="w-5 h-5 text-slate-300 hover:text-[#389D9C]" />
+                      <Circle className="w-5 h-5 sm:w-6 sm:h-6 text-slate-300 group-hover:text-[#389D9C] transition-colors" />
                     )}
-                  </span>
-                  <div className="flex-1 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                    <p className={`text-xs sm:text-sm leading-relaxed ${task.isCompleted ? 'line-through text-slate-400 font-normal' : 'font-semibold text-slate-700'}`}>
-                      {task.tugasHarian}
-                    </p>
-                    <span className={`text-[8px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded border flex-shrink-0 w-fit ${
-                      CATEGORY_COLORS[task.kategoriAktivitas] || 'bg-slate-50 text-slate-600'
+                  </div>
+
+                  {/* Hierarki Informasi: Kategori -> Judul/Detail Tugas */}
+                  <div className="flex-1 min-w-0 flex flex-col gap-1 text-left">
+                    <span className={`text-xs sm:text-[13px] font-black tracking-wider uppercase ${
+                      task.isCompleted ? 'text-slate-400' : 'text-[#389D9C]'
                     }`}>
                       {task.kategoriAktivitas}
                     </span>
+                    <p className={`text-sm sm:text-[15px] leading-relaxed transition-colors ${
+                      task.isCompleted
+                        ? 'line-through text-slate-400 font-normal'
+                        : 'text-slate-800 font-semibold'
+                    }`}>
+                      {task.tugasHarian}
+                    </p>
                   </div>
-                </button>
+                </div>
               ))}
             </div>
           </div>
 
           {/* [STEP 2: Form Keluhan Harian] */}
-          <div className="w-full flex-shrink-0 space-y-4 px-1">
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-extrabold text-[#194668] flex items-center gap-1.5">
-                <Activity className="w-4 h-4 text-rose-500" />
-                Skrining Keluhan Fisik
-              </span>
-            </div>
+          <div 
+            className="w-full flex-shrink-0 relative z-10 h-full"
+            style={{ height: todoListHeight ? `${todoListHeight}px` : undefined }}
+          >
+            {/* Kontainer Dalam Skrining */}
+            <div 
+              className="w-full h-full bg-slate-50/60 border border-slate-100 rounded-2xl p-3 sm:p-3.5 shadow-inner relative flex flex-col overflow-hidden"
+              style={{ height: todoListHeight ? `${todoListHeight}px` : undefined }}
+            >
+              {/* Panduan Ramah */}
+              <div className="pb-2.5 mb-1 px-1 border-b border-slate-200/60 relative z-30">
+                <p className="text-xs sm:text-[13px] text-slate-500 font-medium">
+                  Pilih kondisi fisik yang Bunda rasakan hari ini untuk disimpulkan bersama agenda harian.
+                </p>
+              </div>
 
-            <div className="space-y-4 max-h-[320px] overflow-y-auto pr-2">
-              {SYMPTOMS_LIST.map((symptom) => (
-                <div key={symptom.id} className="bg-white p-3.5 rounded-2xl border border-slate-100 space-y-2">
-                  <div className="flex flex-col">
-                    <span className="text-xs sm:text-sm font-bold text-[#194668]">{symptom.name}</span>
-                    <span className="text-[10px] text-slate-400">{symptom.desc}</span>
-                  </div>
-                  
-                  <div className="grid grid-cols-3 gap-2">
-                    {['Tidak Ada', 'Ringan', 'Berat'].map((level) => {
-                      const valueMap: Record<string, string> = {
-                        'Tidak Ada': 'Tidak Ada',
-                        'Ringan': 'Ringan / Sesekali',
-                        'Berat': 'Berat / Sangat Mengganggu'
-                      };
-                      const actualVal = valueMap[level];
-                      const isSelected = symptomsState[symptom.id] === actualVal;
-                      
-                      let activeStyle = '';
-                      if (isSelected) {
-                        if (level === 'Tidak Ada') activeStyle = 'bg-emerald-500 text-white border-emerald-500 shadow-sm';
-                        else if (level === 'Ringan') activeStyle = 'bg-amber-500 text-white border-amber-500 shadow-sm';
-                        else if (level === 'Berat') activeStyle = 'bg-rose-500 text-white border-rose-500 shadow-sm';
-                      } else {
-                        activeStyle = 'bg-slate-50/50 text-slate-500 border-slate-100 hover:bg-slate-100/50';
-                      }
+              {/* Top Fade Gradient */}
+              <div 
+                className={`pointer-events-none absolute top-10 left-0 right-0 h-8 bg-gradient-to-b from-slate-50 to-transparent z-20 transition-opacity duration-200 ${
+                  showScrollTopFade ? 'opacity-100' : 'opacity-0'
+                }`} 
+              />
 
-                      return (
-                        <button
-                          key={level}
-                          type="button"
-                          onClick={() => setSymptomsState({ ...symptomsState, [symptom.id]: actualVal })}
-                          className={`py-2 px-1 text-[10px] font-bold rounded-xl border text-center transition-all ${activeStyle}`}
-                        >
-                          {level}
-                        </button>
-                      );
-                    })}
+              {/* Scrollable Symptoms List */}
+              <div 
+                ref={scrollContainerRef}
+                onScroll={handleSymptomsScroll}
+                className="w-full flex-1 min-h-0 overflow-y-auto pr-1 sm:pr-1.5 space-y-2.5 pb-10 bumil-scrollbar overscroll-contain"
+                style={{
+                  scrollbarWidth: 'thin',
+                  scrollbarColor: 'rgba(100, 116, 139, 0.25) transparent'
+                }}
+              >
+                {SYMPTOMS_LIST.map((symptom) => (
+                  <div 
+                    key={symptom.id} 
+                    className="bg-white hover:bg-slate-50/60 p-3.5 sm:p-4 rounded-xl border border-slate-200/80 space-y-2.5 shadow-xs transition-colors duration-150"
+                  >
+                    <div className="flex flex-col gap-0.5 text-left">
+                      <span className="text-sm sm:text-base font-extrabold text-slate-800 leading-snug">
+                        {symptom.name}
+                      </span>
+                      <span className="text-xs sm:text-[13px] text-slate-500 font-medium leading-relaxed">
+                        {symptom.desc}
+                      </span>
+                    </div>
+                    
+                    <div className="grid grid-cols-3 gap-2 sm:gap-2.5">
+                      {['Tidak Ada', 'Ringan', 'Berat'].map((level) => {
+                        const valueMap: Record<string, string> = {
+                          'Tidak Ada': 'Tidak Ada',
+                          'Ringan': 'Ringan / Sesekali',
+                          'Berat': 'Berat / Sangat Mengganggu'
+                        };
+                        const actualVal = valueMap[level];
+                        const isSelected = symptomsState[symptom.id] === actualVal;
+                        
+                        let activeStyle = '';
+                        if (isSelected) {
+                          if (level === 'Tidak Ada') activeStyle = 'bg-emerald-500 text-white font-extrabold border border-emerald-600 shadow-xs';
+                          else if (level === 'Ringan') activeStyle = 'bg-amber-400 text-amber-950 font-extrabold border border-amber-500 shadow-xs';
+                          else if (level === 'Berat') activeStyle = 'bg-rose-500 text-white font-extrabold border border-rose-600 shadow-xs';
+                        } else {
+                          activeStyle = 'bg-slate-100 hover:bg-slate-200/60 text-slate-600 border border-slate-200/60 font-extrabold';
+                        }
+
+                        return (
+                          <button
+                            key={level}
+                            type="button"
+                            onClick={() => setSymptomsState({ ...symptomsState, [symptom.id]: actualVal })}
+                            className={`py-2 sm:py-3 px-1 sm:px-2 text-[11px] sm:text-sm font-extrabold rounded-xl border text-center transition-colors duration-150 cursor-pointer ${activeStyle}`}
+                          >
+                            {level}
+                          </button>
+                        );
+                      })}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
+
+              {/* Bottom Fade Gradient & Dynamic Scroll Indicator */}
+              <div 
+                className={`pointer-events-none absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-slate-50 via-slate-50/90 to-transparent z-20 transition-opacity duration-200 rounded-b-2xl flex items-end justify-center pb-2 ${
+                  showScrollBottomFade ? 'opacity-100' : 'opacity-0'
+                }`} 
+              >
+                {showScrollBottomFade && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      scrollContainerRef.current?.scrollBy({ top: 140, behavior: 'smooth' });
+                    }}
+                    className="pointer-events-auto bg-white hover:bg-slate-50 active:scale-95 border border-slate-200 text-slate-700 text-[11px] sm:text-xs font-extrabold px-3.5 py-1 rounded-full flex items-center gap-1.5 shadow-xs transition-all cursor-pointer select-none mb-0.5"
+                    title="Klik untuk melihat keluhan di bawah"
+                  >
+                    <span>Scroll ke bawah</span>
+                    <ChevronDown className="w-3.5 h-3.5 animate-bounce text-slate-500" />
+                  </button>
+                )}
+              </div>
             </div>
           </div>
 
-          {/* [STEP 3: Evaluasi AI Gemini & Kesimpulan] */}
-          <div className="w-full flex-shrink-0 space-y-4 px-1">
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-extrabold text-[#194668] flex items-center gap-1.5">
-                <Sparkles className="w-4 h-4 text-[#389D9C]" />
-                Kesimpulan & Evaluasi AI
-              </span>
-            </div>
-
-            {loadingAI ? (
-              <div className="flex flex-col items-center justify-center py-12 space-y-4 text-center">
-                <div className="w-10 h-10 border-4 border-slate-100 border-t-[#389D9C] rounded-full animate-spin"></div>
-                <div className="space-y-1">
-                  <p className="text-sm font-bold text-[#194668]">Menganalisis kondisi Bunda...</p>
-                  <p className="text-xs text-slate-400 max-w-xs mx-auto">Kami sedang menghubungi Google Gemini AI untuk merumuskan rekomendasi praktis.</p>
-                </div>
-              </div>
-            ) : (
-              <div className="space-y-5 animate-in fade-in slide-in-from-bottom-2 duration-300">
-                <div className="bg-gradient-to-br from-teal-50/30 to-emerald-50/10 border border-teal-100/70 rounded-2xl p-5 relative overflow-hidden">
-                  <div className="absolute top-3 right-3 opacity-15">
-                    <Sparkles className="w-10 h-10 text-[#389D9C]" />
-                  </div>
-                  
-                  <p className="text-xs font-bold text-[#389D9C] uppercase tracking-wider mb-2 flex items-center gap-1">
-                    <Activity className="w-3.5 h-3.5" />
-                    Rekomendasi Medis BumilFit
-                  </p>
-                  <p className="text-slate-700 text-sm sm:text-base leading-relaxed font-medium">
-                    {aiAdvice}
-                  </p>
-                </div>
-
+          {/* [STEP 3: Evaluasi AI Gemini & Kesimpulan Terpadu] */}
+          <div 
+            className="w-full flex-shrink-0 relative z-10 h-full"
+            style={{ height: todoListHeight ? `${todoListHeight}px` : undefined }}
+          >
+            <div className="w-full h-full bg-slate-50/60 border border-slate-100 rounded-2xl p-4 sm:p-5 shadow-inner relative flex flex-col overflow-y-auto bumil-scrollbar">
+              <div className="flex items-center justify-between gap-2 mb-3">
+                <span className="text-sm font-extrabold text-slate-800 flex items-center gap-1.5">
+                  <Sparkles className="w-4 h-4 text-[#389D9C]" />
+                  Kesimpulan & Evaluasi Terpadu AI
+                </span>
                 {isRedFlag ? (
-                  <div className="p-4 bg-red-50 border border-red-100 rounded-2xl flex items-start gap-3 text-red-900">
-                    <ShieldAlert className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
-                    <div>
-                      <p className="text-xs font-bold uppercase tracking-wider text-red-700">Peringatan Medis</p>
-                      <p className="text-xs font-medium mt-1 leading-relaxed">
-                        Kami mendeteksi terdapat keluhan berstatus <strong>Berat / Sangat Mengganggu</strong>. Sangat disarankan untuk segera menghubungi dokter guna berkonsultasi secara profesional.
-                      </p>
-                    </div>
-                  </div>
+                  <span className="px-2.5 py-0.5 rounded-full font-bold text-xs bg-rose-50 text-rose-700 border border-rose-200">
+                    Perlu Konsultasi Dokter
+                  </span>
                 ) : (
-                  <div className="p-4 bg-emerald-50 border border-emerald-100 rounded-2xl flex items-start gap-3 text-emerald-900">
-                    <CheckCircle className="w-5 h-5 text-[#389D9C] flex-shrink-0 mt-0.5" />
-                    <div>
-                      <p className="text-xs font-bold uppercase tracking-wider text-emerald-700">Kondisi Stabil</p>
-                      <p className="text-xs font-medium mt-1 leading-relaxed">
-                        Keluhan Bunda hari ini terpantau ringan atau tidak ada. Tetap terapkan pola hidup sehat dan cukup istirahat ya, Bun!
-                      </p>
-                    </div>
-                  </div>
+                  <span className="px-2.5 py-0.5 rounded-full font-bold text-xs bg-emerald-50 text-emerald-700 border border-emerald-200">
+                    Kondisi Terpantau Stabil
+                  </span>
                 )}
               </div>
-            )}
+
+              {loadingAI ? (
+                <div className="flex-1 flex flex-col items-center justify-center py-8 space-y-4 text-center">
+                  <div className="w-10 h-10 border-4 border-slate-200 border-t-[#389D9C] rounded-full animate-spin"></div>
+                  <div className="space-y-1">
+                    <p className="text-sm font-bold text-slate-800">Menganalisis data harian & keluhan fisik Bunda...</p>
+                    <p className="text-xs text-slate-500 max-w-xs mx-auto">Kami sedang merumuskan evaluasi terpadu untuk kondisi kesehatan Bunda hari ini.</p>
+                  </div>
+                </div>
+              ) : (
+                <div className="space-y-3.5 animate-in fade-in duration-200">
+                  {/* Kartu Rekomendasi Terpadu AI */}
+                  <div className="bg-gradient-to-br from-teal-50/70 via-white to-emerald-50/40 border border-teal-200/70 rounded-xl p-4 sm:p-5 relative overflow-hidden shadow-xs text-left">
+                    <div className="absolute top-3 right-3 opacity-15">
+                      <Sparkles className="w-10 h-10 text-[#389D9C]" />
+                    </div>
+                    
+                    <p className="text-xs font-bold text-[#389D9C] uppercase tracking-wider mb-1.5 flex items-center gap-1">
+                      <Activity className="w-3.5 h-3.5 text-[#389D9C]" />
+                      Rekomendasi Terpadu (Agenda Harian & Keluhan Fisik)
+                    </p>
+                    <p className="text-slate-700 text-sm sm:text-base leading-relaxed font-medium">
+                      {aiAdvice}
+                    </p>
+                  </div>
+
+                  {/* Kartu Status Evaluasi (Wajib Lapor Dokter vs Stabil) */}
+                  {isRedFlag ? (
+                    <div className="p-4 bg-red-50 border border-red-200 rounded-xl flex items-start gap-3 text-red-900 shadow-xs">
+                      <ShieldAlert className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+                      <div className="space-y-1 text-left">
+                        <p className="text-xs font-bold uppercase tracking-wider text-red-700">
+                          Peringatan Medis • Wajib Lapor Dokter
+                        </p>
+                        <p className="text-xs font-medium leading-relaxed text-red-600/90">
+                          Terdapat keluhan fisik yang memerlukan evaluasi medis langsung dari dokter spesialis kandungan. Kami sangat menyarankan Bunda segera berkonsultasi melalui tombol di bawah.
+                        </p>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-xl flex items-start gap-3 text-emerald-900 shadow-xs">
+                      <CheckCircle className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
+                      <div className="space-y-1 text-left">
+                        <p className="text-xs font-bold uppercase tracking-wider text-emerald-700">
+                          Kondisi Terpantau Stabil & Aman
+                        </p>
+                        <p className="text-xs font-medium leading-relaxed text-emerald-700/90">
+                          Kondisi fisik Bunda terpantau stabil tanpa tanda bahaya. Tetap jaga pola makan bergizi, penuhi kebutuhan cairan, dan utamakan istirahat ya, Bun!
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Static Footer Navigation Bar (Tombol navigasi diletakkan di luar slider agar posisinya tetap/statis) */}
-      <div className="pt-4 mt-5 border-t border-slate-100 flex items-center justify-between">
+      {/* Static Footer Navigation Bar */}
+      <div className="pt-3.5 mt-3.5 border-t border-slate-100 flex items-center justify-between gap-2 relative z-10">
         {/* Tombol Kembali di Sisi Kiri Bawah */}
         <div>
           {currentStep > 1 && (currentStep !== 3 || (!loadingAI && !isRedFlag)) && (
             <button
               type="button"
               onClick={() => setCurrentStep((prev) => (prev - 1) as 1 | 2 | 3)}
-              className="border border-slate-200 text-slate-500 py-2.5 px-5 rounded-2xl font-bold flex items-center gap-1.5 hover:bg-slate-50 transition-all text-sm"
+              className="border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 py-2.5 px-3.5 sm:px-5 rounded-2xl font-bold flex items-center gap-1.5 transition-colors text-xs sm:text-sm shadow-xs cursor-pointer min-h-[44px]"
             >
-              <ArrowLeft className="w-4.5 h-4.5" />
+              <ArrowLeft className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
               Kembali
             </button>
           )}
@@ -349,15 +528,11 @@ export const TodoListCard = (_props: TodoListCardProps) => {
           {currentStep === 1 && (
             <button
               type="button"
-              onClick={() => isAllTasksCompleted && setCurrentStep(2)}
-              disabled={!isAllTasksCompleted}
-              className={`py-3 px-6 rounded-2xl font-bold flex items-center gap-2 transition-all text-sm ${
-                isAllTasksCompleted
-                  ? 'bg-[#389D9C] hover:bg-[#2C7E7D] text-white shadow-md hover:shadow-lg cursor-pointer'
-                  : 'bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed'
-              }`}
+              onClick={() => setCurrentStep(2)}
+              className="bg-[#1A7775] hover:bg-[#145E5C] text-white py-2.5 sm:py-3 px-3.5 sm:px-6 rounded-2xl font-extrabold flex items-center gap-1.5 sm:gap-2 shadow-md hover:shadow-lg transition-colors text-xs sm:text-sm cursor-pointer min-h-[44px]"
             >
-              Lanjut ke Skrining Keluhan
+              <span className="hidden xs:inline">Lanjut ke Skrining Keluhan</span>
+              <span className="xs:hidden">Skrining Keluhan</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           )}
@@ -366,28 +541,30 @@ export const TodoListCard = (_props: TodoListCardProps) => {
             <button
               type="button"
               onClick={handleSendAnalysis}
-              className="bg-[#389D9C] hover:bg-[#2C7E7D] text-white py-3 px-6 rounded-2xl font-bold flex items-center gap-2 shadow-md hover:shadow-lg transition-all text-sm"
+              className="bg-[#1A7775] hover:bg-[#145E5C] text-white py-2.5 sm:py-3 px-3.5 sm:px-6 rounded-2xl font-extrabold flex items-center gap-1.5 sm:gap-2 shadow-md hover:shadow-lg transition-colors text-xs sm:text-sm cursor-pointer min-h-[44px]"
             >
-              Kirim & Analisis Kondisi
-              <Sparkles className="w-4 h-4" />
+              <span className="hidden xs:inline">Kirim & Analisis Kondisi</span>
+              <span className="xs:hidden">Analisis</span>
+              <Sparkles className="w-4 h-4 text-white" />
             </button>
           )}
 
           {currentStep === 3 && !loadingAI && (
             isRedFlag ? (
-              <div className="flex gap-2">
+              <div className="flex flex-wrap sm:flex-nowrap gap-1.5 sm:gap-2 justify-end">
                 <button
                   type="button"
                   onClick={handleResetWizard}
-                  className="border border-slate-200 text-slate-500 py-3 px-5 rounded-2xl font-bold hover:bg-slate-50 transition-all text-xs sm:text-sm"
+                  className="border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 py-2.5 sm:py-3 px-3.5 sm:px-5 rounded-2xl font-bold transition-colors text-xs sm:text-sm cursor-pointer shadow-xs min-h-[44px]"
                 >
                   Tutup
                 </button>
                 <a
-                  href="/dokter"
-                  className="bg-red-600 hover:bg-red-700 text-white py-3 px-5 sm:px-6 rounded-2xl font-bold flex items-center gap-2 shadow-md hover:shadow-lg transition-all text-xs sm:text-sm animate-pulse text-center"
+                  href="/chat"
+                  className="bg-red-500 hover:bg-red-600 text-white py-2.5 sm:py-3 px-3.5 sm:px-6 rounded-2xl font-bold flex items-center justify-center gap-1.5 sm:gap-2 shadow-md hover:shadow-lg transition-colors text-xs sm:text-sm text-center min-h-[44px]"
                 >
-                  Hubungi Dokter Sekarang
+                  <span>Hubungi Dokter</span>
+                  <span className="hidden sm:inline">Sekarang</span>
                   <ArrowRight className="w-4 h-4" />
                 </a>
               </div>
@@ -395,7 +572,7 @@ export const TodoListCard = (_props: TodoListCardProps) => {
               <button
                 type="button"
                 onClick={handleResetWizard}
-                className="bg-[#389D9C] hover:bg-[#2C7E7D] text-white py-3 px-6 rounded-2xl font-bold flex items-center gap-2 shadow-md hover:shadow-lg transition-all text-sm"
+                className="bg-[#1A7775] hover:bg-[#145E5C] text-white py-2.5 sm:py-3 px-5 sm:px-6 rounded-2xl font-extrabold flex items-center gap-2 shadow-md hover:shadow-lg transition-colors text-xs sm:text-sm cursor-pointer min-h-[44px]"
               >
                 Selesai
               </button>

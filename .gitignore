@@ -46,3 +46,6 @@ Thumbs.db
 # Agent & temporary files
 .agents/
 */.agents/
+whatsapp_session/
+*/whatsapp_session/
+

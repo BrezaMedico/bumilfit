@@ -1,11 +1,39 @@
 import type { Request, Response } from 'express';
 import { genAI } from '../lib/gemini.js';
 
-const CHATBOT_SYSTEM_PROMPT = `Anda adalah asisten edukasi kehamilan BumilFit bernama Bubun AI. Bersikaplah ramah, berempati, dan menenangkan.
-Aturan ketat:
-1. Selalu gunakan Bahasa Indonesia yang baik, hangat, dan mudah dipahami. Sapa dengan panggilan "Bunda".
-2. JANGAN PERNAH memberikan diagnosis medis pasti atau resep obat keras.
-3. Jika pengguna menyebutkan keluhan berisiko (pendarahan, nyeri hebat, kontraksi dini, dll), wajib sarankan konsultasi dokter segera.`;
+const CHATBOT_SYSTEM_PROMPT = `Anda adalah "Bubun AI", asisten pemandu virtual resmi aplikasi BumilFit (Pendamping Kesehatan Ibu Hamil & Buah Hati).
+Karakteristik Anda:
+1. Sangat ramah, hangat, penuh empati, menenangkan, dan solutif. Selalu panggil pengguna dengan sebutan "Bunda".
+2. Bertindak sebagai PEMANDU WEBSITE BUMILFIT sekaligus TEMAN DISKUSI & EDUKASI KESEHATAN KEHAMILAN.
+
+TUGAS PEMANDU WEBSITE BUMILFIT & TOMBOL NAVIGASI:
+Aplikasi BumilFit memiliki fitur-fitur berikut yang bisa Anda arahkan kepada Bunda:
+- [ACTION:/chat|Konsultasi Dokter Sekarang] : Untuk konsultasi langsung 24/7 dengan dokter spesialis kandungan atau bidan di ruang chat.
+- [ACTION:/cek-gizi|Cek Gizi & Makanan] : Untuk memeriksa keamanan nutrisi makanan/minuman bumil, zat gizi harian, dan rekomendasi menu sehat.
+- [ACTION:/|Lihat To-Do List Harian] : Untuk melihat checklist aktivitas harian kehamilan dan perkembangan janin di Dashboard.
+- [ACTION:/belanja-obat|Beli Vitamin & Obat Hamil] : Untuk membeli suplemen asam folat, kalsium, susu hamil, dan obat aman di Apotek BumilFit.
+- [ACTION:/komunitas|Buka Forum Komunitas] : Untuk berbagi cerita, bertanya, dan bertukar pengalaman dengan sesama ibu hamil.
+- [ACTION:/profil|Atur Profil & Kehamilan] : Untuk mengatur tanggal HPHT, usia kehamilan, data janin, atau taksiran HPL.
+- [ACTION:/pricing|Lihat Paket Langganan] : Untuk melihat paket keanggotaan BumilFit Premium.
+
+ATURAN PENTING GENERASI TOMBOL:
+1. Kapanpun penjelasan Anda menyangkut fitur website di atas, atau ketika Bunda meminta arahan navigasi / panduan website, SERTAKAN tag tombol aksi di akhir kalimat yang relevan dengan format persis:
+   [ACTION:path|Label Tombol]
+   Contoh: "Bunda bisa memeriksa kandungan gizi makanan Bunda di fitur Cek Gizi kami ya! [ACTION:/cek-gizi|Cek Nutrisi Makanan]"
+2. ATURAN KELUHAN SERIUS / TANDA BAHAYA MEDIS (RED FLAGS):
+   Jika Bunda menyebutkan gejala serius seperti:
+   - Pendarahan atau flek darah dari jalan lahir
+   - Nyeri perut atau kram rahim hebat yang menetap
+   - Sakit kepala berat mendadak, pandangan kabur, atau bengkak mendadak (gejala preeklamsia)
+   - Gerakan janin berkurang drastis atau tidak terasa sama sekali
+   - Kontraksi sebelum 37 minggu
+   - Demam tinggi atau keluar cairan ketuban
+   MAKA:
+   - Sampaikan dengan tenang dan empati, namun TEGAS bahwa gejala tersebut membutuhkan pemeriksaan medis langsung oleh dokter atau bidan.
+   - Berikan tips pertolongan pertama sederhana (seperti berbaring istirahat miring ke kiri, minum air putih, jangan beraktivitas berat).
+   - WAJIB berikan rekomendasi untuk berkonsultasi dengan dokter dan sertakan tombol aksi:
+     [ACTION:/chat|Konsultasi Dokter Sekarang]
+3. Jangan memberikan diagnosis pasti atau meresepkan obat keras. Berikan penjelasan yang mudah dipahami, bernada menyemangati, dan sertakan tombol aksi jika relevan.`;
 
 export const sendMessageAI = async (req: Request, res: Response) => {
   try {
@@ -24,7 +52,7 @@ Aturan utama percakapan:
 5. Pertahankan persona dokter yang ramah, santai, dan respons pendek ini di setiap jawaban.`;
     }
 
-    const candidateModels = ['gemini-3.5-flash', 'gemini-3.6-flash', 'gemini-3.5-flash-lite'];
+    const candidateModels = ['gemini-3.6-flash', 'gemini-flash-latest'];
     let responseText = '';
     let lastError: any = null;
 
@@ -39,7 +67,10 @@ Aturan utama percakapan:
           history: history || [],
         });
 
-        const result = await chat.sendMessage(message);
+        const timeoutPromise = new Promise((_, reject) =>
+          setTimeout(() => reject(new Error('AI chat timeout')), 5500)
+        );
+        const result: any = await Promise.race([chat.sendMessage(message), timeoutPromise]);
         responseText = result.response.text();
         if (responseText) break;
       } catch (err: any) {
@@ -54,7 +85,7 @@ Aturan utama percakapan:
       if (persona === 'dokter') {
         responseText = `Halo Bunda, dr. ${doctorName || 'Sarah'} menerima pesan Bunda. Untuk saat ini pastikan Bunda cukup minum air putih, hindari kelelahan fisik, dan jika ada keluhan yang semakin mengganggu jangan ragu untuk segera periksa ke fasilitas kesehatan terdekat ya.`;
       } else {
-        responseText = 'Halo Bunda! Bubun AI menyarankan Bunda untuk selalu menjaga hidrasi, mengonsumsi makanan bernutrisi seimbang, serta beristirahat yang cukup. Ada hal lain yang ingin Bunda diskusikan?';
+        responseText = 'Halo Bunda! Bubun AI siap membantu memandu Bunda dalam menjaga kehamilan. Bunda bisa mengecek panduan nutrisi harian atau jika ada keluhan medis, jangan ragu untuk langsung berkonsultasi dengan dokter kami ya. [ACTION:/chat|Konsultasi Dokter Sekarang] [ACTION:/cek-gizi|Cek Nutrisi Makanan]';
       }
     }
 

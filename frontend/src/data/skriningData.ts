@@ -137,7 +137,7 @@ export const calculateRisk = (score: number): SkriningResult => {
       totalScore: score,
       category: "Risiko Rendah",
       recommendation: "Pemantauan rutin faskes primer/bidan. Tetap jaga pola makan sehat, konsumsi vitamin kehamilan, dan istirahat yang cukup.",
-      colorClass: "bg-[#EBF5F2] text-[#3EA7A2] border-[#3EA7A2]"
+      colorClass: "bg-[#EBF5F2] text-[#389D9C] border-[#389D9C]"
     };
   } else if (score <= 11) {
     return {

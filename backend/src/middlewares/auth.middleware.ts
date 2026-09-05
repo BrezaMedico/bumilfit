@@ -2,7 +2,12 @@ import type { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
 export const requireAuth = (req: Request, res: Response, next: NextFunction) => {
-  const token = req.cookies.jwt_token; // Mengambil token langsung dari cookie
+  let token = req.cookies?.jwt_token;
+
+  // Fallback ke header Authorization jika cookie tidak tersedia
+  if (!token && req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {
+    token = req.headers.authorization.split(' ')[1];
+  }
 
   if (!token) {
     return res.status(401).json({ message: 'Akses ditolak. Sesi tidak ditemukan.' });
