@@ -41,17 +41,23 @@ app.use(cors({
 app.use(express.json({ limit: '10mb' }));
 app.use(cookieParser());
 
-app.use('/api/auth', authRoutes);
-app.use('/api/chat-ai', chatAiRoutes);
-app.use('/api/komunitas', komunitasRoutes);
-app.use('/api/gizi', giziRoutes);
-app.use('/api/todo', todoRoutes);
-app.use('/api/subscription', subscriptionRoutes);
-app.use('/api/orders', orderRoutes);
-app.use('/api/whatsapp', whatsappRoutes);
+// Daftarkan route untuk prefix '/api' dan juga langsung di root (kompatibilitas jika frontend memanggil tanpa /api)
+const registerRoutes = (prefix = '') => {
+  app.use(`${prefix}/auth`, authRoutes);
+  app.use(`${prefix}/chat-ai`, chatAiRoutes);
+  app.use(`${prefix}/komunitas`, komunitasRoutes);
+  app.use(`${prefix}/gizi`, giziRoutes);
+  app.use(`${prefix}/todo`, todoRoutes);
+  app.use(`${prefix}/subscription`, subscriptionRoutes);
+  app.use(`${prefix}/orders`, orderRoutes);
+  app.use(`${prefix}/whatsapp`, whatsappRoutes);
+};
+
+registerRoutes('/api');
+registerRoutes('');
 
 // Endpoint pengujian healthcheck
-app.get('/api/health', (_req, res) => {
+app.get(['/api/health', '/health'], (_req, res) => {
   res.status(200).json({ status: 'BumilFit Backend Sehat! 🚀' });
 });
 
