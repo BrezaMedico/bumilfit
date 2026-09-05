@@ -56,9 +56,19 @@ const registerRoutes = (prefix = '') => {
 registerRoutes('/api');
 registerRoutes('');
 
+import { whatsappService } from './services/whatsapp.service.js';
+
 // Endpoint pengujian healthcheck
 app.get(['/api/health', '/health'], (_req, res) => {
-  res.status(200).json({ status: 'BumilFit Backend Sehat! 🚀' });
+  const user = process.env.GOOGLE_APP_EMAIL || '';
+  const pass = (process.env.GOOGLE_APP_PASSKEY || '').replace(/\s+/g, '');
+  res.status(200).json({
+    status: 'BumilFit Backend Sehat! 🚀',
+    mailConfigured: Boolean(user && pass && pass.length === 16),
+    mailSender: user || 'belum_diset',
+    whatsappConnected: whatsappService.getStatus().isConnected,
+    whatsappStatus: whatsappService.getStatus().status
+  });
 });
 
 export default app;
