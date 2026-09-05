@@ -958,6 +958,14 @@ export const RegisterPage = () => {
               )}
             </div>
 
+            {/* Informasi Cek Folder Spam / Promosi */}
+            <div className="p-3 rounded-xl bg-amber-50/80 border border-amber-200/80 text-amber-800 text-[11px] leading-relaxed flex items-start gap-2 text-left">
+              <span className="text-sm shrink-0">💡</span>
+              <span>
+                <strong>Tips:</strong> Jika email belum muncul di Kotak Masuk (Inbox), pastikan untuk memeriksa folder <strong>Spam</strong> atau tab <strong>Promosi</strong> di email Anda.
+              </span>
+            </div>
+
             {/* Opsi Ganti Metode Verifikasi */}
             <div className="text-center border-t border-slate-100 pt-3">
               <p className="text-xs text-gray-500">

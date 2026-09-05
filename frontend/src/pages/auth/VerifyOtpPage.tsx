@@ -131,8 +131,11 @@ export const VerifyOtpPage = () => {
     setErrorMsg('');
 
     try {
-      await apiClient.post('/auth/resend-otp', { userId });
-      toast.success('Kode OTP baru telah dikirimkan ke WhatsApp Anda');
+      const res = await apiClient.post('/auth/resend-otp', { 
+        userId, 
+        channel: phone ? 'whatsapp' : 'email' 
+      });
+      toast.success(res.data?.message || 'Kode OTP baru telah berhasil dikirimkan');
       setCountdown(60);
       setCanResend(false);
       setOtp(['', '', '', '', '', '']);
@@ -237,6 +240,14 @@ export const VerifyOtpPage = () => {
                 Kirim ulang dalam <strong className="text-[#194668]">{countdown}</strong> detik
               </span>
             )}
+          </div>
+
+          {/* Informasi Cek Folder Spam / Promosi */}
+          <div className="p-3 rounded-xl bg-amber-50/80 border border-amber-200/80 text-amber-800 text-[11px] leading-relaxed flex items-start gap-2 text-left">
+            <span className="text-sm shrink-0">💡</span>
+            <span>
+              <strong>Tips:</strong> Jika email belum muncul di Kotak Masuk (Inbox), pastikan untuk memeriksa folder <strong>Spam</strong> atau tab <strong>Promosi</strong> di email Anda.
+            </span>
           </div>
 
           {/* Tombol Aksi */}
