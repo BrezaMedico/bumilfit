@@ -36,6 +36,9 @@ export const verifyRecaptchaToken = async (token?: string): Promise<boolean> => 
     });
 
     const data = await response.json();
+    if (!data.success) {
+      console.warn('[reCAPTCHA] Verifikasi Google ditolak:', data);
+    }
     return Boolean(data.success);
   } catch (error) {
     console.error('[reCAPTCHA] Gagal memverifikasi token reCAPTCHA ke Google:', error);
