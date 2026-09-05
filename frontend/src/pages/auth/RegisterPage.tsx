@@ -333,7 +333,8 @@ export const RegisterPage = () => {
       } catch (err: any) {
         recaptchaRef.current?.reset();
         setRecaptchaToken('');
-        setErrorMsg(err.response?.data?.message || 'Terjadi kesalahan saat mendaftarkan akun Google');
+        const backendMsg = err.response?.data?.message || err.response?.data?.errors?.[0]?.message;
+        setErrorMsg(backendMsg || 'Terjadi kesalahan saat mendaftarkan akun');
       } finally {
         setIsLoading(false);
       }
@@ -379,7 +380,8 @@ export const RegisterPage = () => {
     } catch (err: any) {
       recaptchaRef.current?.reset();
       setRecaptchaToken('');
-      setErrorMsg(err.response?.data?.message || 'Terjadi kesalahan saat mendaftarkan akun');
+      const backendMsg = err.response?.data?.message || err.response?.data?.errors?.[0]?.message;
+      setErrorMsg(backendMsg || 'Terjadi kesalahan saat mendaftarkan akun');
     } finally {
       setIsLoading(false);
     }

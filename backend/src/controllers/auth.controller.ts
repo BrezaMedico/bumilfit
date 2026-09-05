@@ -331,7 +331,10 @@ export const register = async (req: Request, res: Response) => {
   } catch (error) {
     console.error("DEBUG REGISTER ERROR:", error);
     if (error instanceof z.ZodError) {
-      return res.status(400).json({ errors: error.issues });
+      return res.status(400).json({ 
+        message: error.issues[0]?.message || 'Data pendaftaran tidak valid',
+        errors: error.issues 
+      });
     }
     res.status(500).json({ message: 'Terjadi kesalahan pada server' });
   }
