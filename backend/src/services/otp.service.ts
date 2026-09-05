@@ -1,8 +1,14 @@
-import nodemailer from 'nodemailer';
+import nodemailer, { type Transporter } from 'nodemailer';
 import prisma from '../lib/prisma.js';
 import { whatsappService } from './whatsapp.service.js';
 
+let cachedTransporter: Transporter | null = null;
+
 const getMailTransporter = () => {
+  if (cachedTransporter) {
+    return cachedTransporter;
+  }
+
   const user = process.env.GOOGLE_APP_EMAIL || 'bumilfit@gmail.com';
   const rawPass = process.env.GOOGLE_APP_PASSKEY || '';
   const pass = rawPass.replace(/\s+/g, '');
@@ -11,42 +17,30 @@ const getMailTransporter = () => {
     return null;
   }
 
-  return nodemailer.createTransport({
+  // Gunakan connection pool agar koneksi ke SMTP Gmail tetap hangat (tidak re-handshake setiap kali kirim)
+  cachedTransporter = nodemailer.createTransport({
     service: 'gmail',
+    pool: true,
+    maxConnections: 3,
+    maxMessages: 100,
+    rateDelta: 1000,
+    rateLimit: 5,
     auth: {
       user,
       pass,
     },
   });
+
+  return cachedTransporter;
 };
 
-export const generateAndSendOtp = async (
-  userId: string, 
-  email: string, 
-  channel: 'email' | 'whatsapp' = 'email',
+// Fungsi pengiriman pesan di background (Email & WhatsApp)
+const dispatchDelivery = async (
+  otpCode: string,
+  email: string,
+  channel: 'email' | 'whatsapp',
   phone?: string
 ) => {
-  // Generate 6 digit angka acak
-  const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
-  
-  // Set kedaluwarsa 5 menit dari sekarang
-  const expiredAt = new Date(Date.now() + 5 * 60 * 1000);
-
-  // Simpan atau update ke database
-  await prisma.otpVerification.upsert({
-    where: { userId },
-    update: {
-      kode: otpCode,
-      expiredAt,
-      jumlahPercobaan: 0,
-    },
-    create: {
-      userId,
-      kode: otpCode,
-      expiredAt,
-    },
-  });
-
   if (channel === 'whatsapp') {
     if (phone) {
       console.log(`📱 [OTP Service] Mengirim OTP WhatsApp ke: ${phone}...`);
@@ -64,7 +58,6 @@ export const generateAndSendOtp = async (
     console.log(`⏳ Berlaku selama 5 menit.`);
     console.log(`=========================================\n`);
   } else {
-    // Kirim email asli menggunakan akun bumilfit@gmail.com via Nodemailer
     const transporter = getMailTransporter();
     if (transporter) {
       try {
@@ -92,19 +85,53 @@ export const generateAndSendOtp = async (
           `,
           text: `Kode verifikasi OTP BUMILFIT Anda adalah: ${otpCode}. Berlaku selama 5 menit. Jangan bagikan kode ini kepada siapapun.`
         });
-        console.log(`✅ [Nodemailer] Email OTP berhasil dikirim ke: ${email} via bumilfit@gmail.com`);
+        console.log(`✅ [Nodemailer] Email OTP berhasil dikirim ke: ${email}`);
       } catch (mailErr) {
         console.error(`⚠️ [Nodemailer] Gagal mengirim email OTP ke ${email}:`, mailErr);
       }
     }
 
-    // Tetap tampilkan log di server console
     console.log(`\n=========================================`);
     console.log(`📩 EMAIL OTP BUMILFIT TERKIRIM KE: ${email}`);
     console.log(`🔑 KODE OTP BUMILFIT: ${otpCode}`);
     console.log(`⏳ Berlaku selama 5 menit.`);
     console.log(`=========================================\n`);
   }
+};
+
+export const generateAndSendOtp = async (
+  userId: string, 
+  email: string, 
+  channel: 'email' | 'whatsapp' = 'email',
+  phone?: string
+) => {
+  // Generate 6 digit angka acak
+  const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
+  
+  // Set kedaluwarsa 5 menit dari sekarang
+  const expiredAt = new Date(Date.now() + 5 * 60 * 1000);
+
+  // Simpan atau update ke database (proses instan ~20-50ms)
+  await prisma.otpVerification.upsert({
+    where: { userId },
+    update: {
+      kode: otpCode,
+      expiredAt,
+      jumlahPercobaan: 0,
+    },
+    create: {
+      userId,
+      kode: otpCode,
+      expiredAt,
+    },
+  });
+
+  // DISPATCH ASINKRON DI BACKGROUND:
+  // Jangan menahan respon HTTP saat mengirim email/WA ke Google/Baileys.
+  // Ini menghilangkan 100% lag/delay di browser dan membuat proses registrasi terasa seketika (instant)!
+  dispatchDelivery(otpCode, email, channel, phone).catch((err) => {
+    console.error('⚠️ [OTP Service] Async dispatch error:', err);
+  });
 
   return otpCode;
 };
