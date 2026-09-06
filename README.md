@@ -304,14 +304,36 @@ BumilFit menggunakan model monetisasi **Hybrid Monetization**, yaitu kombinasi a
 
 ## Database Schema
 
-Database BumilFit menggunakan **PostgreSQL** dengan **Prisma ORM** sebagai ORM untuk mengelola struktur dan relasi data.
+BumilFit menggunakan **PostgreSQL** berbasis Cloud melalui **Neon DB** yang dikelola menggunakan **Prisma ORM**.
 
-Diagram database:
+### Struktur Database
 
-![Database Schema]( [Sesuaikan dengan path atau URL ERD database BumilFit] )
+- **`User`**  
+  Menyimpan data kredensial pengguna, meliputi email, password hash, role (`IBU_HAMIL` | `DOKTER` | `WHATSAPP_ADMIN`), `authProvider` (`LOCAL` / `GOOGLE`), dan status verifikasi (`isVerified`).
 
-> **Catatan:** Diagram di atas menggambarkan struktur tabel, atribut, primary key (PK), foreign key (FK), serta relasi antar-entitas yang digunakan dalam aplikasi BumilFit.
+- **`ProfilIbuHamil`** *(1:1 dengan User)*  
+  Menyimpan data personal ibu hamil, seperti nama ibu, nama anak, usia kehamilan dalam minggu dan hari, nomor WhatsApp, status dan skor skrining risiko, serta golongan darah.
 
+- **`KeluhanLog`** *(N:1 dengan User)*  
+  Menyimpan riwayat keluhan harian pengguna, tingkat keparahan (`RINGAN`, `SEDANG`, `BERAT`), serta indikator kondisi bahaya atau darurat melalui `isRedFlag`.
+
+- **`OtpVerification`** *(1:1 dengan User)*  
+  Menyimpan data token OTP untuk verifikasi melalui WhatsApp dan Email, termasuk waktu kedaluwarsa (`expiredAt`) dan kuota percobaan.
+
+- **`MasterTodo`**  
+  Menyimpan bank acuan aktivitas atau tugas harian kehamilan berdasarkan bulan kehamilan ke-1 hingga ke-9, trimester, dan kategori risiko (`RENDAH`, `SEDANG`, `TINGGI`).
+
+- **`UserTodo`**  
+  Menyimpan checklist aktivitas atau tugas kesehatan ibu hamil yang dilakukan setiap hari, termasuk status penyelesaian aktivitas.
+
+- **`Subscription`** *(1:1 dengan User)*  
+  Menyimpan informasi paket langganan aktif (`BASIC`, `PRO`, `PREMIUM`, `PREMIUM_LENGKAP`), tanggal mulai aktif, dan tanggal kedaluwarsa.
+
+- **`Order`** *(N:1 dengan User)*  
+  Menyimpan data transaksi belanja produk kesehatan, termasuk item dalam format JSON, alamat pengiriman, kurir, metode pembayaran (QRIS / Bank VA / COD), status pesanan (`BELUM_BAYAR`, `DIKEMAS`, `DIKIRIM`, `SELESAI`, `DIBATALKAN`), serta timeline SLA.
+
+- **`Post`**, **`Comment`**, dan **`Like`**  
+  Mendukung fitur komunitas sebagai forum interaksi antar pengguna, termasuk relasi postingan, komentar, like, serta mekanisme pelaporan konten melalui `reportedBy`.
 ## Folder Structure
 
 ~~~text
