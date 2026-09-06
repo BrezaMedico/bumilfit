@@ -337,35 +337,55 @@ BumilFit menggunakan **PostgreSQL** berbasis Cloud melalui **Neon DB** yang dike
 ## Folder Structure
 
 ~~~text
-BumilFit/
+bumilfit/
 ├── frontend/
-│   ├── public/
-│   └── src/
-│       ├── assets/
-│       ├── components/
-│       ├── data/
-│       ├── hooks/
-│       ├── lib/
-│       ├── pages/
-│       ├── router/
-│       ├── store/
-│       ├── App.tsx
-│       └── main.tsx
+│   ├── src/
+│   │   ├── components/     # Reusable UI components (Button, Card, Modal, dll)
+│   │   ├── pages/          # Page components (Home, Dashboard, Todo, Gizi, dll)
+│   │   ├── hooks/          # Custom hooks (useAuth, useTodo, dll)
+│   │   ├── utils/          # Fungsi utilitas (formatDate, calculateEDD, dll)
+│   │   ├── services/       # API services (axios calls ke backend)
+│   │   ├── store/          # Zustand state management
+│   │   ├── types/          # TypeScript types/interfaces
+│   │   ├── router/         # React Router config
+│   │   ├── assets/         # Gambar, icon, font
+│   │   ├── App.tsx
+│   │   └── main.tsx
+│   ├── public/             # Static assets
+│   ├── tests/              # Unit/integration test frontend
+│   ├── .env.example
+│   ├── package.json
+│   └── vite.config.ts
 │
 ├── backend/
+│   ├── src/
+│   │   ├── controllers/    # Logic handler tiap endpoint
+│   │   ├── routes/         # Definisi route Express
+│   │   ├── services/       # Business logic (AI chatbot, gizi, dll)
+│   │   ├── middlewares/    # Auth JWT, error handler, dll
+│   │   ├── utils/          # Helper functions
+│   │   ├── types/          # TypeScript types/interfaces
+│   │   ├── lib/            # Konfigurasi Prisma client, dll
+│   │   ├── app.ts
+│   │   └── server.ts
 │   ├── prisma/
-│   └── src/
-│       ├── controllers/
-│       ├── lib/
-│       ├── middlewares/
-│       ├── routes/
-│       ├── services/
-│       ├── app.ts
-│       └── server.ts
+│   │   ├── schema.prisma
+│   │   └── migrations/
+│   ├── tests/              # Unit/integration test backend
+│   ├── .env.example
+│   └── package.json
 │
-├── .env.example
+├── docs/                   # Dokumentasi lomba
+│   ├── proposal.md          # Proposal/latar belakang proyek
+│   ├── api-documentation.md # Dokumentasi endpoint API
+│   ├── database-schema.md   # ERD & penjelasan skema Prisma
+│   ├── architecture.md      # Diagram arsitektur sistem
+│   └── user-guide.md        # Panduan penggunaan aplikasi
+│
+├── screenshot/             # Screenshot demo aplikasi
 ├── .gitignore
-├── package.json
+├── package.json            # (opsional, jika pakai workspace/monorepo tool)
+├── LICENSE
 └── README.md
 ~~~
 
