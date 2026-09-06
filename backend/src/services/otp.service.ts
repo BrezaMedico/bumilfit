@@ -1,6 +1,30 @@
+import dns from 'dns';
 import nodemailer, { type Transporter } from 'nodemailer';
 import prisma from '../lib/prisma.js';
 import { whatsappService } from './whatsapp.service.js';
+
+// Paksa Node.js mendahulukan IPv4 agar koneksi SMTP Gmail tidak timeout di cloud provider (Render/Docker)
+try {
+  dns.setDefaultResultOrder('ipv4first');
+} catch (e) {}
+
+const createGmailTransporter = (user: string, pass: string, port = 587) => {
+  return nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port,
+    secure: port === 465,
+    auth: {
+      user,
+      pass,
+    },
+    tls: {
+      rejectUnauthorized: false,
+    },
+    connectionTimeout: 10000,
+    greetingTimeout: 10000,
+    socketTimeout: 15000,
+  } as any);
+};
 
 export const sendEmailOtp = async (email: string, otpCode: string): Promise<boolean> => {
   const user = process.env.GOOGLE_APP_EMAIL || 'bumilfit@gmail.com';
@@ -12,47 +36,48 @@ export const sendEmailOtp = async (email: string, otpCode: string): Promise<bool
     return false;
   }
 
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user,
-      pass,
-    },
-    connectionTimeout: 15000,
-    greetingTimeout: 10000,
-    socketTimeout: 20000,
-  });
-
-  try {
-    const info = await transporter.sendMail({
-      from: `"BUMILFIT" <${user}>`,
-      to: email,
-      subject: `${otpCode} adalah Kode Verifikasi OTP BUMILFIT Anda`,
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 520px; margin: 0 auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 16px; background-color: #ffffff;">
-          <div style="text-align: center; margin-bottom: 20px;">
-            <h2 style="color: #194668; margin: 0; font-size: 24px; font-weight: bold;">BUMILFIT</h2>
-            <p style="color: #64748b; font-size: 13px; margin-top: 4px;">Pendamping Kesehatan Ibu Hamil & Buah Hati</p>
-          </div>
-          <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; text-align: center; margin-bottom: 20px;">
-            <p style="color: #475569; font-size: 14px; margin: 0 0 12px 0;">Gunakan kode OTP berikut untuk menyelesaikan proses verifikasi Anda:</p>
-            <div style="font-size: 32px; font-weight: 800; letter-spacing: 8px; color: #389D9C; padding: 12px; background: #ffffff; border-radius: 8px; border: 1px dashed #cbd5e1; display: inline-block; margin: 8px 0;">
-              ${otpCode}
-            </div>
-            <p style="color: #94a3b8; font-size: 12px; margin: 12px 0 0 0;">⏱️ Kode ini berlaku selama <strong>5 menit</strong>. Jangan bagikan kode ini kepada siapa pun.</p>
-          </div>
-          <p style="color: #64748b; font-size: 12px; line-height: 1.5; margin: 0; text-align: center;">
-            Jika Anda tidak melakukan pendaftaran di BUMILFIT, Anda dapat mengabaikan email ini.
-          </p>
+  const mailOptions = {
+    from: `"BUMILFIT" <${user}>`,
+    to: email,
+    subject: `${otpCode} adalah Kode Verifikasi OTP BUMILFIT Anda`,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 520px; margin: 0 auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 16px; background-color: #ffffff;">
+        <div style="text-align: center; margin-bottom: 20px;">
+          <h2 style="color: #194668; margin: 0; font-size: 24px; font-weight: bold;">BUMILFIT</h2>
+          <p style="color: #64748b; font-size: 13px; margin-top: 4px;">Pendamping Kesehatan Ibu Hamil & Buah Hati</p>
         </div>
-      `,
-      text: `Kode verifikasi OTP BUMILFIT Anda adalah: ${otpCode}. Berlaku selama 5 menit. Jangan bagikan kode ini kepada siapapun.`
-    });
-    console.log(`✅ [Nodemailer] Email OTP berhasil dikirim ke: ${email} (Response: ${info.response})`);
+        <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; text-align: center; margin-bottom: 20px;">
+          <p style="color: #475569; font-size: 14px; margin: 0 0 12px 0;">Gunakan kode OTP berikut untuk menyelesaikan proses verifikasi Anda:</p>
+          <div style="font-size: 32px; font-weight: 800; letter-spacing: 8px; color: #389D9C; padding: 12px; background: #ffffff; border-radius: 8px; border: 1px dashed #cbd5e1; display: inline-block; margin: 8px 0;">
+            ${otpCode}
+          </div>
+          <p style="color: #94a3b8; font-size: 12px; margin: 12px 0 0 0;">⏱️ Kode ini berlaku selama <strong>5 menit</strong>. Jangan bagikan kode ini kepada siapa pun.</p>
+        </div>
+        <p style="color: #64748b; font-size: 12px; line-height: 1.5; margin: 0; text-align: center;">
+          Jika Anda tidak melakukan pendaftaran di BUMILFIT, Anda dapat mengabaikan email ini.
+        </p>
+      </div>
+    `,
+    text: `Kode verifikasi OTP BUMILFIT Anda adalah: ${otpCode}. Berlaku selama 5 menit. Jangan bagikan kode ini kepada siapapun.`
+  };
+
+  // Coba kirim via port 587 (STARTTLS, IPv4) terlebih dahulu
+  let transporter = createGmailTransporter(user, pass, 587);
+  try {
+    const info = await transporter.sendMail(mailOptions);
+    console.log(`✅ [Nodemailer 587] Email OTP berhasil dikirim ke: ${email} (Response: ${info.response})`);
     return true;
-  } catch (mailErr) {
-    console.error(`❌ [Nodemailer] Gagal mengirim email OTP ke ${email}:`, mailErr);
-    return false;
+  } catch (err587: any) {
+    console.warn(`⚠️ [Nodemailer 587] Gagal, mencoba via port 465 (SSL):`, err587.message);
+    try {
+      transporter = createGmailTransporter(user, pass, 465);
+      const info = await transporter.sendMail(mailOptions);
+      console.log(`✅ [Nodemailer 465] Email OTP berhasil dikirim ke: ${email} (Response: ${info.response})`);
+      return true;
+    } catch (err465: any) {
+      console.error(`❌ [Nodemailer 465] Gagal mengirim email OTP ke ${email}:`, err465.message);
+      return false;
+    }
   }
 };
 

@@ -71,39 +71,69 @@ app.get(['/api/health', '/health'], (_req, res) => {
   });
 });
 
+import dns from 'dns';
 import nodemailer from 'nodemailer';
+try {
+  dns.setDefaultResultOrder('ipv4first');
+} catch (e) {}
 
 // Endpoint diagnostik pengujian kirim email SMTP live
 app.all(['/api/test-email', '/test-email'], async (req, res) => {
   const targetEmail = (req.query.email as string) || req.body?.email || 'brezamedico08@gmail.com';
+  const forcePort = req.query.port ? Number(req.query.port) : undefined;
   try {
     const user = process.env.GOOGLE_APP_EMAIL || 'bumilfit@gmail.com';
     const pass = (process.env.GOOGLE_APP_PASSKEY || '').replace(/\s+/g, '');
 
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: { user, pass },
-      connectionTimeout: 15000,
-      greetingTimeout: 10000,
-      socketTimeout: 20000,
-    });
+    const createTransporter = (port: number) => {
+      return nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port,
+        secure: port === 465,
+        auth: { user, pass },
+        tls: { rejectUnauthorized: false },
+        connectionTimeout: 10000,
+        greetingTimeout: 10000,
+        socketTimeout: 15000,
+      } as any);
+    };
 
-    const result = await transporter.sendMail({
-      from: `"BUMILFIT" <${user}>`,
-      to: targetEmail,
-      subject: `[Uji Coba Pengiriman] Sistem OTP BUMILFIT`,
-      html: `
-        <div style="font-family: Arial, sans-serif; padding: 20px; border: 1px solid #e2e8f0; border-radius: 12px;">
-          <h2 style="color: #389D9C;">Tes Pengiriman Email BUMILFIT Berhasil! ✅</h2>
-          <p>Email ini membuktikan bahwa backend Render berhasil terhubung ke server Gmail dan dapat mengirim email OTP secara nyata.</p>
-        </div>
-      `,
-      text: `Tes Pengiriman Email BUMILFIT Berhasil! Sistem email aktif dan normal.`,
-    });
+    const portsToTry = forcePort ? [forcePort] : [587, 465];
+    let lastError: any = null;
+    let result: any = null;
+    let usedPort = 587;
+
+    for (const p of portsToTry) {
+      try {
+        usedPort = p;
+        const transporter = createTransporter(p);
+        result = await transporter.sendMail({
+          from: `"BUMILFIT" <${user}>`,
+          to: targetEmail,
+          subject: `[Uji Coba Port ${p}] Sistem Pengiriman Email BUMILFIT`,
+          html: `
+            <div style="font-family: Arial, sans-serif; padding: 20px; border: 1px solid #e2e8f0; border-radius: 12px;">
+              <h2 style="color: #389D9C;">Pengujian Email Berhasil! ✅</h2>
+              <p>Email ini dikirim dari server Render menggunakan port <strong>${p}</strong> (IPv4).</p>
+              <p>Sistem pengiriman email dan kode OTP Anda sekarang 100% aktif dan berjalan normal.</p>
+            </div>
+          `,
+          text: `Pengujian Email BUMILFIT Berhasil via Port ${p}!`,
+        });
+        break;
+      } catch (err) {
+        lastError = err;
+      }
+    }
+
+    if (!result) {
+      throw lastError || new Error('Gagal mengirim email via semua port');
+    }
 
     return res.status(200).json({
       success: true,
-      message: `Email uji coba berhasil dikirim ke ${targetEmail}`,
+      portUsed: usedPort,
+      message: `Email uji coba berhasil dikirim ke ${targetEmail} via port ${usedPort}`,
       response: result.response,
       messageId: result.messageId,
     });
