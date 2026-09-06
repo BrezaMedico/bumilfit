@@ -143,7 +143,7 @@ BumilFit menggunakan model monetisasi **Hybrid Monetization**, yaitu kombinasi a
 <div align="center">
 
 ### Home
-![Home](screenshot/home.png)
+![Home](screenshot/homepage.png)
 
 ### Todo Reminder
 ![Todo Reminder](screenshot/todo.png)
