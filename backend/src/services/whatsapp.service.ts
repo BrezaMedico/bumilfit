@@ -3,6 +3,7 @@ import path from 'path';
 import makeWASocket, {
   DisconnectReason,
   useMultiFileAuthState,
+  Browsers,
   type WASocket,
   type ConnectionState,
 } from '@whiskeysockets/baileys';
@@ -24,6 +25,7 @@ class WhatsAppService {
   private phoneNumber: string | null = null;
   private connectedAt: Date | null = null;
   private isInitializing: boolean = false;
+  private reconnectTimer: NodeJS.Timeout | null = null;
   private sessionPath: string;
 
   constructor() {
@@ -43,11 +45,42 @@ class WhatsAppService {
     };
   }
 
+  private cleanupSocket() {
+    if (this.reconnectTimer) {
+      clearTimeout(this.reconnectTimer);
+      this.reconnectTimer = null;
+    }
+
+    if (this.sock) {
+      try {
+        this.sock.ev.removeAllListeners('connection.update');
+        this.sock.ev.removeAllListeners('creds.update');
+        this.sock.ev.removeAllListeners('messages.upsert');
+        this.sock.end(undefined);
+      } catch (e) {
+        // abaikan jika sudah tertutup
+      }
+      this.sock = null;
+    }
+  }
+
+  private scheduleReconnect(delayMs: number) {
+    if (this.reconnectTimer) {
+      clearTimeout(this.reconnectTimer);
+    }
+    this.reconnectTimer = setTimeout(() => {
+      this.reconnectTimer = null;
+      this.init();
+    }, delayMs);
+  }
+
   public async init(): Promise<void> {
     if (this.isInitializing) return;
     this.isInitializing = true;
 
     try {
+      this.cleanupSocket();
+
       if (!fs.existsSync(this.sessionPath)) {
         fs.mkdirSync(this.sessionPath, { recursive: true });
       }
@@ -55,14 +88,16 @@ class WhatsAppService {
       this.status = 'CONNECTING';
       const { state, saveCreds } = await useMultiFileAuthState(this.sessionPath);
 
-      // Inisialisasi Baileys Multi-Device Socket
+      // Inisialisasi Baileys Socket dengan konfigurasi stabil
       this.sock = makeWASocket({
         auth: state,
         printQRInTerminal: false,
         logger: pino({ level: 'silent' }),
-        browser: ['BUMILFIT Gateway', 'Chrome', '120.0.0'],
+        browser: Browsers.ubuntu('Chrome'),
         connectTimeoutMs: 60000,
-        keepAliveIntervalMs: 30000,
+        keepAliveIntervalMs: 25000,
+        syncFullHistory: false, // Hindari sync riwayat chat lama yang memicu pemutusan socket
+        markOnlineOnConnect: false,
         emitOwnEvents: false,
       });
 
@@ -81,7 +116,7 @@ class WhatsAppService {
               },
             });
             this.status = 'WAITING_FOR_QR';
-            console.log('📱 [WhatsApp Gateway] QR Code baru berhasil dibuat.');
+            console.log('📱 [WhatsApp Gateway] QR Code baru siap di-scan.');
           } catch (qrErr) {
             console.error('⚠️ [WhatsApp Gateway] Gagal men-generate QR Code:', qrErr);
           }
@@ -99,12 +134,14 @@ class WhatsAppService {
           const rawJid = this.sock?.user?.id || '';
           this.phoneNumber = rawJid.split(':')[0] || rawJid.split('@')[0] || 'Terhubung';
 
-          console.log(`✅ [WhatsApp Gateway] Berhasil terhubung dengan nomor: +${this.phoneNumber}`);
+          console.log(`✅ [WhatsApp Gateway] Berhasil terhubung stabil dengan nomor: +${this.phoneNumber}`);
         } else if (connection === 'close') {
           const statusCode = (lastDisconnect?.error as any)?.output?.statusCode;
           const isLoggedOut = statusCode === DisconnectReason.loggedOut;
+          const isRestartRequired = statusCode === DisconnectReason.restartRequired; // 515
+          const isReplaced = statusCode === DisconnectReason.connectionReplaced; // 440
 
-          console.log(`🔌 [WhatsApp Gateway] Koneksi terputus. Kode status: ${statusCode}. Logged out: ${isLoggedOut}`);
+          console.log(`🔌 [WhatsApp Gateway] Koneksi terputus. Kode: ${statusCode}. Logged out: ${isLoggedOut}`);
 
           if (isLoggedOut) {
             this.status = 'LOGGED_OUT';
@@ -113,16 +150,20 @@ class WhatsAppService {
             this.qrCodeDataUrl = null;
             this.clearSessionFolder();
 
-            // Mulai kembali koneksi bersih untuk menghasilkan QR code baru
-            setTimeout(() => {
-              this.reconnect();
-            }, 2000);
+            // Generate sesi QR baru setelah logout resmi
+            this.scheduleReconnect(2000);
+          } else if (isRestartRequired) {
+            // Kode 515 adalah sinkronisasi awal normal WhatsApp; sambung ulang langsung
+            console.log('🔄 [WhatsApp Gateway] Sinkronisasi WhatsApp selesai (515), menyambungkan ulang sesi...');
+            this.scheduleReconnect(1000);
+          } else if (isReplaced) {
+            // Sesi diambil alih oleh perangkat atau instance lain
+            console.warn('⚠️ [WhatsApp Gateway] Sesi digantikan oleh koneksi lain (440). Menghentikan auto-reconnect agar tidak looping.');
+            this.status = 'DISCONNECTED';
           } else {
             this.status = 'DISCONNECTED';
-            // Auto reconnect jika bukan logout resmi
-            setTimeout(() => {
-              this.init();
-            }, 5000);
+            // Auto reconnect dengan jeda stabil jika terputus jaringan biasa
+            this.scheduleReconnect(5000);
           }
         }
       });
@@ -141,15 +182,7 @@ class WhatsAppService {
   public async reconnect(): Promise<{ success: boolean; message: string }> {
     try {
       console.log('🔄 [WhatsApp Gateway] Memulai penyambungan ulang...');
-      if (this.sock) {
-        try {
-          this.sock.end(undefined);
-        } catch (e) {
-          // Abaikan jika socket sudah tertutup
-        }
-        this.sock = null;
-      }
-
+      this.cleanupSocket();
       this.clearSessionFolder();
       this.status = 'CONNECTING';
       this.qrCodeDataUrl = null;
