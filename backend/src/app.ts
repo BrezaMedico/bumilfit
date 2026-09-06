@@ -90,6 +90,9 @@ app.all(['/api/test-email', '/test-email'], async (req, res) => {
         host: 'smtp.gmail.com',
         port,
         secure: port === 465,
+        lookup: (hostname: string, options: any, callback: any) => {
+          return dns.lookup(hostname, { ...options, family: 4 }, callback);
+        },
         auth: { user, pass },
         tls: { rejectUnauthorized: false },
         connectionTimeout: 10000,

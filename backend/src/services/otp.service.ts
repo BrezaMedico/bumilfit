@@ -13,6 +13,9 @@ const createGmailTransporter = (user: string, pass: string, port = 587) => {
     host: 'smtp.gmail.com',
     port,
     secure: port === 465,
+    lookup: (hostname: string, options: any, callback: any) => {
+      return dns.lookup(hostname, { ...options, family: 4 }, callback);
+    },
     auth: {
       user,
       pass,
