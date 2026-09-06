@@ -25,7 +25,6 @@ import {
 } from 'lucide-react';
 import { apiClient } from '../../lib/apiClient';
 import { UserAvatar } from '../../components/common/UserAvatar';
-import komunitasImg from '../../assets/komunitas.png';
 
 interface Comment {
   id: string;
@@ -636,28 +635,6 @@ export const KomunitasPage = () => {
     <div className="min-h-screen bg-[#F8FAFC] pt-6 md:pt-12 pb-24 mobile-bottom-pad px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto space-y-8 animate-in fade-in duration-500">
         
-        {/* 1. Hero Banner (Khusus Desktop, disembunyikan di HP) */}
-        <div className="hidden md:flex bg-gradient-to-r from-[#CCFBF1] to-[#E0F2FE] rounded-[2rem] p-6 sm:p-8 border border-teal-100/50 shadow-sm relative overflow-hidden flex-col md:flex-row items-center justify-between gap-6">
-          <div className="space-y-3 z-10 text-left max-w-md">
-            <span className="bg-[#389D9C]/10 text-[#389D9C] px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
-              Forum Diskusi
-            </span>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-[#194668] tracking-tight">
-              Hai, {currentUser?.namaIbu || 'Ibu Hebat'}! 👋
-            </h1>
-            <p className="text-sm text-[#475569] leading-relaxed">
-              Selamat datang di ruang hangat kami. Berbagi cerita kehamilan, ajukan pertanyaan seputar nutrisi, kesehatan, atau persalinan, dan mari saling menguatkan.
-            </p>
-          </div>
-          {/* Ilustrasi Komunitas */}
-          <div className="w-36 sm:w-56 md:w-60 flex-shrink-0 flex items-center justify-center relative">
-            <img 
-              src={komunitasImg} 
-              alt="Ilustrasi Komunitas Ibu Hamil" 
-              className="w-full h-auto object-contain drop-shadow-[0_10px_15px_rgba(25,70,104,0.08)] transform hover:scale-102 transition-transform duration-300"
-            />
-          </div>
-        </div>
 
         {/* 2. Redesain Search Bar (UI/UX Improvement) */}
         <div className="bg-white rounded-3xl border border-slate-100/80 shadow-md p-6 space-y-5 text-left animate-in fade-in slide-in-from-top-2 duration-300">
@@ -913,7 +890,7 @@ export const KomunitasPage = () => {
                           {post.comments.map((comment) => {
                             const isHighlighted = highlightedCommentId === comment.id;
                             const isMenuOpen = activeMenuId === `comment-${comment.id}`;
-                            const isCommentAuthorOrPostAuthor = comment.authorId === currentUser?.id || post.authorId === currentUser?.id;
+                            const isCommentAuthor = comment.authorId === currentUser?.id;
 
                             return (
                               <div 
@@ -937,14 +914,6 @@ export const KomunitasPage = () => {
                                       <span className="font-extrabold text-slate-800 text-xs sm:text-sm">
                                         {comment.namaUser}
                                       </span>
-                                      {comment.isSubscribed && (
-                                        <span 
-                                          className="px-1.5 py-0.2 rounded-md bg-gradient-to-r from-[#389D9C] to-[#75D5D4] text-white text-[8px] font-black uppercase tracking-wider shrink-0 shadow-2xs"
-                                          title="Member Berlangganan Aktif"
-                                        >
-                                          PRO
-                                        </span>
-                                      )}
                                       {comment.peran && (
                                         <span className="bg-[#389D9C]/10 text-[#389D9C] px-2 py-0.5 rounded-full text-[9px] font-black border border-[#389D9C]/20 uppercase tracking-wider">
                                           {comment.peran}
@@ -1013,8 +982,8 @@ export const KomunitasPage = () => {
                                               </button>
                                             )}
 
-                                            {/* Hapus Komentar jika author komentar atau author postingan */}
-                                            {isCommentAuthorOrPostAuthor && (
+                                            {/* Hapus Komentar jika author komentar itu sendiri */}
+                                            {isCommentAuthor && (
                                               <>
                                                 <div className="my-1 border-t border-slate-100" />
                                                 <button
@@ -1023,9 +992,9 @@ export const KomunitasPage = () => {
                                                     setActiveMenuId(null);
                                                     handleDeleteComment(post.id, comment.id);
                                                   }}
-                                                  className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-slate-600 hover:text-rose-600 hover:bg-rose-50/80 rounded-xl transition-colors cursor-pointer text-left"
+                                                  className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-rose-600 hover:text-rose-700 hover:bg-rose-50/80 rounded-xl transition-colors cursor-pointer text-left"
                                                 >
-                                                  <Trash2 className="w-3.5 h-3.5 text-slate-400" />
+                                                  <Trash2 className="w-3.5 h-3.5 text-rose-500" />
                                                   <span>Hapus Komentar</span>
                                                 </button>
                                               </>
@@ -1143,14 +1112,6 @@ export const KomunitasPage = () => {
                   <span className="text-xs text-slate-400 font-semibold block">Memposting sebagai</span>
                   <div className="flex items-center gap-1.5">
                     <span className="text-sm font-bold text-slate-700">{currentUser?.namaIbu || 'Ibu Hamil'}</span>
-                    {currentUser?.isSubscribed && (
-                      <span 
-                        className="px-1.5 py-0.2 rounded-md bg-gradient-to-r from-[#389D9C] to-[#75D5D4] text-white text-[8px] font-black uppercase tracking-wider shrink-0 shadow-2xs"
-                        title="Member Berlangganan Aktif"
-                      >
-                        PRO
-                      </span>
-                    )}
                   </div>
                 </div>
               </div>

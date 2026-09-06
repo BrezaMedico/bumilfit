@@ -108,6 +108,9 @@ export const CekGiziPage = () => {
       setIsCameraActive(true);
       setImagePreview(null);
       setSelectedImage(null);
+      setScanComplete(false);
+      setAiResult(null);
+      setApiError('');
 
       // Pastikan video element terhubung
       setTimeout(() => {
@@ -149,11 +152,23 @@ export const CekGiziPage = () => {
         if (blob) {
           const file = new File([blob], `food_scan_${Date.now()}.jpg`, { type: 'image/jpeg' });
           setSelectedImage(file);
+          setScanComplete(false);
+          setAiResult(null);
+          setApiError('');
         }
       }, 'image/jpeg', 0.9);
 
       stopCamera();
     }
+  };
+
+  const handleResetScan = () => {
+    setScanComplete(false);
+    setAiResult(null);
+    setImagePreview(null);
+    setSelectedImage(null);
+    setApiError('');
+    startCamera();
   };
 
   // Handler Input File Gambar Manual
@@ -167,6 +182,7 @@ export const CekGiziPage = () => {
       setApiError('');
       stopCamera();
     }
+    e.target.value = '';
   };
 
   const handleUploadClick = () => {
@@ -408,9 +424,8 @@ export const CekGiziPage = () => {
                 </label>
                 <input 
                   type="number" 
+                  step="any"
                   required
-                  min="1"
-                  max="42"
                   placeholder="Masukkan usia kehamilan dalam minggu"
                   value={weeks}
                   onChange={(e) => setWeeks(e.target.value)}
@@ -425,9 +440,8 @@ export const CekGiziPage = () => {
                   </label>
                   <input 
                     type="number" 
+                    step="any"
                     required
-                    min="20"
-                    max="200"
                     placeholder="Contoh: 60"
                     value={weight}
                     onChange={(e) => setWeight(e.target.value)}
@@ -441,9 +455,8 @@ export const CekGiziPage = () => {
                   </label>
                   <input 
                     type="number" 
+                    step="any"
                     required
-                    min="100"
-                    max="250"
                     placeholder="Contoh: 160"
                     value={height}
                     onChange={(e) => setHeight(e.target.value)}
@@ -676,7 +689,7 @@ export const CekGiziPage = () => {
                   )}
 
                   {/* Tombol Jalankan Analisis AI saat gambar sudah ada */}
-                  {selectedImage && !scanComplete && !isCameraActive && (
+                  {selectedImage && !isCameraActive && (
                     <Button 
                       onClick={handleStartScan} 
                       disabled={isScanning}
@@ -690,10 +703,22 @@ export const CekGiziPage = () => {
                       ) : (
                         <>
                           <Sparkles size={16} className="text-teal-300" />
-                          <span>Mulai Analisis Makanan</span>
+                          <span>{scanComplete ? 'Analisis Ulang Makanan Ini' : 'Mulai Analisis Makanan'}</span>
                         </>
                       )}
                     </Button>
+                  )}
+
+                  {/* Tombol Scan Makanan Baru setelah scan selesai */}
+                  {scanComplete && !isCameraActive && (
+                    <button
+                      type="button"
+                      onClick={handleResetScan}
+                      className="w-full bg-teal-50 hover:bg-teal-100 text-[#389D9C] border border-teal-200 font-bold text-xs py-2.5 rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer mt-1"
+                    >
+                      <Camera size={14} />
+                      <span>Scan Makanan Lain</span>
+                    </button>
                   )}
                 </div>
               )}

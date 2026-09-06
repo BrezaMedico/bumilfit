@@ -376,8 +376,8 @@ export const deleteComment = async (req: Request, res: Response) => {
       return res.status(404).json({ message: 'Komentar tidak ditemukan' });
     }
 
-    if (comment.authorId !== userId && comment.post.authorId !== userId) {
-      return res.status(403).json({ message: 'Anda tidak berhak menghapus komentar ini' });
+    if (comment.authorId !== userId) {
+      return res.status(403).json({ message: 'Anda hanya berhak menghapus komentar milik Anda sendiri' });
     }
 
     await prisma.comment.delete({

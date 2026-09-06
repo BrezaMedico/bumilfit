@@ -35,20 +35,27 @@ export const sendReminderWhatsApp = async (
 ): Promise<boolean> => {
   try {
     const isMorning = type === 'morning';
-    const headerTitle = isMorning ? `🌅 *Selamat Pagi Bunda ${namaIbu}!* 🌸` : `🌙 *Selamat Malam Bunda ${namaIbu}!* ✨`;
-    const introText = isMorning
-      ? `Awali hari ini dengan penuh semangat dan cinta untuk si Kecil dalam kandungan. Jangan lupa menyelesaikan to-do list harian Bunda ya:`
-      : `Hari ini hampir usai! Luangkan waktu 2 menit sebelum beristirahat untuk melengkapi to-do list kehamilan Bunda agar catatan kesehatan tetap optimal:`;
+    const bumilUrl = 'https://bumilfit.vercel.app';
 
-    const taskListFormatted = pendingTasks
-      .map((task, idx) => `  ${idx + 1}. 📋 ${task}`)
+    const header = isMorning
+      ? `🌸 *BUMILFIT • SEMANGAT PAGI BUNDA!* 🌸\n━━━━━━━━━━━━━━━━━━━━━━\n🌅 *Selamat Pagi, Bunda ${namaIbu}* ✨`
+      : `🌙 *BUMILFIT • PENGINGAT MALAM BUNDA* 🌙\n━━━━━━━━━━━━━━━━━━━━━━\n🌟 *Selamat Malam, Bunda ${namaIbu}* ✨`;
+
+    const intro = isMorning
+      ? `Awali hari ini dengan penuh kehangatan dan senyuman untuk si Kecil di dalam kandungan. Yuk, pastikan rutinitas kehamilan Bunda terpenuhi hari ini:`
+      : `Hari ini telah berjalan luar biasa! Sebelum Bunda beristirahat nyenyak malam ini, yuk luangkan 1 menit untuk mencatat aktivitas kehamilan Bunda:`;
+
+    const tasks = pendingTasks
+      .map((task, idx) => `  *${idx + 1}.* 📋 ${task}`)
       .join('\n');
 
-    const closingText = isMorning
-      ? `Yuk langsung buka dan centang kegiatan yang sudah selesai di website BUMILFIT:\n👉 ${process.env.FRONTEND_URL || 'http://localhost:5173'}\n\nSemoga hari Bunda menyenangkan dan selalu sehat! 💖\n*BUMILFIT*`
-      : `Buka website BUMILFIT untuk menyelesaikan to-do hari ini:\n👉 ${process.env.FRONTEND_URL || 'http://localhost:5173'}\n\nSelamat beristirahat dengan nyenyak bersama buah hati! 💤\n*BUMILFIT*`;
+    const tips = isMorning
+      ? `💡 *Tips Hari Ini:* Penuhi hidrasi cairan Bunda dengan minum air putih hangat dan luangkan waktu untuk relaksasi sejenak.`
+      : `💡 *Tips Istirahat:* Posisi berbaring miring ke sisi kiri sangat disarankan untuk mengoptimalkan aliran darah & oksigen ke plasenta janin.`;
 
-    const message = `${headerTitle}\n\n${introText}\n\n*Tugas yang Perlu Dilakukan:*\n${taskListFormatted}\n\n${closingText}`;
+    const cta = `━━━━━━━━━━━━━━━━━━━━━━\n👉 *Buka & Centang Tugas di Web BumilFit:*\n🔗 ${bumilUrl}\n━━━━━━━━━━━━━━━━━━━━━━\n\n_Semoga Bunda dan buah hati selalu sehat dan bahagia!_ 💖\n*BUMILFIT — Sahabat Kehamilan Bunda*`;
+
+    const message = `${header}\n\n${intro}\n\n📌 *Daftar Kegiatan Bunda Hari Ini:*\n${tasks}\n\n${tips}\n\n${cta}`;
 
     const res = await whatsappService.sendMessage(phone, message);
     return res.success;
@@ -59,7 +66,7 @@ export const sendReminderWhatsApp = async (
 };
 
 /**
- * Kirim Pengingat To-Do List via Email (Nodemailer)
+ * Kirim Pengingat To-Do List via Email (Nodemailer / Brevo API)
  */
 export const sendReminderEmail = async (
   email: string,
@@ -68,77 +75,97 @@ export const sendReminderEmail = async (
   type: 'morning' | 'evening'
 ): Promise<boolean> => {
   const isMorning = type === 'morning';
-  const subject = isMorning 
-    ? `🌅 Selamat Pagi Bunda ${namaIbu}! Yuk Lengkapi To-Do List Harian Bunda di BUMILFIT`
-    : `🌙 Pengingat Malam: Lengkapi To-Do List Kehamilan Bunda Hari Ini di BUMILFIT`;
+  const bumilUrl = 'https://bumilfit.vercel.app';
 
-  const webUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+  const subject = isMorning 
+    ? `🌅 Semangat Pagi Bunda ${namaIbu}! Yuk Cek To-Do List Harian di BUMILFIT`
+    : `🌙 Pengingat Malam Bunda ${namaIbu}: Lengkapi To-Do List Kehamilan Hari Ini di BUMILFIT`;
 
   const taskListHtml = pendingTasks
     .map((task, idx) => `
       <tr style="border-bottom: 1px solid #f1f5f9;">
-        <td style="padding: 10px 14px; color: #194668; font-weight: 700; width: 32px; vertical-align: top;">${idx + 1}.</td>
-        <td style="padding: 10px 14px; color: #334155; font-size: 14px; line-height: 1.5;">${task}</td>
+        <td style="padding: 12px 14px; text-align: center; vertical-align: middle; width: 44px;">
+          <span style="display: inline-block; width: 24px; height: 24px; line-height: 24px; background: #e6f4f4; color: #194668; border-radius: 50%; font-weight: 800; font-size: 12px;">${idx + 1}</span>
+        </td>
+        <td style="padding: 12px 14px; color: #334155; font-size: 14px; line-height: 1.5; font-weight: 500;">
+          ${task}
+        </td>
       </tr>
     `).join('');
 
   const html = `
     <!DOCTYPE html>
-    <html>
+    <html lang="id">
       <head>
         <meta charset="utf-8">
-        <style>
-          body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f8fafc; margin: 0; padding: 24px; }
-          .container { max-width: 560px; margin: 0 auto; background: #ffffff; border-radius: 20px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
-          .header { background: linear-gradient(135deg, #194668, #389D9C); padding: 32px 24px; text-align: center; color: #ffffff; }
-          .header h1 { margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.5px; }
-          .header p { margin: 6px 0 0 0; font-size: 13px; opacity: 0.9; }
-          .content { padding: 28px 24px; }
-          .greeting { font-size: 16px; font-weight: bold; color: #194668; margin-bottom: 12px; }
-          .desc { font-size: 14px; color: #475569; line-height: 1.6; margin-bottom: 20px; }
-          .task-table { width: 100%; border-collapse: collapse; background: #f8fafc; border-radius: 12px; overflow: hidden; border: 1px solid #e2e8f0; margin-bottom: 24px; }
-          .cta-btn { display: inline-block; background: #389D9C; color: #ffffff !important; text-decoration: none; padding: 12px 28px; border-radius: 12px; font-weight: bold; font-size: 14px; margin: 12px 0 20px 0; }
-          .footer { background: #f8fafc; padding: 18px 24px; text-align: center; font-size: 12px; color: #94a3b8; border-top: 1px solid #e2e8f0; }
-        </style>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>${subject}</title>
       </head>
-      <body>
-        <div class="container">
-          <div class="header">
-            <h1 style="margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.5px;">BUMILFIT</h1>
-            <p style="margin: 6px 0 0 0; font-size: 13px; opacity: 0.9;">Pendamping Kesehatan Ibu Hamil & Buah Hati</p>
-          </div>
-          <div class="content">
-            <div class="greeting">
-              ${isMorning ? '🌅 Selamat Pagi, Bunda ' + namaIbu + '!' : '🌙 Selamat Malam, Bunda ' + namaIbu + '!'}
+      <body style="font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f1f5f9; margin: 0; padding: 24px 12px;">
+        <div style="max-width: 580px; margin: 0 auto; background: #ffffff; border-radius: 24px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 10px 25px rgba(25, 70, 104, 0.06);">
+          
+          <!-- Header Banner -->
+          <div style="background: linear-gradient(135deg, #194668 0%, #389D9C 100%); padding: 36px 28px; text-align: center; color: #ffffff;">
+            <div style="display: inline-block; background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.25); border-radius: 30px; padding: 4px 14px; font-size: 11px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px;">
+              PENGINGAT KEHAMILAN HARIAN
             </div>
-            <p class="desc">
+            <h1 style="margin: 0; font-size: 26px; font-weight: 800; letter-spacing: -0.5px;">BUMILFIT</h1>
+            <p style="margin: 6px 0 0 0; font-size: 13px; opacity: 0.92; font-weight: 500;">Sahabat Setia Kesehatan Kehamilan Bunda & Buah Hati</p>
+          </div>
+
+          <!-- Body Content -->
+          <div style="padding: 32px 28px;">
+            <div style="font-size: 18px; font-weight: 800; color: #194668; margin-bottom: 10px;">
+              ${isMorning ? '🌅 Selamat Pagi, Bunda ' + namaIbu + '! 🌸' : '🌙 Selamat Malam, Bunda ' + namaIbu + '! ✨'}
+            </div>
+            <p style="font-size: 14px; color: #475569; line-height: 1.6; margin: 0 0 24px 0;">
               ${isMorning 
-                ? 'Semoga Bunda selalu sehat dan berenergi. Berikut adalah to-do list harian yang direkomendasikan untuk perkembangan si Kecil hari ini:'
-                : 'Hari ini hampir berakhir. Yuk pastikan seluruh aktivitas to-do list harian Bunda sudah tercatat sebelum beristirahat:'}
+                ? 'Semoga hari Bunda dipenuhi rasa nyaman dan energi positif. Berikut adalah to-do list kegiatan harian yang direkomendasikan untuk mendukung tumbuh kembang optimal si Kecil hari ini:'
+                : 'Hari ini Bunda telah melakukan yang terbaik! Luangkan waktu 1–2 menit sebelum beristirahat malam untuk memeriksa dan mencatat kegiatan kehamilan Bunda:'}
             </p>
 
-            <table class="task-table">
-              <thead>
-                <tr style="background: #e6f4f4; text-align: left;">
-                  <th style="padding: 10px 14px; font-size: 11px; text-transform: uppercase; color: #194668; width: 32px;">No</th>
-                  <th style="padding: 10px 14px; font-size: 11px; text-transform: uppercase; color: #194668;">Kegiatan Hari Ini</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${taskListHtml}
-              </tbody>
-            </table>
-
-            <div style="text-align: center;">
-              <a href="${webUrl}" class="cta-btn">Buka & Centang To-Do List</a>
+            <!-- Table Tasks -->
+            <div style="background: #f8fafc; border-radius: 16px; border: 1px solid #e2e8f0; overflow: hidden; margin-bottom: 24px;">
+              <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                <thead>
+                  <tr style="background: #e6f4f4; border-bottom: 1px solid #ccfbf1;">
+                    <th style="padding: 10px 14px; font-size: 11px; text-transform: uppercase; color: #194668; font-weight: 800; width: 44px; text-align: center;">No</th>
+                    <th style="padding: 10px 14px; font-size: 11px; text-transform: uppercase; color: #194668; font-weight: 800;">Kegiatan Rekomendasi Hari Ini</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${taskListHtml}
+                </tbody>
+              </table>
             </div>
 
-            <p style="font-size: 12px; color: #64748b; line-height: 1.5; margin: 0; text-align: center;">
-              *Pengingat ini dikirim otomatis untuk mendukung kesehatan kehamilan Bunda. Jika to-do list sudah diselesaikan seluruhnya, pengingat tidak akan dikirim kembali hari ini.
+            <!-- Motivational Tips Box -->
+            <div style="background: #f0fdfa; border: 1px solid #99f6e4; border-radius: 14px; padding: 14px 18px; margin-bottom: 28px;">
+              <p style="margin: 0; font-size: 13px; color: #115e59; line-height: 1.5;">
+                <strong>💡 Catatan Bidan & Dokter:</strong> 
+                ${isMorning 
+                  ? 'Luangkan waktu untuk mencukupi asupan cairan, berjalan santai, serta nikmati momen bonding dengan mengajak si Kecil berbicara.'
+                  : 'Berbaring miring ke sisi kiri sangat baik untuk melancarkan sirkulasi nutrisi menuju plasenta janin saat Bunda tidur lelap.'}
+              </p>
+            </div>
+
+            <!-- Call to Action Button -->
+            <div style="text-align: center; margin-bottom: 24px;">
+              <a href="${bumilUrl}" style="display: inline-block; background: #389D9C; color: #ffffff !important; text-decoration: none; padding: 14px 32px; border-radius: 50px; font-weight: 800; font-size: 14px; box-shadow: 0 4px 14px rgba(56, 157, 156, 0.35); letter-spacing: 0.2px;">
+                Buka & Centang To-Do List di Website →
+              </a>
+            </div>
+
+            <p style="font-size: 12px; color: #94a3b8; line-height: 1.5; margin: 0; text-align: center;">
+              *Tautan langsung: <a href="${bumilUrl}" style="color: #389D9C; text-decoration: underline;">${bumilUrl}</a><br>
+              Pengingat ini dikirim otomatis untuk mendampingi kesehatan kehamilan Bunda setiap hari.
             </p>
           </div>
-          <div class="footer">
-            © ${new Date().getFullYear()} BumilFit. Seluruh hak cipta dilindungi.
+
+          <!-- Footer -->
+          <div style="background: #f8fafc; padding: 20px 24px; text-align: center; font-size: 12px; color: #94a3b8; border-top: 1px solid #e2e8f0;">
+            © ${new Date().getFullYear()} BumilFit. Seluruh hak cipta dilindungi.<br>
+            Aplikasi Sahabat Kesehatan Kehamilan Indonesia
           </div>
         </div>
       </body>
@@ -149,7 +176,7 @@ export const sendReminderEmail = async (
     to: email,
     subject,
     html,
-    text: `${isMorning ? 'Selamat pagi' : 'Selamat malam'} Bunda ${namaIbu}!\n\nJangan lupa kegiatan to-do list kehamilan Anda hari ini:\n${pendingTasks.map((t, i) => `${i + 1}. ${t}`).join('\n')}\n\nBuka BUMILFIT: ${webUrl}`
+    text: `${isMorning ? 'Selamat pagi' : 'Selamat malam'} Bunda ${namaIbu}!\n\nBerikut to-do list kehamilan Anda hari ini:\n${pendingTasks.map((t, i) => `${i + 1}. ${t}`).join('\n')}\n\nBuka dan centang di website BumilFit: ${bumilUrl}\n\nBUMILFIT — Sahabat Kehamilan Bunda`
   });
   return result.success;
 };

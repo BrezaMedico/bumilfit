@@ -50,7 +50,7 @@ const ProtectedLayout = () => {
 
   return (
     <SubscriptionProvider>
-      <div className={`min-h-screen bg-[#F8FAFC] flex flex-col justify-between ${isChat ? 'h-screen overflow-hidden' : ''}`}>
+      <div className={`min-h-screen bg-[#F8FAFC] flex flex-col justify-between ${isChat ? 'h-[100dvh] max-h-[100dvh] overflow-hidden' : ''}`}>
         <Navbar />
 
         {/* Indikator Progres Bar Halus di Bawah Navbar */}
@@ -58,11 +58,11 @@ const ProtectedLayout = () => {
           <div className="fixed top-16 left-0 right-0 z-40 h-0.5 bg-gradient-to-r from-transparent via-[#389D9C] to-transparent animate-pulse" />
         )}
 
-        <main className={`w-full flex-1 flex flex-col ${isChat ? 'h-[calc(100vh-4rem)] overflow-hidden p-0 max-w-full' : 'max-w-6xl mx-auto'}`}>
+        <main className={`w-full flex-1 flex flex-col min-h-0 ${isChat ? 'h-[calc(100dvh-4rem-4.25rem)] md:h-[calc(100dvh-4rem)] overflow-hidden p-0 max-w-full' : 'max-w-6xl mx-auto'}`}>
           {isPageChanging ? (
             <PageSkeletonLoader />
           ) : (
-            <div className="animate-in fade-in duration-300 w-full flex-1 flex flex-col">
+            <div className={`animate-in fade-in duration-300 w-full flex-1 flex flex-col min-h-0 ${isChat ? 'h-full overflow-hidden' : ''}`}>
               <Outlet />
             </div>
           )}

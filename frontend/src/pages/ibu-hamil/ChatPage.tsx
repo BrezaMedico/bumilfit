@@ -624,10 +624,10 @@ export const ChatPage = () => {
   );
 
   return (
-    <div className="flex flex-col h-full max-w-4xl w-full mx-auto bg-gray-50 border-x border-gray-100 shadow-sm relative text-left overflow-hidden">
+    <div className="flex flex-col h-full max-w-4xl w-full mx-auto bg-gray-50 border-x border-gray-100 shadow-sm relative text-left overflow-hidden min-h-0">
       
       {/* 1. KONTEN UTAMA: DOKTER VIRTUAL */}
-      <div className="flex-1 flex flex-col min-h-0 bg-white">
+      <div className="flex-1 flex flex-col min-h-0 bg-white overflow-hidden">
           
           {/* SIMULASI COCOK DOKTER / MATCHING SCREEN */}
           {isMatching ? (
@@ -653,7 +653,7 @@ export const ChatPage = () => {
           ) : activeConvId && activeConv ? (
             
             /* KONDISI ACTIVE CHAT ROOM DENGAN DOKTER */
-            <div className="flex-1 flex flex-col min-h-0 bg-gray-50">
+            <div className="flex-1 flex flex-col min-h-0 bg-gray-50 overflow-hidden">
               
               {/* Header Ruang Chat */}
               <div className="bg-white border-b border-gray-100 px-4 py-3 flex items-center justify-between flex-shrink-0 shadow-3xs">
@@ -701,7 +701,7 @@ export const ChatPage = () => {
               <div 
                 ref={chatMessagesContainerRef}
                 onScroll={handleChatScroll}
-                className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6 bumil-scrollbar overflow-x-hidden relative"
+                className="flex-1 min-h-0 overflow-y-auto p-4 sm:p-6 space-y-6 bumil-scrollbar overflow-x-hidden relative overscroll-contain"
               >
                 {activeConv.messages.map((msg, idx) => (
                   <div key={idx} className={`flex items-end ${msg.role === 'user' ? 'justify-end' : 'justify-start'} gap-2.5`}>
@@ -768,7 +768,7 @@ export const ChatPage = () => {
               </div>
 
               {/* Input Area Chat Dokter */}
-              <div className="p-4 bg-white border-t border-gray-100 flex-shrink-0">
+              <div className="p-3 sm:p-4 bg-white border-t border-gray-100 flex-shrink-0 sticky bottom-0 z-20 shadow-[0_-2px_10px_rgba(0,0,0,0.03)]">
                 {activeConv.status === 'Aktif' ? (
                   <form onSubmit={handleDoctorSend} className="flex gap-2">
                      <input
@@ -797,7 +797,7 @@ export const ChatPage = () => {
           ) : conversations.length === 0 ? (
             
             /* KONDISI A: BELUM ADA RIWAYAT (EMPTY STATE SCREEN) */
-            <div className="flex-1 flex items-center justify-center p-6 bg-[#F8FAFC]">
+            <div className="flex-1 flex flex-col min-h-0 overflow-y-auto items-center justify-center p-6 bg-[#F8FAFC] bumil-scrollbar">
               <div className="bg-white p-8 sm:p-10 rounded-3xl border border-slate-100 shadow-sm max-w-md w-full flex flex-col items-center space-y-6 text-center animate-in fade-in zoom-in-95 duration-300">
                 {/* Header Visual: Stetoskop dengan Sentuhan AI/Pulse Wave */}
                 <div className="h-20 w-20 rounded-full bg-teal-50 flex items-center justify-center text-[#389D9C] relative">
@@ -839,7 +839,7 @@ export const ChatPage = () => {
           ) : (
             
             /* KONDISI B: SUDAH MEMILIKI RIWAYAT (CHAT HISTORY SCREEN) */
-            <div className="flex-1 flex flex-col min-h-0 bg-[#F8FAFC] pb-24">
+            <div className="flex-1 flex flex-col min-h-0 bg-[#F8FAFC] overflow-hidden">
               
               {/* Header Pencarian & Aksi Baru */}
               <div className="flex flex-col sm:flex-row gap-3 items-center justify-between flex-shrink-0 bg-white border-b border-gray-100 p-4 shadow-3xs">
@@ -863,7 +863,7 @@ export const ChatPage = () => {
               </div>
 
               {/* Scrollable History List */}
-              <div className="flex-1 overflow-y-auto p-4 space-y-3">
+              <div className="flex-1 min-h-0 overflow-y-auto p-4 space-y-3 bumil-scrollbar pb-8">
                 <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider pl-1 mb-2">Riwayat Konsultasi</h4>
                 
                 {filteredConversations.length > 0 ? (
