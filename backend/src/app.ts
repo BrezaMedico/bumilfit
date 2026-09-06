@@ -59,45 +59,33 @@ app.get('/api/health', (_req: express.Request, res: express.Response) => {
 // Endpoint pengujian kirim email langsung via browser: /api/health/test-email?to=emailanda@gmail.com
 app.get('/api/health/test-email', async (req: express.Request, res: express.Response) => {
   const to = (req.query.to as string) || process.env.GOOGLE_APP_EMAIL || 'bumilfit@gmail.com';
-  const rawUser = process.env.GOOGLE_APP_EMAIL || 'bumilfit@gmail.com';
-  const user = rawUser.replace(/['"\s]+/g, '').trim();
-  const rawPass = process.env.GOOGLE_APP_PASSKEY || '';
-  const pass = rawPass.replace(/['"\s]+/g, '').trim();
+  const { sendAppEmail } = await import('./services/email.service.js');
 
-  if (!pass) {
-    return res.status(500).json({
-      success: false,
-      message: 'GOOGLE_APP_PASSKEY belum diisi di Environment Variables Render.',
-    });
-  }
+  const success = await sendAppEmail({
+    to,
+    subject: 'Tes Pengiriman Email BumilFit Berhasil! 🎉',
+    html: `
+      <div style="font-family: Arial, sans-serif; padding: 24px; border-radius: 16px; background: #ffffff; border: 1px solid #e2e8f0; max-width: 500px; margin: 0 auto; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+        <h2 style="color: #194668; margin-top: 0;">BUMILFIT Email Berhasil! 🚀</h2>
+        <p style="color: #475569; font-size: 14px; line-height: 1.6;">Halo Bunda / Tim BumilFit! Jika Anda membaca pesan ini, berarti sistem pengiriman email <strong>bumilfit@gmail.com</strong> di server cloud Render sudah 100% aktif dan berjalan lancar!</p>
+        <div style="padding: 12px; background: #f8fafc; border-radius: 8px; font-size: 12px; color: #64748b;">
+          ⚡ Pengiriman berhasil melewati firewall Render via Brevo HTTPS REST API (Port 443).
+        </div>
+      </div>
+    `,
+    text: `Halo! Sistem email BumilFit berhasil mengirim pesan ke ${to}!`,
+  });
 
-  try {
-    const transporter = (await import('nodemailer')).default.createTransport({
-      host: 'smtp.gmail.com',
-      port: 465,
-      secure: true,
-      auth: { user, pass },
-    });
-
-    const info = await transporter.sendMail({
-      from: `"BUMILFIT Test" <${user}>`,
-      to,
-      subject: 'Tes Pengiriman Email BumilFit Berhasil! 🎉',
-      text: `Halo! Jika Anda membaca email ini, berarti sistem email bumilfit@gmail.com di server Render sudah berjalan 100% sempurna!`,
-    });
-
-    console.log(`✅ [Test Email] Email tes terkirim ke: ${to}`);
+  if (success) {
     return res.status(200).json({
       success: true,
-      message: `Email tes berhasil dikirim ke: ${to}`,
-      messageId: info.messageId,
+      message: `Email tes berhasil dikirim ke: ${to} 🚀`,
+      provider: process.env.BREVO_API_KEY ? 'Brevo REST API (HTTPS Port 443)' : 'Nodemailer SMTP',
     });
-  } catch (err: any) {
-    console.error(`❌ [Test Email] Gagal mengirim:`, err.message);
+  } else {
     return res.status(500).json({
       success: false,
-      error: err.message,
-      code: err.code,
+      message: `Gagal mengirim email ke ${to}. Periksa log Render untuk detailnya.`,
     });
   }
 });

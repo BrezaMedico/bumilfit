@@ -1,67 +1,31 @@
-import nodemailer from 'nodemailer';
 import prisma from '../lib/prisma.js';
 import { whatsappService } from './whatsapp.service.js';
-
-const getMailTransporter = () => {
-  const rawUser = process.env.GOOGLE_APP_EMAIL || 'bumilfit@gmail.com';
-  const user = rawUser.replace(/['"\s]+/g, '').trim();
-  const rawPass = process.env.GOOGLE_APP_PASSKEY || '';
-  const pass = rawPass.replace(/['"\s]+/g, '').trim();
-
-  if (!user || !pass) {
-    console.warn('⚠️ [Nodemailer] GOOGLE_APP_EMAIL atau GOOGLE_APP_PASSKEY belum diisi di Environment Variables.');
-    return null;
-  }
-
-  return nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
-    auth: {
-      user,
-      pass,
-    },
-  });
-};
+import { sendAppEmail } from './email.service.js';
 
 const sendEmail = async (email: string, otpCode: string) => {
-  const transporter = getMailTransporter();
-  if (!transporter) {
-    console.warn(`⚠️ [Nodemailer] Transporter tidak tersedia. Cek GOOGLE_APP_EMAIL / PASSKEY di .env`);
-    return false;
-  }
-
-  try {
-    const info = await transporter.sendMail({
-      from: `"BUMILFIT" <${process.env.GOOGLE_APP_EMAIL || 'bumilfit@gmail.com'}>`,
-      to: email,
-      subject: `${otpCode} adalah Kode Verifikasi OTP BUMILFIT Anda`,
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 520px; margin: 0 auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 16px; background-color: #ffffff;">
-          <div style="text-align: center; margin-bottom: 20px;">
-            <h2 style="color: #194668; margin: 0; font-size: 24px; font-weight: bold;">BUMILFIT</h2>
-            <p style="color: #64748b; font-size: 13px; margin-top: 4px;">Pendamping Kesehatan Ibu Hamil & Buah Hati</p>
-          </div>
-          <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; text-align: center; margin-bottom: 20px;">
-            <p style="color: #475569; font-size: 14px; margin: 0 0 12px 0;">Gunakan kode OTP berikut untuk menyelesaikan proses verifikasi Anda:</p>
-            <div style="font-size: 32px; font-weight: 800; letter-spacing: 8px; color: #389D9C; padding: 12px; background: #ffffff; border-radius: 8px; border: 1px dashed #cbd5e1; display: inline-block; margin: 8px 0;">
-              ${otpCode}
-            </div>
-            <p style="color: #94a3b8; font-size: 12px; margin: 12px 0 0 0;">⏱️ Kode ini berlaku selama <strong>5 menit</strong>. Jangan bagikan kode ini kepada siapa pun.</p>
-          </div>
-          <p style="color: #64748b; font-size: 12px; line-height: 1.5; margin: 0; text-align: center;">
-            Jika Anda tidak melakukan pendaftaran di BUMILFIT, Anda dapat mengabaikan email ini.
-          </p>
+  return sendAppEmail({
+    to: email,
+    subject: `${otpCode} adalah Kode Verifikasi OTP BUMILFIT Anda`,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 520px; margin: 0 auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 16px; background-color: #ffffff;">
+        <div style="text-align: center; margin-bottom: 20px;">
+          <h2 style="color: #194668; margin: 0; font-size: 24px; font-weight: bold;">BUMILFIT</h2>
+          <p style="color: #64748b; font-size: 13px; margin-top: 4px;">Pendamping Kesehatan Ibu Hamil & Buah Hati</p>
         </div>
-      `,
-      text: `Kode verifikasi OTP BUMILFIT Anda adalah: ${otpCode}. Berlaku selama 5 menit. Jangan bagikan kode ini kepada siapapun.`
-    });
-    console.log(`✅ [Nodemailer] Email OTP berhasil dikirim ke: ${email} via bumilfit@gmail.com`);
-    return true;
-  } catch (mailErr: any) {
-    console.error(`⚠️ [Nodemailer] Gagal mengirim email OTP ke ${email}:`, mailErr.message);
-    return false;
-  }
+        <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; text-align: center; margin-bottom: 20px;">
+          <p style="color: #475569; font-size: 14px; margin: 0 0 12px 0;">Gunakan kode OTP berikut untuk menyelesaikan proses verifikasi Anda:</p>
+          <div style="font-size: 32px; font-weight: 800; letter-spacing: 8px; color: #389D9C; padding: 12px; background: #ffffff; border-radius: 8px; border: 1px dashed #cbd5e1; display: inline-block; margin: 8px 0;">
+            ${otpCode}
+          </div>
+          <p style="color: #94a3b8; font-size: 12px; margin: 12px 0 0 0;">⏱️ Kode ini berlaku selama <strong>5 menit</strong>. Jangan bagikan kode ini kepada siapa pun.</p>
+        </div>
+        <p style="color: #64748b; font-size: 12px; line-height: 1.5; margin: 0; text-align: center;">
+          Jika Anda tidak melakukan pendaftaran di BUMILFIT, Anda dapat mengabaikan email ini.
+        </p>
+      </div>
+    `,
+    text: `Kode verifikasi OTP BUMILFIT Anda adalah: ${otpCode}. Berlaku selama 5 menit. Jangan bagikan kode ini kepada siapapun.`
+  });
 };
 
 const dispatchDelivery = async (

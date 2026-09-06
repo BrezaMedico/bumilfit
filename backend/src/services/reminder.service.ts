@@ -1,7 +1,7 @@
 import cron from 'node-cron';
-import nodemailer from 'nodemailer';
 import prisma from '../lib/prisma.js';
 import { whatsappService } from './whatsapp.service.js';
+import { sendAppEmail } from './email.service.js';
 
 // Helper konversi usia kehamilan minggu ke bulan (1 s.d. 9)
 function getPregnancyMonth(weeks: number): number {
@@ -23,28 +23,6 @@ function getRiskCategoryEnum(val: string | null | undefined): 'RENDAH' | 'SEDANG
   if (norm.includes('sedang')) return 'SEDANG';
   return 'RENDAH';
 }
-
-// Inisialisasi Nodemailer Transporter
-const getMailTransporter = () => {
-  const rawUser = process.env.GOOGLE_APP_EMAIL || 'bumilfit@gmail.com';
-  const user = rawUser.replace(/['"\s]+/g, '').trim();
-  const rawPass = process.env.GOOGLE_APP_PASSKEY || '';
-  const pass = rawPass.replace(/['"\s]+/g, '').trim();
-
-  if (!user || !pass) {
-    return null;
-  }
-
-  return nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
-    auth: {
-      user,
-      pass,
-    },
-  });
-};
 
 /**
  * Kirim Pengingat To-Do List via WhatsApp
@@ -89,12 +67,6 @@ export const sendReminderEmail = async (
   pendingTasks: string[],
   type: 'morning' | 'evening'
 ): Promise<boolean> => {
-  const transporter = getMailTransporter();
-  if (!transporter) {
-    console.warn('⚠️ [Reminder Email] Nodemailer transporter belum terkonfigurasi.');
-    return false;
-  }
-
   const isMorning = type === 'morning';
   const subject = isMorning 
     ? `🌅 Selamat Pagi Bunda ${namaIbu}! Yuk Lengkapi To-Do List Harian Bunda di BUMILFIT`
@@ -173,20 +145,12 @@ export const sendReminderEmail = async (
     </html>
   `;
 
-  try {
-    await transporter.sendMail({
-      from: `"BUMILFIT" <${process.env.GOOGLE_APP_EMAIL || 'bumilfit@gmail.com'}>`,
-      to: email,
-      subject,
-      html,
-      text: `${isMorning ? 'Selamat pagi' : 'Selamat malam'} Bunda ${namaIbu}!\n\nJangan lupa kegiatan to-do list kehamilan Anda hari ini:\n${pendingTasks.map((t, i) => `${i + 1}. ${t}`).join('\n')}\n\nBuka BUMILFIT: ${webUrl}`
-    });
-    console.log(`✅ [Reminder Email] Email pengingat berhasil dikirim ke: ${email}`);
-    return true;
-  } catch (mailErr) {
-    console.error(`❌ [Reminder Email] Gagal mengirim email pengingat ke ${email}:`, mailErr);
-    return false;
-  }
+  return sendAppEmail({
+    to: email,
+    subject,
+    html,
+    text: `${isMorning ? 'Selamat pagi' : 'Selamat malam'} Bunda ${namaIbu}!\n\nJangan lupa kegiatan to-do list kehamilan Anda hari ini:\n${pendingTasks.map((t, i) => `${i + 1}. ${t}`).join('\n')}\n\nBuka BUMILFIT: ${webUrl}`
+  });
 };
 
 /**
