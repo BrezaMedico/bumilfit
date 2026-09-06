@@ -26,9 +26,9 @@ async function seedWhatsAppAdmin() {
       where: { email: adminEmail },
     });
 
-    const hashedPassword = await bcrypt.hash(adminPassword, 10);
-
     if (!existing) {
+      // Buat akun admin baru
+      const hashedPassword = await bcrypt.hash(adminPassword, 10);
       await prisma.user.create({
         data: {
           email: adminEmail,
@@ -39,17 +39,19 @@ async function seedWhatsAppAdmin() {
         },
       });
       console.log(`✅ [Admin Seed] Akun WhatsApp Admin (${adminEmail}) berhasil diinisialisasi.`);
-    } else {
+    } else if (existing.role !== 'WHATSAPP_ADMIN' || !existing.isVerified) {
+      // Perbaiki role / status tanpa rehash password agar startup tetap cepat
       await prisma.user.update({
         where: { email: adminEmail },
         data: {
           role: 'WHATSAPP_ADMIN',
-          password: hashedPassword,
           isVerified: true,
           authProvider: 'LOCAL',
         },
       });
-      console.log(`✅ [Admin Seed] Akun WhatsApp Admin (${adminEmail}) telah sinkron sebagai WHATSAPP_ADMIN.`);
+      console.log(`✅ [Admin Seed] Role/status akun WhatsApp Admin (${adminEmail}) disinkronkan.`);
+    } else {
+      console.log(`✅ [Admin Seed] Akun WhatsApp Admin (${adminEmail}) sudah valid. Skip.`);
     }
   } catch (error) {
     console.error('⚠️ [Admin Seed] Gagal sinkronisasi akun WhatsApp Admin:', error);

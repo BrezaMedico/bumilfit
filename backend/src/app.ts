@@ -16,10 +16,20 @@ import whatsappRoutes from './routes/whatsapp.routes.js';
 
 const app = express();
 
-// Konfigurasi CORS agar frontend React bisa membaca cookie sesi
-const allowedOrigin = process.env.FRONTEND_URL || 'http://localhost:5173';
+// Konfigurasi CORS: mendukung beberapa domain sekaligus (pisah koma di FRONTEND_URL)
+// Contoh: FRONTEND_URL=https://bumilfit.vercel.app,http://localhost:5173
+const rawFrontendUrls = process.env.FRONTEND_URL || 'http://localhost:5173';
+const allowedOrigins = rawFrontendUrls.split(',').map((url) => url.trim()).filter(Boolean);
+
 app.use(cors({
-  origin: allowedOrigin,
+  origin: (origin, callback) => {
+    // Izinkan request tanpa origin (misal curl, server-to-server, Postman)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    callback(new Error(`CORS: Origin '${origin}' tidak diizinkan.`));
+  },
   credentials: true,
 }));
 

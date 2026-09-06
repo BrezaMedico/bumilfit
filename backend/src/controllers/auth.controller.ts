@@ -7,6 +7,30 @@ import { generateAndSendOtp } from '../services/otp.service.js';
 import { getUserSubscription } from '../services/subscription.service.js';
 import { verifyRecaptchaToken } from '../services/recaptcha.service.js';
 
+// Helper: Deteksi apakah berjalan di production berdasarkan FRONTEND_URL
+// Prioritaskan deteksi dari FRONTEND_URL (HTTPS non-localhost) karena NODE_ENV
+// bisa saja ter-set di local .env untuk testing.
+const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+const isCrossOriginSecure = frontendUrl.startsWith('https://') && !frontendUrl.includes('localhost');
+
+/**
+ * Opsi cookie JWT aman:
+ * - production (cross-origin HTTPS): secure=true, sameSite='none' (wajib untuk Vercel ↔ Render)
+ * - development (localhost): secure=false, sameSite='lax'
+ */
+const getCookieOptions = () => ({
+  httpOnly: true,
+  secure: isCrossOriginSecure,
+  sameSite: (isCrossOriginSecure ? 'none' : 'lax') as 'none' | 'lax',
+  maxAge: 24 * 60 * 60 * 1000, // 1 hari
+});
+
+const getClearCookieOptions = () => ({
+  httpOnly: true,
+  secure: isCrossOriginSecure,
+  sameSite: (isCrossOriginSecure ? 'none' : 'lax') as 'none' | 'lax',
+});
+
 // Skema validasi Zod sesuai kebutuhan spesifikasi
 const registerSchema = z.object({
   email: z.string().email("Format email tidak valid"),
@@ -86,12 +110,7 @@ export const googleAuth = async (req: Request, res: Response) => {
         { expiresIn: '1d' }
       );
 
-      res.cookie('jwt_token', token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
-        maxAge: 24 * 60 * 60 * 1000
-      });
+      res.cookie('jwt_token', token, getCookieOptions());
 
       // Update aktivitas terakhir & pastikan pengingat aktif (auto-resume jika sebelumnya di-pause)
       await prisma.user.update({
@@ -125,7 +144,7 @@ export const googleAuth = async (req: Request, res: Response) => {
       googleRegistrationToken
     });
   } catch (error) {
-    console.error("DEBUG GOOGLE AUTH ERROR:", error);
+    console.error('[Auth] Gagal autentikasi Google:', error);
     return res.status(500).json({ message: 'Terjadi kesalahan pada server saat autentikasi Google' });
   }
 };
@@ -215,12 +234,7 @@ export const register = async (req: Request, res: Response) => {
         { expiresIn: '1d' }
       );
 
-      res.cookie('jwt_token', token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
-        maxAge: 24 * 60 * 60 * 1000
-      });
+      res.cookie('jwt_token', token, getCookieOptions());
 
       return res.status(201).json({
         message: 'Pendaftaran dengan Google berhasil!',
@@ -329,7 +343,7 @@ export const register = async (req: Request, res: Response) => {
       channel: selectedChannel
     });
   } catch (error) {
-    console.error("DEBUG REGISTER ERROR:", error);
+    console.error('[Auth] Gagal registrasi:', error);
     if (error instanceof z.ZodError) {
       return res.status(400).json({ errors: error.issues });
     }
@@ -380,12 +394,7 @@ export const login = async (req: Request, res: Response) => {
     );
 
     // Set HTTP-Only Cookie
-    res.cookie('jwt_token', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 24 * 60 * 60 * 1000 // 1 hari
-    });
+    res.cookie('jwt_token', token, getCookieOptions());
 
     // Update aktivitas terakhir & pastikan pengingat aktif (auto-resume jika sebelumnya di-pause)
     await prisma.user.update({
@@ -444,12 +453,7 @@ export const verifyOtp = async (req: Request, res: Response) => {
       { expiresIn: '1d' }
     );
 
-    res.cookie('jwt_token', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 24 * 60 * 60 * 1000 // 1 hari
-    });
+    res.cookie('jwt_token', token, getCookieOptions());
 
     res.status(200).json({ 
       message: 'Verifikasi berhasil! Akun Anda telah aktif.', 
@@ -499,7 +503,7 @@ export const resendOtp = async (req: Request, res: Response) => {
       channel: targetChannel
     });
   } catch (error) {
-    console.error('DEBUG RESEND OTP ERROR:', error);
+    console.error('[Auth] Gagal kirim ulang OTP:', error);
     res.status(500).json({ message: 'Terjadi kesalahan saat mengirim ulang OTP' });
   }
 };
@@ -618,7 +622,7 @@ export const updateProfile = async (req: Request, res: Response) => {
 
     res.status(200).json({ message: 'Profil berhasil diperbarui', profilIbu: updatedProfile });
   } catch (error) {
-    console.error("DEBUG UPDATE PROFILE ERROR:", error);
+    console.error('[Auth] Gagal update profil:', error);
     res.status(500).json({ message: 'Terjadi kesalahan pada server saat memperbarui profil' });
   }
 };
@@ -676,7 +680,7 @@ export const changePassword = async (req: Request, res: Response) => {
 
     res.status(200).json({ message: 'Kata sandi berhasil diperbarui' });
   } catch (error) {
-    console.error('DEBUG CHANGE PASSWORD ERROR:', error);
+    console.error('[Auth] Gagal ganti password:', error);
     res.status(500).json({ message: 'Terjadi kesalahan pada server saat mengganti kata sandi' });
   }
 };
@@ -747,7 +751,7 @@ export const requestPasswordOtp = async (req: Request, res: Response) => {
       otpDev: process.env.NODE_ENV !== 'production' ? otpCode : undefined
     });
   } catch (error) {
-    console.error('DEBUG REQUEST PASSWORD OTP ERROR:', error);
+    console.error('[Auth] Gagal request OTP password:', error);
     res.status(500).json({ message: 'Terjadi kesalahan saat meminta kode OTP' });
   }
 };
@@ -794,7 +798,7 @@ export const verifyPasswordOtp = async (req: Request, res: Response) => {
       resetToken
     });
   } catch (error) {
-    console.error('DEBUG VERIFY PASSWORD OTP ERROR:', error);
+    console.error('[Auth] Gagal verifikasi OTP password:', error);
     res.status(500).json({ message: 'Terjadi kesalahan pada server saat memverifikasi OTP' });
   }
 };
@@ -829,18 +833,14 @@ export const resetPasswordWithOtp = async (req: Request, res: Response) => {
 
     res.status(200).json({ message: 'Kata sandi berhasil diubah.' });
   } catch (error) {
-    console.error('DEBUG RESET PASSWORD ERROR:', error);
+    console.error('[Auth] Gagal reset password:', error);
     res.status(500).json({ message: 'Terjadi kesalahan pada server saat mengubah kata sandi' });
   }
 };
 
 export const logout = async (req: Request, res: Response) => {
   try {
-    res.clearCookie('jwt_token', {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-    });
+    res.clearCookie('jwt_token', getClearCookieOptions());
     res.status(200).json({ message: 'Logout berhasil' });
   } catch (error) {
     res.status(500).json({ message: 'Terjadi kesalahan pada server saat logout' });
@@ -885,7 +885,7 @@ export const requestDeleteAccountOtp = async (req: Request, res: Response) => {
       channel: targetChannel
     });
   } catch (error) {
-    console.error('DEBUG REQUEST DELETE ACCOUNT OTP ERROR:', error);
+    console.error('[Auth] Gagal request OTP hapus akun:', error);
     res.status(500).json({ message: 'Terjadi kesalahan saat mengirim OTP hapus akun' });
   }
 };
@@ -925,17 +925,13 @@ export const confirmDeleteAccount = async (req: Request, res: Response) => {
     });
 
     // Clear session cookies
-    res.clearCookie('jwt_token', {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-    });
+    res.clearCookie('jwt_token', getClearCookieOptions());
 
     res.status(200).json({
       message: 'Akun Anda beserta seluruh data terkait telah berhasil dihapus secara permanen.'
     });
   } catch (error) {
-    console.error('DEBUG CONFIRM DELETE ACCOUNT ERROR:', error);
+    console.error('[Auth] Gagal konfirmasi hapus akun:', error);
     res.status(500).json({ message: 'Terjadi kesalahan pada server saat menghapus akun' });
   }
 };
