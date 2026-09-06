@@ -160,7 +160,19 @@ export const ChatPage = () => {
     const saved = localStorage.getItem('bumilfit_consultation_history');
     return saved ? JSON.parse(saved) : [];
   });
-  const [activeConvId, setActiveConvId] = useState<string | null>(null);
+  const [activeConvId, setActiveConvId] = useState<string | null>(() => {
+    const saved = localStorage.getItem('bumilfit_consultation_history');
+    if (saved) {
+      try {
+        const list = JSON.parse(saved);
+        if (Array.isArray(list) && list.length > 0) {
+          const active = list.find((c: any) => c.status === 'Aktif');
+          return active ? active.id : list[0].id;
+        }
+      } catch (e) {}
+    }
+    return null;
+  });
   const [isMatching, setIsMatching] = useState(false);
   const [matchingStatusText, setMatchingStatusText] = useState('Mencari dokter yang tersedia...');
   const [searchQuery, setSearchQuery] = useState('');
@@ -361,7 +373,7 @@ export const ChatPage = () => {
 
 
   // Simulasi Pencocokan Dokter Kandungan Baru (Matching simulation)
-  const startNewConsultation = () => {
+  const startNewConsultation = (initialMsg?: string | unknown) => {
     // Validasi hak akses langganan: Alihkan ke pricelist jika belum aktif
     if (!hasActiveSubscription || !canAccessDoctorConsultation) {
       navigate('/pricing', {
@@ -373,10 +385,13 @@ export const ChatPage = () => {
       return;
     }
 
+    const textToSend = (typeof initialMsg === 'string' ? initialMsg : doctorChatInput).trim();
+    setDoctorChatInput('');
+
     setIsMatching(true);
     setMatchingStatusText('Mencari dokter yang tersedia...');
 
-    // Simulasi jeda pencarian dokter (diperlama agar terasa alami)
+    // Simulasi jeda pencarian dokter
     setTimeout(() => {
       setMatchingStatusText('Menganalisis ketersediaan dokter siaga...');
       
@@ -385,31 +400,76 @@ export const ChatPage = () => {
         const selectedDoctor = DOCTORS_POOL[Math.floor(Math.random() * DOCTORS_POOL.length)];
         setMatchingStatusText(`Tersambung dengan dr. ${selectedDoctor.name}`);
 
-        setTimeout(() => {
+        setTimeout(async () => {
           const newConvId = `conv-${Date.now()}`;
+          const initialMessages: any[] = [
+            {
+              role: 'model',
+              text: selectedDoctor.welcomeMessage,
+              timestamp: new Date().toISOString()
+            }
+          ];
+
+          if (textToSend) {
+            initialMessages.push({
+              role: 'user',
+              text: textToSend,
+              timestamp: new Date().toISOString()
+            });
+          }
+
           const newConv: DoctorConversation = {
             id: newConvId,
             doctorName: `dr. ${selectedDoctor.name}`,
             doctorAvatar: selectedDoctor.name.charAt(0),
             status: 'Aktif',
-            lastMessage: selectedDoctor.welcomeMessage,
+            lastMessage: textToSend || selectedDoctor.welcomeMessage,
             lastMessageTime: new Date().toISOString(),
-            messages: [
-              {
-                role: 'model',
-                text: selectedDoctor.welcomeMessage,
-                timestamp: new Date().toISOString()
-              }
-            ]
+            messages: initialMessages
           };
 
           setConversations(prev => [newConv, ...prev]);
           setActiveConvId(newConvId);
           setIsMatching(false);
-        }, 1500);
 
-      }, 1500);
-    }, 1500);
+          if (textToSend) {
+            setIsDoctorLoading(true);
+            try {
+              const res = await apiClient.post('/chat-ai', {
+                message: textToSend,
+                history: [
+                  {
+                    role: 'model',
+                    text: selectedDoctor.welcomeMessage,
+                    timestamp: new Date().toISOString()
+                  }
+                ]
+              });
+              const aiReply = res.data.reply;
+              setConversations(prev => prev.map(c => {
+                if (c.id === newConvId) {
+                  return {
+                    ...c,
+                    lastMessage: aiReply,
+                    lastMessageTime: new Date().toISOString(),
+                    messages: [
+                      ...c.messages,
+                      { role: 'model', text: aiReply, timestamp: new Date().toISOString() }
+                    ]
+                  };
+                }
+                return c;
+              }));
+            } catch (err) {
+              console.error('Error getting AI reply for initial message:', err);
+            } finally {
+              setIsDoctorLoading(false);
+            }
+          }
+        }, 1200);
+
+      }, 1200);
+    }, 1200);
   };
 
   // Handler Kirim Pesan Obrolan Dokter Virtual
@@ -768,28 +828,65 @@ export const ChatPage = () => {
               </div>
 
               {/* Input Area Chat Dokter */}
-              <div className="p-3 sm:p-4 bg-white border-t border-gray-100 flex-shrink-0 sticky bottom-0 z-20 shadow-[0_-2px_10px_rgba(0,0,0,0.03)]">
+              <div 
+                className="p-3 sm:p-4 bg-white border-t border-gray-200/80 flex-shrink-0 sticky bottom-0 z-40 shadow-[0_-4px_16px_rgba(0,0,0,0.06)]"
+                style={{ paddingBottom: 'max(0.75rem, env(safe-area-inset-bottom, 0.75rem))' }}
+              >
                 {activeConv.status === 'Aktif' ? (
-                  <form onSubmit={handleDoctorSend} className="flex gap-2">
+                  <form onSubmit={handleDoctorSend} className="flex gap-2 items-center max-w-4xl mx-auto w-full">
                      <input
                       type="text"
                       value={doctorChatInput}
                       onChange={(e) => setDoctorChatInput(e.target.value)}
                       placeholder={`Ketik pesan ke ${activeConv.doctorName}...`}
-                      className="flex-1 rounded-full border border-gray-300 px-5 py-3 focus:outline-none focus:ring-2 focus:ring-[#389D9C] focus:border-transparent text-sm disabled:bg-slate-50 disabled:text-slate-400"
+                      className="flex-1 rounded-full border border-gray-300 bg-gray-50 focus:bg-white px-4 sm:px-5 py-3 focus:outline-none focus:ring-2 focus:ring-[#389D9C] focus:border-transparent text-sm text-slate-800 placeholder-slate-400 disabled:bg-slate-50 disabled:text-slate-400 shadow-inner transition-all"
                       disabled={isDoctorLoading}
                     />
                     <button 
                       type="submit" 
                       disabled={isDoctorLoading || !doctorChatInput.trim()}
-                      className="bg-[#389D9C] hover:bg-[#2E8281] disabled:bg-gray-300 text-white w-12 h-12 rounded-full flex items-center justify-center transition-colors flex-shrink-0 cursor-pointer shadow-xs"
+                      className="bg-[#389D9C] hover:bg-[#2E8281] disabled:bg-gray-300 text-white w-11 h-11 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all flex-shrink-0 cursor-pointer shadow-md active:scale-95"
+                      aria-label="Kirim Pesan"
                     >
                       <Send size={18} />
                     </button>
                   </form>
                 ) : (
-                  <div className="text-center py-2 text-xs font-semibold text-slate-400 bg-slate-50 border border-slate-100 rounded-xl">
-                    Konsultasi telah berakhir. Bunda dapat memulai sesi baru.
+                  <div className="space-y-2 max-w-4xl mx-auto w-full">
+                    <div className="flex items-center justify-between gap-2 px-1 text-xs text-slate-500">
+                      <span>Sesi dengan {activeConv.doctorName} telah selesai. Ketik untuk mulai sesi baru:</span>
+                      <button 
+                        type="button" 
+                        onClick={() => startNewConsultation()}
+                        className="text-xs font-bold text-[#389D9C] hover:underline cursor-pointer whitespace-nowrap"
+                      >
+                        + Dokter Baru
+                      </button>
+                    </div>
+                    <form 
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        if (!doctorChatInput.trim()) return;
+                        startNewConsultation(doctorChatInput);
+                      }}
+                      className="flex gap-2 items-center w-full"
+                    >
+                      <input
+                        type="text"
+                        value={doctorChatInput}
+                        onChange={(e) => setDoctorChatInput(e.target.value)}
+                        placeholder="Ketik keluhan atau pertanyaan dokter baru..."
+                        className="flex-1 rounded-full border border-gray-300 bg-gray-50 focus:bg-white px-4 sm:px-5 py-3 focus:outline-none focus:ring-2 focus:ring-[#389D9C] focus:border-transparent text-sm text-slate-800 placeholder-slate-400 shadow-inner transition-all"
+                      />
+                      <button 
+                        type="submit" 
+                        disabled={!doctorChatInput.trim()}
+                        className="bg-[#389D9C] hover:bg-[#2E8281] disabled:bg-gray-300 text-white w-11 h-11 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all flex-shrink-0 cursor-pointer shadow-md active:scale-95"
+                        aria-label="Kirim Pesan"
+                      >
+                        <Send size={18} />
+                      </button>
+                    </form>
                   </div>
                 )}
               </div>
@@ -797,43 +894,76 @@ export const ChatPage = () => {
           ) : conversations.length === 0 ? (
             
             /* KONDISI A: BELUM ADA RIWAYAT (EMPTY STATE SCREEN) */
-            <div className="flex-1 flex flex-col min-h-0 overflow-y-auto items-center justify-center p-6 bg-[#F8FAFC] bumil-scrollbar">
-              <div className="bg-white p-8 sm:p-10 rounded-3xl border border-slate-100 shadow-sm max-w-md w-full flex flex-col items-center space-y-6 text-center animate-in fade-in zoom-in-95 duration-300">
-                {/* Header Visual: Stetoskop dengan Sentuhan AI/Pulse Wave */}
-                <div className="h-20 w-20 rounded-full bg-teal-50 flex items-center justify-center text-[#389D9C] relative">
-                  <Stethoscope size={36} className="relative z-10" />
-                  <span className="absolute inset-0 rounded-full bg-teal-100/40 animate-ping duration-1000" />
-                </div>
-                
-                {/* Teks Petunjuk */}
-                <div className="space-y-2.5">
-                  <h3 className="text-2xl sm:text-3xl font-extrabold text-[#194668] tracking-tight leading-tight">
-                    Mulai Konsultasi Dokter
-                  </h3>
-                  <p className="text-xs sm:text-sm text-slate-500 leading-relaxed max-w-xs mx-auto">
-                    Konsultasikan keluhan Anda kapan saja dengan dokter siaga kami secara virtual.
-                  </p>
-                  {hasActiveSubscription ? (
-                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold border border-emerald-200">
-                      <Crown size={13} className="text-emerald-600" />
-                      <span>Paket {planBadge} Aktif</span>
-                    </div>
-                  ) : (
-                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 text-amber-700 text-xs font-bold border border-amber-200">
-                      <Lock size={13} className="text-amber-600" />
-                      <span>Memerlukan Langganan Aktif</span>
-                    </div>
-                  )}
-                </div>
+            <div className="flex-1 flex flex-col min-h-0 bg-[#F8FAFC] overflow-hidden">
+              <div className="flex-1 overflow-y-auto flex items-center justify-center p-6 bumil-scrollbar">
+                <div className="bg-white p-8 sm:p-10 rounded-3xl border border-slate-100 shadow-sm max-w-md w-full flex flex-col items-center space-y-6 text-center animate-in fade-in zoom-in-95 duration-300">
+                  {/* Header Visual: Stetoskop dengan Sentuhan AI/Pulse Wave */}
+                  <div className="h-20 w-20 rounded-full bg-teal-50 flex items-center justify-center text-[#389D9C] relative">
+                    <Stethoscope size={36} className="relative z-10" />
+                    <span className="absolute inset-0 rounded-full bg-teal-100/40 animate-ping duration-1000" />
+                  </div>
+                  
+                  {/* Teks Petunjuk */}
+                  <div className="space-y-2.5">
+                    <h3 className="text-2xl sm:text-3xl font-extrabold text-[#194668] tracking-tight leading-tight">
+                      Mulai Konsultasi Dokter
+                    </h3>
+                    <p className="text-xs sm:text-sm text-slate-500 leading-relaxed max-w-xs mx-auto">
+                      Konsultasikan keluhan Anda kapan saja dengan dokter siaga kami secara virtual.
+                    </p>
+                    {hasActiveSubscription ? (
+                      <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold border border-emerald-200">
+                        <Crown size={13} className="text-emerald-600" />
+                        <span>Paket {planBadge} Aktif</span>
+                      </div>
+                    ) : (
+                      <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 text-amber-700 text-xs font-bold border border-amber-200">
+                        <Lock size={13} className="text-amber-600" />
+                        <span>Memerlukan Langganan Aktif</span>
+                      </div>
+                    )}
+                  </div>
 
-                {/* Tombol Aksi (CTA) */}
-                <button
-                  onClick={startNewConsultation}
-                  className="bg-[#389D9C] hover:bg-[#2E8281] active:scale-[0.98] text-white w-full h-12 rounded-xl font-bold text-sm sm:text-base shadow-sm hover:shadow transition-all duration-200 cursor-pointer flex items-center justify-center gap-2"
+                  {/* Tombol Aksi (CTA) */}
+                  <button
+                    onClick={() => startNewConsultation()}
+                    className="bg-[#389D9C] hover:bg-[#2E8281] active:scale-[0.98] text-white w-full h-12 rounded-xl font-bold text-sm sm:text-base shadow-sm hover:shadow transition-all duration-200 cursor-pointer flex items-center justify-center gap-2"
+                  >
+                    <Stethoscope size={18} />
+                    <span>Mulai Hubungi Dokter</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Bar Ketik di Bawah untuk Layar Kosong */}
+              <div 
+                className="bg-white border-t border-gray-200/80 p-3 sm:p-4 flex-shrink-0 sticky bottom-0 z-40 shadow-[0_-4px_16px_rgba(0,0,0,0.06)]"
+                style={{ paddingBottom: 'max(0.75rem, env(safe-area-inset-bottom, 0.75rem))' }}
+              >
+                <form 
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    if (!doctorChatInput.trim()) return;
+                    startNewConsultation(doctorChatInput);
+                  }}
+                  className="flex gap-2 items-center max-w-4xl mx-auto w-full"
                 >
-                  <Stethoscope size={18} />
-                  <span>Mulai Hubungi Dokter</span>
-                </button>
+                  <input
+                    type="text"
+                    value={doctorChatInput}
+                    onChange={(e) => setDoctorChatInput(e.target.value)}
+                    placeholder="Ketik keluhan atau pertanyaan untuk dokter..."
+                    className="flex-1 rounded-full border border-gray-300 bg-gray-50 focus:bg-white px-4 sm:px-5 py-3 focus:outline-none focus:ring-2 focus:ring-[#389D9C] focus:border-transparent text-sm text-slate-800 placeholder-slate-400 shadow-inner transition-all"
+                  />
+                  <button 
+                    type="submit" 
+                    disabled={!doctorChatInput.trim()}
+                    className="bg-[#389D9C] hover:bg-[#2E8281] disabled:bg-gray-300 text-white w-11 h-11 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all flex-shrink-0 cursor-pointer shadow-md active:scale-95"
+                    aria-label="Kirim Pesan"
+                  >
+                    <Send size={18} />
+                  </button>
+                </form>
               </div>
             </div>
           ) : (
@@ -854,7 +984,7 @@ export const ChatPage = () => {
                   />
                 </div>
                 <button
-                  onClick={startNewConsultation}
+                  onClick={() => startNewConsultation()}
                   className="w-full sm:w-auto h-11 px-5 bg-[#389D9C] hover:bg-[#2E8281] active:scale-95 text-white rounded-full font-bold text-sm flex items-center justify-center gap-2 transition-all shadow-sm cursor-pointer whitespace-nowrap"
                 >
                   <Plus size={16} />
@@ -925,6 +1055,37 @@ export const ChatPage = () => {
                     <p className="text-xs max-w-xs mx-auto text-slate-400">Coba cari nama dokter lain atau mulailah percakapan baru.</p>
                   </div>
                 )}
+              </div>
+
+              {/* Bar Ketik di Bawah untuk Layar Riwayat */}
+              <div 
+                className="bg-white border-t border-gray-200/80 p-3 sm:p-4 flex-shrink-0 sticky bottom-0 z-40 shadow-[0_-4px_16px_rgba(0,0,0,0.06)]"
+                style={{ paddingBottom: 'max(0.75rem, env(safe-area-inset-bottom, 0.75rem))' }}
+              >
+                <form 
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    if (!doctorChatInput.trim()) return;
+                    startNewConsultation(doctorChatInput);
+                  }}
+                  className="flex gap-2 items-center max-w-4xl mx-auto w-full"
+                >
+                  <input
+                    type="text"
+                    value={doctorChatInput}
+                    onChange={(e) => setDoctorChatInput(e.target.value)}
+                    placeholder="Ketik keluhan atau tanya dokter baru..."
+                    className="flex-1 rounded-full border border-gray-300 bg-gray-50 focus:bg-white px-4 sm:px-5 py-3 focus:outline-none focus:ring-2 focus:ring-[#389D9C] focus:border-transparent text-sm text-slate-800 placeholder-slate-400 shadow-inner transition-all"
+                  />
+                  <button 
+                    type="submit" 
+                    disabled={!doctorChatInput.trim()}
+                    className="bg-[#389D9C] hover:bg-[#2E8281] disabled:bg-gray-300 text-white w-11 h-11 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all flex-shrink-0 cursor-pointer shadow-md active:scale-95"
+                    aria-label="Kirim Pesan"
+                  >
+                    <Send size={18} />
+                  </button>
+                </form>
               </div>
             </div>
           )}

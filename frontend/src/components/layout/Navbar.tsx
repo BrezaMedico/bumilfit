@@ -308,49 +308,51 @@ export const Navbar = () => {
     </nav>
 
       {/* ===== BOTTOM NAVIGATION BAR — HANYA MOBILE (md:hidden) ===== */}
-      {/* Desktop sticky top-navbar tetap tidak berubah; ini hanya untuk mobile */}
-      <nav
-        className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-slate-100/80 shadow-[0_-4px_20px_rgba(25,70,104,0.07)] safe-area-pb"
-        aria-label="Navigasi utama mobile"
-        style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
-      >
-        <div className="flex items-stretch justify-around px-1 py-1.5">
-          {bottomNavLinks.map(({ to, label, Icon }) => {
-            const isActive =
-              to === '/'
-                ? location.pathname === '/'
-                : location.pathname.startsWith(to);
+      {/* Sembunyikan navigasi bawah pada /chat agar tombol ketik pesan dokter tampil leluasa di bagian bawah */}
+      {!location.pathname.startsWith('/chat') && (
+        <nav
+          className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-slate-100/80 shadow-[0_-4px_20px_rgba(25,70,104,0.07)] safe-area-pb"
+          aria-label="Navigasi utama mobile"
+          style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
+        >
+          <div className="flex items-stretch justify-around px-1 py-1.5">
+            {bottomNavLinks.map(({ to, label, Icon }) => {
+              const isActive =
+                to === '/'
+                  ? location.pathname === '/'
+                  : location.pathname.startsWith(to);
 
-            return (
-              <Link
-                key={to}
-                to={to}
-                className={`flex flex-col items-center justify-center gap-0.5 flex-1 py-2 px-1 rounded-xl transition-all duration-200 min-h-[52px] ${
-                  isActive
-                    ? 'text-[#389D9C]'
-                    : 'text-slate-400 hover:text-slate-600'
-                }`}
-                aria-label={label}
-              >
-                <div className={`relative flex items-center justify-center ${
-                  isActive ? 'scale-105' : ''
-                } transition-transform duration-200`}>
-                  <Icon
-                    size={22}
-                    strokeWidth={isActive ? 2.5 : 1.8}
-                    className="transition-all duration-200"
-                  />
-                </div>
-                <span className={`text-[10px] font-semibold leading-tight mt-0.5 ${
-                  isActive ? 'font-bold text-[#389D9C]' : ''
-                }`}>
-                  {label}
-                </span>
-              </Link>
-            );
-          })}
-        </div>
-      </nav>
+              return (
+                <Link
+                  key={to}
+                  to={to}
+                  className={`flex flex-col items-center justify-center gap-0.5 flex-1 py-2 px-1 rounded-xl transition-all duration-200 min-h-[52px] ${
+                    isActive
+                      ? 'text-[#389D9C]'
+                      : 'text-slate-400 hover:text-slate-600'
+                  }`}
+                  aria-label={label}
+                >
+                  <div className={`relative flex items-center justify-center ${
+                    isActive ? 'scale-105' : ''
+                  } transition-transform duration-200`}>
+                    <Icon
+                      size={22}
+                      strokeWidth={isActive ? 2.5 : 1.8}
+                      className="transition-all duration-200"
+                    />
+                  </div>
+                  <span className={`text-[10px] font-semibold leading-tight mt-0.5 ${
+                    isActive ? 'font-bold text-[#389D9C]' : ''
+                  }`}>
+                    {label}
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
+        </nav>
+      )}
     </>
   );
 };
