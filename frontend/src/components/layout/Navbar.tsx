@@ -1,5 +1,5 @@
 import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
-import { Crown, User, Key, LogOut, ChevronDown, Menu, X, LayoutDashboard, MessageSquare, ShoppingBag, Users } from 'lucide-react';
+import { Crown, User, Key, LogOut, ChevronDown, LayoutDashboard, MessageSquare, ShoppingBag, Users } from 'lucide-react';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { apiClient } from '../../lib/apiClient';
 import { UserAvatar } from '../common/UserAvatar';
@@ -11,7 +11,6 @@ export const Navbar = () => {
   const location = useLocation();
   const { hasActiveSubscription, planBadge } = useSubscription();
   const [isOpen, setIsOpen] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [profile, setProfile] = useState<{ namaIbu: string; email: string; fotoProfil: string | null } | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -302,45 +301,9 @@ export const Navbar = () => {
                 </div>
               </div>
             </div>
-
-            {/* Mobile Menu Toggle Button */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-1.5 rounded-xl text-slate-600 hover:bg-slate-100 cursor-pointer transition-colors"
-              aria-label={mobileMenuOpen ? 'Tutup menu navigasi' : 'Buka menu navigasi'}
-            >
-              {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
-            </button>
           </div>
           
         </div>
-
-        {/* Mobile Navigation Drawer */}
-        {mobileMenuOpen && (
-          <div className="md:hidden py-3 border-t border-slate-100 flex flex-col gap-1.5 animate-in fade-in slide-in-from-top-2 duration-200">
-            {navLinks.map((link) => {
-              const isActive =
-                link.to === '/'
-                  ? location.pathname === '/'
-                  : location.pathname.startsWith(link.to);
-
-              return (
-                <Link
-                  key={link.to}
-                  to={link.to}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`px-4 py-3 rounded-2xl text-sm font-semibold transition-all flex items-center justify-between ${
-                    isActive
-                      ? 'bg-[#389D9C] text-white shadow-sm font-bold'
-                      : 'text-slate-600 hover:bg-slate-50'
-                  }`}
-                >
-                  <span>{link.label}</span>
-                </Link>
-              );
-            })}
-          </div>
-        )}
       </div>
     </nav>
 
@@ -362,7 +325,6 @@ export const Navbar = () => {
               <Link
                 key={to}
                 to={to}
-                onClick={() => setMobileMenuOpen(false)}
                 className={`flex flex-col items-center justify-center gap-0.5 flex-1 py-2 px-1 rounded-xl transition-all duration-200 min-h-[52px] ${
                   isActive
                     ? 'text-[#389D9C]'
