@@ -145,12 +145,13 @@ export const sendReminderEmail = async (
     </html>
   `;
 
-  return sendAppEmail({
+  const result = await sendAppEmail({
     to: email,
     subject,
     html,
     text: `${isMorning ? 'Selamat pagi' : 'Selamat malam'} Bunda ${namaIbu}!\n\nJangan lupa kegiatan to-do list kehamilan Anda hari ini:\n${pendingTasks.map((t, i) => `${i + 1}. ${t}`).join('\n')}\n\nBuka BUMILFIT: ${webUrl}`
   });
+  return result.success;
 };
 
 /**

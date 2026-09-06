@@ -2,8 +2,8 @@ import prisma from '../lib/prisma.js';
 import { whatsappService } from './whatsapp.service.js';
 import { sendAppEmail } from './email.service.js';
 
-const sendEmail = async (email: string, otpCode: string) => {
-  return sendAppEmail({
+const sendEmail = async (email: string, otpCode: string): Promise<boolean> => {
+  const result = await sendAppEmail({
     to: email,
     subject: `${otpCode} adalah Kode Verifikasi OTP BUMILFIT Anda`,
     html: `
@@ -26,6 +26,7 @@ const sendEmail = async (email: string, otpCode: string) => {
     `,
     text: `Kode verifikasi OTP BUMILFIT Anda adalah: ${otpCode}. Berlaku selama 5 menit. Jangan bagikan kode ini kepada siapapun.`
   });
+  return result.success;
 };
 
 const dispatchDelivery = async (

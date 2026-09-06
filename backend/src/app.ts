@@ -61,7 +61,7 @@ app.get('/api/health/test-email', async (req: express.Request, res: express.Resp
   const to = (req.query.to as string) || process.env.GOOGLE_APP_EMAIL || 'bumilfit@gmail.com';
   const { sendAppEmail } = await import('./services/email.service.js');
 
-  const success = await sendAppEmail({
+  const result = await sendAppEmail({
     to,
     subject: 'Tes Pengiriman Email BumilFit Berhasil! 🎉',
     html: `
@@ -76,16 +76,20 @@ app.get('/api/health/test-email', async (req: express.Request, res: express.Resp
     text: `Halo! Sistem email BumilFit berhasil mengirim pesan ke ${to}!`,
   });
 
-  if (success) {
+  if (result.success) {
     return res.status(200).json({
       success: true,
       message: `Email tes berhasil dikirim ke: ${to} 🚀`,
-      provider: process.env.BREVO_API_KEY ? 'Brevo REST API (HTTPS Port 443)' : 'Nodemailer SMTP',
+      provider: result.provider,
+      messageId: result.messageId,
     });
   } else {
     return res.status(500).json({
       success: false,
-      message: `Gagal mengirim email ke ${to}. Periksa log Render untuk detailnya.`,
+      message: `Gagal mengirim email ke ${to}.`,
+      provider: result.provider,
+      error: result.error,
+      hint: !process.env.BREVO_API_KEY ? 'BREVO_API_KEY belum diset di Environment Variables Render!' : undefined,
     });
   }
 });

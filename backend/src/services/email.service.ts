@@ -5,12 +5,20 @@ interface SendEmailOptions {
   text?: string;
 }
 
+export interface SendEmailResult {
+  success: boolean;
+  provider?: string;
+  messageId?: string;
+  error?: any;
+}
+
 /**
  * Mengirim email menggunakan Brevo REST API (HTTPS Port 443)
  * dengan fallback ke Nodemailer SMTP jika BREVO_API_KEY tidak diset.
  */
-export const sendAppEmail = async ({ to, subject, html, text }: SendEmailOptions): Promise<boolean> => {
-  const brevoApiKey = (process.env.BREVO_API_KEY || '').trim();
+export const sendAppEmail = async ({ to, subject, html, text }: SendEmailOptions): Promise<SendEmailResult> => {
+  const rawBrevo = process.env.BREVO_API_KEY || '';
+  const brevoApiKey = rawBrevo.replace(/['"\s]+/g, '').trim();
   const senderEmail = (process.env.GOOGLE_APP_EMAIL || 'bumilfit@gmail.com').replace(/['"\s]+/g, '').trim();
 
   // 1. PRIORITAS UTAMA: Brevo REST API (HTTPS Port 443 - 100% lolos firewall Render Free Tier)
@@ -33,24 +41,33 @@ export const sendAppEmail = async ({ to, subject, html, text }: SendEmailOptions
       });
 
       if (response.ok) {
+        const resData: any = await response.json().catch(() => ({}));
         console.log(`✅ [Brevo API] Email berhasil dikirim ke: ${to} (Subject: ${subject})`);
-        return true;
+        return { success: true, provider: 'Brevo REST API (HTTPS Port 443)', messageId: resData.messageId };
       }
 
       const errData = await response.json().catch(() => ({}));
       console.error(`⚠️ [Brevo API] Gagal kirim email:`, errData);
+      return { success: false, provider: 'Brevo REST API', error: errData };
     } catch (brevoErr: any) {
       console.error(`⚠️ [Brevo API] Error koneksi:`, brevoErr?.message || brevoErr);
+      return { success: false, provider: 'Brevo REST API', error: brevoErr?.message || brevoErr };
     }
   }
+
+  // Jika Brevo API Key belum diset di Environment Variables
+  console.warn('⚠️ [Email Service] BREVO_API_KEY belum diset di Environment Variables Render!');
 
   // 2. FALLBACK: Nodemailer SMTP (untuk lingkungan lokal localhost)
   try {
     const rawPass = process.env.GOOGLE_APP_PASSKEY || '';
     const pass = rawPass.replace(/['"\s]+/g, '').trim();
     if (!pass) {
-      console.warn('⚠️ [Email Service] GOOGLE_APP_PASSKEY dan BREVO_API_KEY tidak tersedia di environment.');
-      return false;
+      return {
+        success: false,
+        provider: 'None',
+        error: 'BREVO_API_KEY belum diset di Environment Variables Render.',
+      };
     }
 
     const nodemailer = (await import('nodemailer')).default;
@@ -61,7 +78,7 @@ export const sendAppEmail = async ({ to, subject, html, text }: SendEmailOptions
       auth: { user: senderEmail, pass },
     });
 
-    await transporter.sendMail({
+    const info = await transporter.sendMail({
       from: `"BUMILFIT" <${senderEmail}>`,
       to,
       subject,
@@ -70,9 +87,13 @@ export const sendAppEmail = async ({ to, subject, html, text }: SendEmailOptions
     });
 
     console.log(`✅ [Nodemailer] Email berhasil dikirim ke: ${to} (Subject: ${subject})`);
-    return true;
+    return { success: true, provider: 'Nodemailer SMTP', messageId: info.messageId };
   } catch (smtpErr: any) {
     console.error(`⚠️ [Nodemailer] Gagal kirim email ke ${to}:`, smtpErr?.message || smtpErr);
-    return false;
+    return {
+      success: false,
+      provider: 'Nodemailer SMTP (Ditolak oleh Firewall Render Free Tier)',
+      error: smtpErr?.message || smtpErr,
+    };
   }
 };
