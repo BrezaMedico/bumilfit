@@ -308,8 +308,8 @@ export const Navbar = () => {
     </nav>
 
       {/* ===== BOTTOM NAVIGATION BAR — HANYA MOBILE (md:hidden) ===== */}
-      {/* Sembunyikan navigasi bawah pada /chat agar tombol ketik pesan dokter tampil leluasa di bagian bawah */}
-      {!location.pathname.startsWith('/chat') && (
+      {/* Sembunyikan navigasi bawah hanya ketika masuk ke obrolan dengan dokter */}
+      {!(location.pathname.startsWith('/chat') && (new URLSearchParams(location.search).has('id') || new URLSearchParams(location.search).has('matching'))) && (
         <nav
           className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-slate-100/80 shadow-[0_-4px_20px_rgba(25,70,104,0.07)] safe-area-pb"
           aria-label="Navigasi utama mobile"

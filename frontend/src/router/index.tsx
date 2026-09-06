@@ -28,6 +28,8 @@ import { FullscreenLoginLoader } from '../components/common/FullscreenLoginLoade
 
 const ProtectedLayout = () => {
   const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const isInsideDoctorChat = location.pathname.startsWith('/chat') && (searchParams.has('id') || searchParams.has('matching'));
   const isChat = location.pathname.startsWith('/chat');
   const [isPageChanging, setIsPageChanging] = useState(false);
   const previousPathRef = useRef(location.pathname);
@@ -36,7 +38,7 @@ const ProtectedLayout = () => {
   useEffect(() => {
     if (previousPathRef.current !== location.pathname) {
       previousPathRef.current = location.pathname;
-      if (!isChat) {
+      if (!isInsideDoctorChat) {
         setIsPageChanging(true);
         window.scrollTo(0, 0);
         const timer = setTimeout(() => {
@@ -46,11 +48,11 @@ const ProtectedLayout = () => {
         return () => clearTimeout(timer);
       }
     }
-  }, [location.pathname, isChat]);
+  }, [location.pathname, isInsideDoctorChat]);
 
   return (
     <SubscriptionProvider>
-      <div className={`bg-[#F8FAFC] flex flex-col ${isChat ? 'h-screen h-[100dvh] max-h-[100dvh] overflow-hidden' : 'min-h-screen justify-between'}`}>
+      <div className={`bg-[#F8FAFC] flex flex-col ${isInsideDoctorChat ? 'h-screen h-[100dvh] max-h-[100dvh] overflow-hidden' : 'min-h-screen justify-between'}`}>
         <Navbar />
 
         {/* Indikator Progres Bar Halus di Bawah Navbar */}
@@ -58,11 +60,17 @@ const ProtectedLayout = () => {
           <div className="fixed top-16 left-0 right-0 z-40 h-0.5 bg-gradient-to-r from-transparent via-[#389D9C] to-transparent animate-pulse" />
         )}
 
-        <main className={`w-full flex-1 min-h-0 flex flex-col ${isChat ? 'h-[calc(100vh-4rem)] h-[calc(100dvh-4rem)] overflow-hidden p-0 max-w-full' : 'max-w-6xl mx-auto'}`}>
+        <main className={`w-full flex-1 flex flex-col ${
+          isInsideDoctorChat 
+            ? 'min-h-0 h-[calc(100vh-4rem)] h-[calc(100dvh-4rem)] overflow-hidden p-0 max-w-full' 
+            : isChat 
+            ? 'max-w-4xl mx-auto p-4 sm:p-6 pb-24 md:pb-8' 
+            : 'max-w-6xl mx-auto'
+        }`}>
           {isPageChanging ? (
             <PageSkeletonLoader />
           ) : (
-            <div className={`animate-in fade-in duration-300 w-full flex-1 flex flex-col min-h-0 ${isChat ? 'h-full overflow-hidden' : ''}`}>
+            <div className={`animate-in fade-in duration-300 w-full flex-1 flex flex-col min-h-0 ${isInsideDoctorChat ? 'h-full overflow-hidden' : ''}`}>
               <Outlet />
             </div>
           )}

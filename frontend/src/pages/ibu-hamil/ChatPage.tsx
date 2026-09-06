@@ -13,7 +13,7 @@ import {
   Crown,
   ChevronDown
 } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { apiClient } from '../../lib/apiClient';
 import { useSubscription } from '../../context/SubscriptionContext';
 import { UserAvatar } from '../../components/common/UserAvatar';
@@ -153,6 +153,7 @@ const DOCTORS_POOL = [
 
 export const ChatPage = () => {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const { hasActiveSubscription, canAccessDoctorConsultation, planBadge } = useSubscription();
 
   // State untuk Konsultasi Dokter Virtual
@@ -160,19 +161,22 @@ export const ChatPage = () => {
     const saved = localStorage.getItem('bumilfit_consultation_history');
     return saved ? JSON.parse(saved) : [];
   });
-  const [activeConvId, setActiveConvId] = useState<string | null>(() => {
-    const saved = localStorage.getItem('bumilfit_consultation_history');
-    if (saved) {
-      try {
-        const list = JSON.parse(saved);
-        if (Array.isArray(list) && list.length > 0) {
-          const active = list.find((c: any) => c.status === 'Aktif');
-          return active ? active.id : list[0].id;
-        }
-      } catch (e) {}
+
+  const convIdFromUrl = searchParams.get('id');
+  const [activeConvId, setActiveConvIdState] = useState<string | null>(convIdFromUrl);
+
+  useEffect(() => {
+    setActiveConvIdState(searchParams.get('id'));
+  }, [searchParams]);
+
+  const setActiveConvId = (id: string | null) => {
+    setActiveConvIdState(id);
+    if (id) {
+      setSearchParams({ id });
+    } else {
+      setSearchParams({});
     }
-    return null;
-  });
+  };
   const [isMatching, setIsMatching] = useState(false);
   const [matchingStatusText, setMatchingStatusText] = useState('Mencari dokter yang tersedia...');
   const [searchQuery, setSearchQuery] = useState('');
@@ -389,6 +393,7 @@ export const ChatPage = () => {
     setDoctorChatInput('');
 
     setIsMatching(true);
+    setSearchParams({ matching: '1' });
     setMatchingStatusText('Mencari dokter yang tersedia...');
 
     // Simulasi jeda pencarian dokter
@@ -684,7 +689,11 @@ export const ChatPage = () => {
   );
 
   return (
-    <div className="flex flex-col h-full max-w-4xl w-full mx-auto bg-gray-50 border-x border-gray-100 shadow-sm relative text-left overflow-hidden min-h-0">
+    <div className={`flex flex-col max-w-4xl w-full mx-auto relative text-left overflow-hidden min-h-0 ${
+      (activeConvId && activeConv) || isMatching 
+        ? 'h-full bg-gray-50 border-x border-gray-100 shadow-sm' 
+        : 'w-full bg-white rounded-3xl border border-gray-100 shadow-sm min-h-[500px]'
+    }`}>
       
       {/* 1. KONTEN UTAMA: DOKTER VIRTUAL */}
       <div className="flex-1 flex flex-col min-h-0 bg-white overflow-hidden">
@@ -852,41 +861,17 @@ export const ChatPage = () => {
                     </button>
                   </form>
                 ) : (
-                  <div className="space-y-2 max-w-4xl mx-auto w-full">
-                    <div className="flex items-center justify-between gap-2 px-1 text-xs text-slate-500">
-                      <span>Sesi dengan {activeConv.doctorName} telah selesai. Ketik untuk mulai sesi baru:</span>
-                      <button 
-                        type="button" 
-                        onClick={() => startNewConsultation()}
-                        className="text-xs font-bold text-[#389D9C] hover:underline cursor-pointer whitespace-nowrap"
-                      >
-                        + Dokter Baru
-                      </button>
-                    </div>
-                    <form 
-                      onSubmit={(e) => {
-                        e.preventDefault();
-                        if (!doctorChatInput.trim()) return;
-                        startNewConsultation(doctorChatInput);
-                      }}
-                      className="flex gap-2 items-center w-full"
+                  <div className="flex flex-col sm:flex-row items-center justify-between gap-3 max-w-4xl mx-auto w-full py-1">
+                    <span className="text-xs text-slate-500 font-medium text-center sm:text-left">
+                      Sesi konsultasi dengan {activeConv.doctorName} telah selesai.
+                    </span>
+                    <button 
+                      type="button" 
+                      onClick={() => startNewConsultation()}
+                      className="px-4 py-2 bg-[#389D9C] hover:bg-[#2E8281] text-white text-xs font-bold rounded-xl transition-all shadow-xs cursor-pointer whitespace-nowrap"
                     >
-                      <input
-                        type="text"
-                        value={doctorChatInput}
-                        onChange={(e) => setDoctorChatInput(e.target.value)}
-                        placeholder="Ketik keluhan atau pertanyaan dokter baru..."
-                        className="flex-1 rounded-full border border-gray-300 bg-gray-50 focus:bg-white px-4 sm:px-5 py-3 focus:outline-none focus:ring-2 focus:ring-[#389D9C] focus:border-transparent text-sm text-slate-800 placeholder-slate-400 shadow-inner transition-all"
-                      />
-                      <button 
-                        type="submit" 
-                        disabled={!doctorChatInput.trim()}
-                        className="bg-[#389D9C] hover:bg-[#2E8281] disabled:bg-gray-300 text-white w-11 h-11 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all flex-shrink-0 cursor-pointer shadow-md active:scale-95"
-                        aria-label="Kirim Pesan"
-                      >
-                        <Send size={18} />
-                      </button>
-                    </form>
+                      Mulai Sesi Baru
+                    </button>
                   </div>
                 )}
               </div>
@@ -933,37 +918,6 @@ export const ChatPage = () => {
                     <span>Mulai Hubungi Dokter</span>
                   </button>
                 </div>
-              </div>
-
-              {/* Bar Ketik di Bawah untuk Layar Kosong */}
-              <div 
-                className="bg-white border-t border-gray-200/80 p-3 sm:p-4 flex-shrink-0 sticky bottom-0 z-40 shadow-[0_-4px_16px_rgba(0,0,0,0.06)]"
-                style={{ paddingBottom: 'max(0.75rem, env(safe-area-inset-bottom, 0.75rem))' }}
-              >
-                <form 
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    if (!doctorChatInput.trim()) return;
-                    startNewConsultation(doctorChatInput);
-                  }}
-                  className="flex gap-2 items-center max-w-4xl mx-auto w-full"
-                >
-                  <input
-                    type="text"
-                    value={doctorChatInput}
-                    onChange={(e) => setDoctorChatInput(e.target.value)}
-                    placeholder="Ketik keluhan atau pertanyaan untuk dokter..."
-                    className="flex-1 rounded-full border border-gray-300 bg-gray-50 focus:bg-white px-4 sm:px-5 py-3 focus:outline-none focus:ring-2 focus:ring-[#389D9C] focus:border-transparent text-sm text-slate-800 placeholder-slate-400 shadow-inner transition-all"
-                  />
-                  <button 
-                    type="submit" 
-                    disabled={!doctorChatInput.trim()}
-                    className="bg-[#389D9C] hover:bg-[#2E8281] disabled:bg-gray-300 text-white w-11 h-11 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all flex-shrink-0 cursor-pointer shadow-md active:scale-95"
-                    aria-label="Kirim Pesan"
-                  >
-                    <Send size={18} />
-                  </button>
-                </form>
               </div>
             </div>
           ) : (
@@ -1055,37 +1009,6 @@ export const ChatPage = () => {
                     <p className="text-xs max-w-xs mx-auto text-slate-400">Coba cari nama dokter lain atau mulailah percakapan baru.</p>
                   </div>
                 )}
-              </div>
-
-              {/* Bar Ketik di Bawah untuk Layar Riwayat */}
-              <div 
-                className="bg-white border-t border-gray-200/80 p-3 sm:p-4 flex-shrink-0 sticky bottom-0 z-40 shadow-[0_-4px_16px_rgba(0,0,0,0.06)]"
-                style={{ paddingBottom: 'max(0.75rem, env(safe-area-inset-bottom, 0.75rem))' }}
-              >
-                <form 
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    if (!doctorChatInput.trim()) return;
-                    startNewConsultation(doctorChatInput);
-                  }}
-                  className="flex gap-2 items-center max-w-4xl mx-auto w-full"
-                >
-                  <input
-                    type="text"
-                    value={doctorChatInput}
-                    onChange={(e) => setDoctorChatInput(e.target.value)}
-                    placeholder="Ketik keluhan atau tanya dokter baru..."
-                    className="flex-1 rounded-full border border-gray-300 bg-gray-50 focus:bg-white px-4 sm:px-5 py-3 focus:outline-none focus:ring-2 focus:ring-[#389D9C] focus:border-transparent text-sm text-slate-800 placeholder-slate-400 shadow-inner transition-all"
-                  />
-                  <button 
-                    type="submit" 
-                    disabled={!doctorChatInput.trim()}
-                    className="bg-[#389D9C] hover:bg-[#2E8281] disabled:bg-gray-300 text-white w-11 h-11 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all flex-shrink-0 cursor-pointer shadow-md active:scale-95"
-                    aria-label="Kirim Pesan"
-                  >
-                    <Send size={18} />
-                  </button>
-                </form>
               </div>
             </div>
           )}
