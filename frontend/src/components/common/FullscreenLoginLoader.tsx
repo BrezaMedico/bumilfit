@@ -3,7 +3,16 @@ import logoBumilfit from '../../assets/logo-bumilfit.png';
 import { useLoadingStore } from '../../store/useLoadingStore';
 
 export const FullscreenLoginLoader: React.FC = () => {
-  const { isLoginLoading } = useLoadingStore();
+  const { isLoginLoading, hideLoginLoader } = useLoadingStore();
+
+  React.useEffect(() => {
+    if (isLoginLoading) {
+      const timer = setTimeout(() => {
+        hideLoginLoader();
+      }, 700);
+      return () => clearTimeout(timer);
+    }
+  }, [isLoginLoading, hideLoginLoader]);
 
   if (!isLoginLoading) return null;
 
@@ -11,7 +20,7 @@ export const FullscreenLoginLoader: React.FC = () => {
     <div 
       aria-live="polite"
       aria-busy="true"
-      className="fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-white/95 backdrop-blur-md transition-all duration-500"
+      className="fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-white/95 backdrop-blur-md transition-all duration-300"
     >
       {/* Aksen Latar Belakang Lingkaran Cahaya Lembut */}
       <div className="absolute w-96 h-96 rounded-full bg-gradient-to-tr from-teal-100/40 via-sky-100/30 to-transparent blur-3xl pointer-events-none -translate-y-6" />

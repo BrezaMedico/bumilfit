@@ -23,6 +23,9 @@ export const verifyRecaptchaToken = async (token?: string): Promise<boolean> => 
   }
 
   try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 2500);
+
     const params = new URLSearchParams();
     params.append('secret', secretKey);
     params.append('response', token);
@@ -33,12 +36,26 @@ export const verifyRecaptchaToken = async (token?: string): Promise<boolean> => 
         'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: params.toString(),
+      signal: controller.signal,
     });
+    clearTimeout(timeoutId);
 
     const data = await response.json();
-    return Boolean(data.success);
+    if (data.success) {
+      return true;
+    }
+
+    // Jika di development lokal atau domain localhost tidak terdaftar di Google console, jangan blokir login
+    if (process.env.NODE_ENV !== 'production') {
+      console.warn('[reCAPTCHA] Verifikasi Google gagal di dev, dilewati untuk kenyamanan testing lokal:', data['error-codes']);
+      return true;
+    }
+    return false;
   } catch (error) {
     console.error('[reCAPTCHA] Gagal memverifikasi token reCAPTCHA ke Google:', error);
+    if (process.env.NODE_ENV !== 'production') {
+      return true;
+    }
     return false;
   }
 };

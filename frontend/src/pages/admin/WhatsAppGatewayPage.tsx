@@ -18,6 +18,8 @@ import { apiClient } from '../../lib/apiClient';
 import { toast } from '../../store/useToastStore';
 import logoBumilfit from '../../assets/logo-bumilfit.png';
 
+import { useLoadingStore } from '../../store/useLoadingStore';
+
 interface WhatsAppStatusData {
   status: 'WAITING_FOR_QR' | 'CONNECTING' | 'CONNECTED' | 'DISCONNECTED' | 'LOGGED_OUT' | 'ERROR';
   qrCode: string | null;
@@ -28,6 +30,7 @@ interface WhatsAppStatusData {
 
 export const WhatsAppGatewayPage: React.FC = () => {
   const navigate = useNavigate();
+  const hideLoginLoader = useLoadingStore((s) => s.hideLoginLoader);
   const [loadingInitial, setLoadingInitial] = useState(true);
   const [adminEmail, setAdminEmail] = useState<string>('bumilfit@gmail.com');
   const [statusData, setStatusData] = useState<WhatsAppStatusData>({
@@ -51,18 +54,21 @@ export const WhatsAppGatewayPage: React.FC = () => {
       try {
         const profileRes = await apiClient.get('/auth/profile');
         if (profileRes.data.role !== 'WHATSAPP_ADMIN') {
+          hideLoginLoader();
           toast.error('Akses Ditolak', 'Halaman ini hanya untuk Administrator WhatsApp.');
           navigate('/');
           return;
         }
         setAdminEmail(profileRes.data.email || 'bumilfit@gmail.com');
+        hideLoginLoader();
       } catch (err) {
+        hideLoginLoader();
         toast.error('Sesi Berakhir', 'Silakan masuk kembali.');
         navigate('/login');
       }
     };
     verifyAdmin();
-  }, [navigate]);
+  }, [navigate, hideLoginLoader]);
 
   // 2. Fetch status WhatsApp & setup polling interval
   const fetchStatus = async () => {
