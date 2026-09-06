@@ -151,11 +151,13 @@ export const googleAuth = async (req: Request, res: Response) => {
 
 export const register = async (req: Request, res: Response) => {
   try {
+    console.log(`📝 [Register] Menerima request pendaftaran untuk: ${req.body?.email}`);
     const data = registerSchema.parse(req.body);
 
     // Verifikasi reCAPTCHA token
     const isHuman = await verifyRecaptchaToken(data.recaptchaToken);
     if (!isHuman) {
+      console.warn(`⚠️ [Register] Verifikasi reCAPTCHA gagal untuk: ${req.body?.email}`);
       return res.status(400).json({ message: 'Verifikasi reCAPTCHA tidak valid. Silakan coba lagi.' });
     }
 
@@ -333,6 +335,7 @@ export const register = async (req: Request, res: Response) => {
     });
 
     // Panggil layanan OTP (default email)
+    console.log(`📨 [Register] Memanggil generateAndSendOtp untuk email: ${newUser.email}, channel: ${selectedChannel}`);
     await generateAndSendOtp(newUser.id, newUser.email, selectedChannel, data.nomorWhatsapp);
 
     res.status(201).json({ 

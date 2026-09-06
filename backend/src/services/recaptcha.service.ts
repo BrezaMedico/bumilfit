@@ -50,6 +50,7 @@ export const verifyRecaptchaToken = async (token?: string): Promise<boolean> => 
       console.warn('[reCAPTCHA] Verifikasi Google gagal di dev, dilewati untuk kenyamanan testing lokal:', data['error-codes']);
       return true;
     }
+    console.warn('⚠️ [reCAPTCHA] Verifikasi Google ditolak di production:', data['error-codes']);
     return false;
   } catch (error) {
     console.error('[reCAPTCHA] Gagal memverifikasi token reCAPTCHA ke Google:', error);

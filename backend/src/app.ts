@@ -21,6 +21,12 @@ const app = express();
 const rawFrontendUrls = process.env.FRONTEND_URL || 'http://localhost:5173';
 const allowedOrigins = rawFrontendUrls.split(',').map((url) => url.trim()).filter(Boolean);
 
+// Request Logger Middleware
+app.use((req, _res, next) => {
+  console.log(`📡 [${req.method}] ${req.originalUrl || req.url}`);
+  next();
+});
+
 app.use(cors({
   origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
     // Izinkan request tanpa origin (misal curl, server-to-server, Postman)
