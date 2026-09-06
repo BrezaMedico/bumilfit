@@ -64,7 +64,39 @@ export const sendEmailOtp = async (email: string, otpCode: string): Promise<bool
     text: `Kode verifikasi OTP BUMILFIT Anda adalah: ${otpCode}. Berlaku selama 5 menit. Jangan bagikan kode ini kepada siapapun.`
   };
 
-  // Coba kirim via port 587 (STARTTLS, IPv4) terlebih dahulu
+  // 1. PRIORITAS HTTPS PORT 443: Jika ada RESEND_API_KEY, gunakan Resend HTTP API
+  // Port 443 aman dan tidak pernah diblokir oleh Render Free Tier!
+  if (process.env.RESEND_API_KEY) {
+    try {
+      const resendRes = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          from: process.env.RESEND_FROM || 'BUMILFIT <onboarding@resend.dev>',
+          to: [email],
+          subject: `${otpCode} adalah Kode Verifikasi OTP BUMILFIT Anda`,
+          html: mailOptions.html,
+          text: mailOptions.text,
+        }),
+      });
+
+      if (resendRes.ok) {
+        const resendData: any = await resendRes.json();
+        console.log(`✅ [Resend HTTPS 443] Email OTP berhasil dikirim ke: ${email} (ID: ${resendData.id})`);
+        return true;
+      } else {
+        const errText = await resendRes.text();
+        console.warn(`⚠️ [Resend API] Gagal: ${resendRes.status} ${errText}`);
+      }
+    } catch (resendErr: any) {
+      console.warn(`⚠️ [Resend API] Error:`, resendErr.message);
+    }
+  }
+
+  // 2. Coba kirim via SMTP port 587 (STARTTLS, IPv4)
   let transporter = createGmailTransporter(user, pass, 587);
   try {
     const info = await transporter.sendMail(mailOptions);
