@@ -141,7 +141,7 @@ BumilFit menggunakan model monetisasi **Hybrid Monetization**, yaitu kombinasi a
 ### Screenshot Aplikasi
 
 <div align="center">
-  <img src="screeenshot/homepage.pnj" alt="Homepage" width="800"/>
+  <img src="screeenshot/homepage.png" alt="Homepage" width="800"/>
   <p><em>Homepage - Tampilan utama aplikasi</em></p>
 
   <img src="[Sesuaikan dengan URL atau path screenshot Smart Health Reminder]" alt="Smart Health Reminder" width="800"/>
