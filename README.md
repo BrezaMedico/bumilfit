@@ -141,24 +141,23 @@ BumilFit menggunakan model monetisasi **Hybrid Monetization**, yaitu kombinasi a
 ### Screenshot Aplikasi
 
 <div align="center">
+  <img src="screenshot/homepage.png" alt="Homepage" width="800"/>
+  <p><em>Homepage - Tampilan utama aplikasi</em></p>
 
-### Home
-![Home](screenshot/homepage.png)
+  <img src="screenshot/todo.png" alt="Todo Reminder" width="800"/>
+  <p><em>Todo Reminder - To-Do List untuk aktivitas kesehatan ibu hamil</em></p>
 
-### Todo Reminder
-![Todo Reminder](screenshot/todo.png)
+  <img src="screenshot/gizi.png" alt="Kalkulator Gizi" width="800"/>
+  <p><em>Kalkulator Gizi - Fitur untuk membantu pengguna menghitung kebutuhan nutrisi harian</em></p>
 
-### Kalkulator Gizi
-![Kalkulator Gizi](screenshot/gizi.png)
+  <img src="screenshot/dokter.png" alt="Konsultasi Dokter" width="800"/>
+  <p><em>Konsultasi Dokter - Fitur untuk mengakses layanan konsultasi kesehatan</em></p>
 
-### Konsultasi Dokter
-![Konsultasi Dokter](screenshot/dokter.png)
+  <img src="screenshot/obat.png" alt="Belanja Obat" width="800"/>
+  <p><em>Belanja Obat - Halaman untuk memilih dan membeli produk kesehatan</em></p>
 
-### Belanja Obat
-![Belanja Obat](screenshot/obat.png)
-
-### Komunitas
-![Komunitas](screenshot/komunitas.png)
+  <img src="screenshot/komunitas.png" alt="Komunitas" width="800"/>
+  <p><em>Komunitas - Ruang interaksi dan berbagi informasi bagi ibu hamil</em></p>
 </div>
 
 
