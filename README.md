@@ -3,7 +3,7 @@
   # BumilFit 
   ### Personal Pregnancy Companion for Healthy Mother & Stunting-Free Generation
   
-  [![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-Visit_Site-success?style=for-the-badge)](bumilfit.vercel.app)
+  [![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-Visit_Site-success?style=for-the-badge)](https://bumilfit.vercel.app)
   [![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge&logo=github)](https://github.com/BrezaMedico/bumilfit)
   [![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](LICENSE)
   
