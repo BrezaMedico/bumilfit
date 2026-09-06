@@ -22,7 +22,7 @@ const rawFrontendUrls = process.env.FRONTEND_URL || 'http://localhost:5173';
 const allowedOrigins = rawFrontendUrls.split(',').map((url) => url.trim()).filter(Boolean);
 
 app.use(cors({
-  origin: (origin, callback) => {
+  origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
     // Izinkan request tanpa origin (misal curl, server-to-server, Postman)
     if (!origin) return callback(null, true);
     if (allowedOrigins.includes(origin)) {
@@ -46,7 +46,7 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/whatsapp', whatsappRoutes);
 
 // Endpoint pengujian healthcheck
-app.get('/api/health', (_req, res) => {
+app.get('/api/health', (_req: express.Request, res: express.Response) => {
   res.status(200).json({ status: 'BumilFit Backend Sehat! 🚀' });
 });
 
