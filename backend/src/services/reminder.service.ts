@@ -26,16 +26,19 @@ function getRiskCategoryEnum(val: string | null | undefined): 'RENDAH' | 'SEDANG
 
 // Inisialisasi Nodemailer Transporter
 const getMailTransporter = () => {
-  const user = process.env.GOOGLE_APP_EMAIL || 'bumilfit@gmail.com';
+  const rawUser = process.env.GOOGLE_APP_EMAIL || 'bumilfit@gmail.com';
+  const user = rawUser.replace(/['"\s]+/g, '').trim();
   const rawPass = process.env.GOOGLE_APP_PASSKEY || '';
-  const pass = rawPass.replace(/\s+/g, '');
+  const pass = rawPass.replace(/['"\s]+/g, '').trim();
 
   if (!user || !pass) {
     return null;
   }
 
   return nodemailer.createTransport({
-    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
     auth: {
       user,
       pass,
