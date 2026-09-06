@@ -309,7 +309,7 @@ BumilFit menggunakan **PostgreSQL** berbasis Cloud melalui **Neon DB** yang dike
 ### Struktur Database
 
 - **`User`**  
-  Menyimpan data kredensial pengguna, meliputi email, password hash, role (`IBU_HAMIL` | `DOKTER` | `WHATSAPP_ADMIN`), `authProvider` (`LOCAL` / `GOOGLE`), dan status verifikasi (`isVerified`).
+  Menyimpan data kredensial pengguna, meliputi email, password hash, role (`IBU_HAMIL` | `WHATSAPP_ADMIN`), `authProvider` (`LOCAL` / `GOOGLE`), dan status verifikasi (`isVerified`).
 
 - **`ProfilIbuHamil`** *(1:1 dengan User)*  
   Menyimpan data personal ibu hamil, seperti nama ibu, nama anak, usia kehamilan dalam minggu dan hari, nomor WhatsApp, status dan skor skrining risiko, serta golongan darah.
