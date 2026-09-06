@@ -9,7 +9,6 @@ const sendEmail = async (email: string, otpCode: string): Promise<boolean> => {
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 520px; margin: 0 auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 16px; background-color: #ffffff;">
         <div style="text-align: center; margin-bottom: 20px;">
-          <img src="https://bumilfit.vercel.app/logo-bumilfit.png" alt="Logo BUMILFIT" width="64" height="64" style="display: block; margin: 0 auto 12px auto; border-radius: 12px;" />
           <h2 style="color: #194668; margin: 0; font-size: 24px; font-weight: bold; letter-spacing: -0.5px;">BUMILFIT</h2>
           <p style="color: #64748b; font-size: 13px; margin-top: 4px;">Pendamping Kesehatan Ibu Hamil & Buah Hati</p>
         </div>

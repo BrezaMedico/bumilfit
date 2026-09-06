@@ -66,7 +66,6 @@ app.get('/api/health/test-email', async (req: express.Request, res: express.Resp
     subject: 'Tes Pengiriman Email BumilFit Berhasil! 🎉',
     html: `
       <div style="font-family: Arial, sans-serif; padding: 24px; border-radius: 16px; background: #ffffff; border: 1px solid #e2e8f0; max-width: 500px; margin: 0 auto; box-shadow: 0 4px 12px rgba(0,0,0,0.05); text-align: center;">
-        <img src="https://bumilfit.vercel.app/logo-bumilfit.png" alt="Logo BUMILFIT" width="64" height="64" style="display: block; margin: 0 auto 14px auto; border-radius: 14px;" />
         <h2 style="color: #194668; margin: 0 0 10px 0;">BUMILFIT Email Berhasil! 🚀</h2>
         <p style="color: #475569; font-size: 14px; line-height: 1.6; text-align: left;">Halo Bunda / Tim BumilFit! Jika Anda membaca pesan ini, berarti sistem pengiriman email <strong>bumilfit@gmail.com</strong> di server cloud Render sudah 100% aktif dan berjalan lancar!</p>
         <div style="padding: 12px; background: #f8fafc; border-radius: 8px; font-size: 12px; color: #64748b; text-align: left;">

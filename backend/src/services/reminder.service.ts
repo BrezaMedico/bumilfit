@@ -104,7 +104,6 @@ export const sendReminderEmail = async (
       <body>
         <div class="container">
           <div class="header">
-            <img src="https://bumilfit.vercel.app/logo-bumilfit.png" alt="Logo BUMILFIT" width="56" height="56" style="display: block; margin: 0 auto 10px auto; border-radius: 12px;" />
             <h1 style="margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.5px;">BUMILFIT</h1>
             <p style="margin: 6px 0 0 0; font-size: 13px; opacity: 0.9;">Pendamping Kesehatan Ibu Hamil & Buah Hati</p>
           </div>
