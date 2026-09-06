@@ -56,4 +56,50 @@ app.get('/api/health', (_req: express.Request, res: express.Response) => {
   res.status(200).json({ status: 'BumilFit Backend Sehat! 🚀' });
 });
 
+// Endpoint pengujian kirim email langsung via browser: /api/health/test-email?to=emailanda@gmail.com
+app.get('/api/health/test-email', async (req: express.Request, res: express.Response) => {
+  const to = (req.query.to as string) || process.env.GOOGLE_APP_EMAIL || 'bumilfit@gmail.com';
+  const rawUser = process.env.GOOGLE_APP_EMAIL || 'bumilfit@gmail.com';
+  const user = rawUser.replace(/['"\s]+/g, '').trim();
+  const rawPass = process.env.GOOGLE_APP_PASSKEY || '';
+  const pass = rawPass.replace(/['"\s]+/g, '').trim();
+
+  if (!pass) {
+    return res.status(500).json({
+      success: false,
+      message: 'GOOGLE_APP_PASSKEY belum diisi di Environment Variables Render.',
+    });
+  }
+
+  try {
+    const transporter = (await import('nodemailer')).default.createTransport({
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true,
+      auth: { user, pass },
+    });
+
+    const info = await transporter.sendMail({
+      from: `"BUMILFIT Test" <${user}>`,
+      to,
+      subject: 'Tes Pengiriman Email BumilFit Berhasil! 🎉',
+      text: `Halo! Jika Anda membaca email ini, berarti sistem email bumilfit@gmail.com di server Render sudah berjalan 100% sempurna!`,
+    });
+
+    console.log(`✅ [Test Email] Email tes terkirim ke: ${to}`);
+    return res.status(200).json({
+      success: true,
+      message: `Email tes berhasil dikirim ke: ${to}`,
+      messageId: info.messageId,
+    });
+  } catch (err: any) {
+    console.error(`❌ [Test Email] Gagal mengirim:`, err.message);
+    return res.status(500).json({
+      success: false,
+      error: err.message,
+      code: err.code,
+    });
+  }
+});
+
 export default app;
