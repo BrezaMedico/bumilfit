@@ -445,8 +445,6 @@ Push database schema:
 npx prisma db push
 ~~~
 
-[Sesuaikan dengan migration command jika implementasi final menggunakan Prisma Migration]
-
 ### 6. Jalankan Aplikasi
 
 #### Backend (Development Server):
@@ -570,30 +568,106 @@ Pengguna dapat memilih paket premium sesuai kebutuhan:
 ### Base URL
 
 ~~~text
-Development: [Sesuaikan dengan Base URL API development]
-Production: [Sesuaikan dengan domain API production]/api
+Development Base URL
+
+- Backend API: `http://localhost:5000/api`
+- Frontend Web App: `http://localhost:5173`
+
+Production Base URL
+
+- Backend API: `https://bumilfit-api.onrender.com/api`
+- Frontend Web App: `https://bumilfit.vercel.app`
 ~~~
 
 ### Endpoints
 
 #### Authentication
 
-~~~http
+```http
 POST /api/auth/register
 POST /api/auth/login
+POST /api/auth/google
+POST /api/auth/verify-otp
+POST /api/auth/resend-otp
+GET  /api/auth/profile
+PUT  /api/auth/profile
+PUT  /api/auth/change-password
+POST /api/auth/request-password-otp
+POST /api/auth/verify-password-otp
+PUT  /api/auth/reset-password-with-otp
+POST /api/auth/request-delete-account-otp
+POST /api/auth/confirm-delete-account
 POST /api/auth/logout
-GET  /api/auth/me
-~~~
+```
 
-#### [Sesuaikan dengan Resource 1]
+#### AI Assistant Kehamilan
 
-~~~http
-GET    /api/[resource]        # Get all
-GET    /api/[resource]/:id    # Get by ID
-POST   /api/[resource]        # Create
-PUT    /api/[resource]/:id    # Update
-DELETE /api/[resource]/:id    # Delete
-~~~
+```http
+POST /api/chat-ai
+```
+
+#### Nutrisi & Analisis Gizi Makanan
+
+```http
+POST /api/gizi/kalkulator
+POST /api/gizi/scan
+```
+
+#### Daily Tasks & Pemantauan Gejala
+
+```http
+GET  /api/todo/daily
+POST /api/todo/complete
+POST /api/todo/keluhan
+POST /api/todo/evaluate
+POST /api/todo/trigger-reminders
+```
+
+#### Forum Komunitas
+
+```http
+GET    /api/komunitas/posts
+POST   /api/komunitas/posts
+DELETE /api/komunitas/posts/:id
+POST   /api/komunitas/posts/:id/like
+POST   /api/komunitas/posts/:id/report
+GET    /api/komunitas/posts/:id/comments
+POST   /api/komunitas/posts/:id/comments
+DELETE /api/komunitas/comments/:id
+POST   /api/komunitas/comments/:id/report
+```
+
+#### Subscription / Langganan
+
+```http
+GET  /api/subscription/current
+POST /api/subscription/activate
+```
+
+#### E-Commerce & Pemesanan
+
+```http
+POST /api/orders
+GET  /api/orders/my-orders
+GET  /api/orders/:id
+POST /api/orders/:id/pay
+```
+
+#### WhatsApp Bot Gateway Admin
+
+```http
+GET  /api/whatsapp/status
+POST /api/whatsapp/reconnect
+POST /api/whatsapp/logout
+POST /api/whatsapp/test-otp
+```
+
+#### Health Check & Monitoring
+
+```http
+GET /api/health
+GET /api/health/test-email
+```
 
 ## Example Request
 
